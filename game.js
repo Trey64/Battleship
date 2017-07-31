@@ -40,52 +40,64 @@ function generateHorizontalShipLocations(openSpaces, shipSpaces, horizontalShips
     var startingSquare = openSpaces[randomNumber(0, openSpaces.length)];
     var endingSquare = startingSquare + (horizontalShips[i] - 1);
 
-
     // checks which row the startingSquare and endingSquare are on
     var startingSquareRow = Math.floor(startingSquare / 10);
     var endingSquareRow = Math.floor(endingSquare / 10);
 
-    // Fixs the position of the ship
-    //    if startingSquare and endingSquare are not on the same row, then have to pick another square
-    while (endingSquareRow - startingSquareRow !== 0 || shipSpaces.includes(startingSquareRow) || shipSpaces.includes(endingSquareRow)) {
+    // gets the index of the starting and ending squares in the open spaces array
+    var indexOfStartingSquare = openSpaces.indexOf(startingSquare);
+    var indexOfEndingSquare = openSpaces.indexOf(endingSquare);
+
+    // Fixes the position of the ship
+    while (endingSquareRow - startingSquareRow !== 0 || shipSpaces.includes(startingSquareRow) || shipSpaces.includes(endingSquareRow) || indexOfEndingSquare - indexOfStartingSquare !== (horizontalShips[i] - 1)) {
       startingSquare = openSpaces[randomNumber(0, openSpaces.length)];
-      endingSquare = startingSquare + horizontalShips[i];
+      endingSquare = startingSquare + (horizontalShips[i] - 1);
+      startingSquareRow = Math.floor(startingSquare / 10);
+      endingSquareRow = Math.floor(endingSquare / 10);
+      indexOfStartingSquare = openSpaces.indexOf(startingSquare);
+      indexOfEndingSquare = openSpaces.indexOf(endingSquare);
     }
 
     // Adds the ship's coordinates to the shipSpaces array and removes them from the open spaces array
     for (var j = 0; j < horizontalShips[i]; j++) {
-      var thisShipCoordinate = startingSquare + j;
-      shipSpaces.push(thisShipCoordinate);
-      openSpaces.splice(openSpaces.indexOf(thisShipCoordinate), 1);
+      var tempShipCoordinate = startingSquare + j;
+      shipSpaces.push(tempShipCoordinate);
+      openSpaces.splice(openSpaces.indexOf(tempShipCoordinate), 1);
     }
   }
 }
 
 function generateVeriticalShipLocations(openSpaces, shipSpaces, verticalShips) {
 
-  for (var i = 0; i < verticalShips.length; i++) {
+  for (var i = 0; i < horizontalShips.length; i++) {
 
     // since it is from the openSpaces array, the starting square will always be valid
     var startingSquare = openSpaces[randomNumber(0, openSpaces.length)];
-    var endingSquare = startingSquare + verticalShips[i];
-
+    var endingSquare = startingSquare + (horizontalShips[i] - 1);
 
     // checks which row the startingSquare and endingSquare are on
     var startingSquareRow = Math.floor(startingSquare / 10);
     var endingSquareRow = Math.floor(endingSquare / 10);
 
-    // Fixs the position of the ship
-    //    if startingSquare and endingSquare are not on the same row, then have to pick another square
-    while (endingSquareRow - startingSquareRow !== 0 || shipSpaces.includes(startingSquareRow) || shipSpaces.includes(endingSquareRow)) {
+    // gets the index of the starting and ending squares in the open spaces array
+    var indexOfStartingSquare = openSpaces.indexOf(startingSquare);
+    var indexOfEndingSquare = openSpaces.indexOf(endingSquare);
+
+    // Fixes the position of the ship
+    while (endingSquareRow - startingSquareRow !== 0 || shipSpaces.includes(startingSquareRow) || shipSpaces.includes(endingSquareRow) || indexOfEndingSquare - indexOfStartingSquare !== (horizontalShips[i] - 1)) {
       startingSquare = openSpaces[randomNumber(0, openSpaces.length)];
-      endingSquare = startingSquare + horizontalShips[i];
+      endingSquare = startingSquare + (horizontalShips[i] - 1);
+      startingSquareRow = Math.floor(startingSquare / 10);
+      endingSquareRow = Math.floor(endingSquare / 10);
+      indexOfStartingSquare = openSpaces.indexOf(startingSquare);
+      indexOfEndingSquare = openSpaces.indexOf(endingSquare);
     }
 
     // Adds the ship's coordinates to the shipSpaces array and removes them from the open spaces array
     for (var j = 0; j < horizontalShips[i]; j++) {
-      var thisShipCoordinate = startingSquare + j;
-      shipSpaces.push(thisShipCoordinate);
-      openSpaces.splice(openSpaces.indexOf(thisShipCoordinate), 1);
+      var tempShipCoordinate = startingSquare + j;
+      shipSpaces.push(tempShipCoordinate);
+      openSpaces.splice(openSpaces.indexOf(tempShipCoordinate), 1);
     }
   }
 }

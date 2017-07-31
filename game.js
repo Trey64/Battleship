@@ -1,9 +1,23 @@
 'use strict';
 
-var openSpaces = [];
-var shipSpaces = [];
-var hits = [];
-var misses = [];
+//Top Board
+var topOpenSpaces = [];
+var topShipSpaces = [];
+var topHits = [];
+var topMisses = [];
+var topHorizontalShips = [];
+var topVerticalShips = [];
+
+//Bottom Board
+var bottomOpenSpaces = [];
+var bottomShipSpaces = [];
+var bottomHits = [];
+var bottomMisses = [];
+var bottomHorizontalShips = [];
+var bottomVerticalShips = [];
+
+
+
 
 for (var i = 1; i <= 100; i++) {
   openSpaces.push(i);

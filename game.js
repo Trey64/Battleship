@@ -29,6 +29,10 @@ function determineShipOrientation(shipArray, verticalShips, horizontalShips) {
   }
 }
 
+function generateShipLocations() {
+  
+}
+
 function rand (min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -36,8 +40,9 @@ function rand (min, max) {
 }
 
 
-for (var i = 1; i <= 100; i++) {
-  openSpaces.push(i);
+for (var i = 0; i <= 99; i++) {
+  topOpenSpaces.push(i);
+  bottomOpenSpaces.push(i);
 }
 
 function spaceRows() {

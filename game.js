@@ -7,6 +7,7 @@ var topHits = [];
 var topMisses = [];
 var topHorizontalShips = [];
 var topVerticalShips = [];
+var topShipLengths = [2, 3, 3, 4, 5];
 
 //Bottom Board
 var bottomOpenSpaces = [];
@@ -15,6 +16,9 @@ var bottomHits = [];
 var bottomMisses = [];
 var bottomHorizontalShips = [];
 var bottomVerticalShips = [];
+var bottomShipLengths = [2, 3, 3, 4, 5];
+
+
 
 
 

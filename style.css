@@ -1,11 +1,13 @@
 
 table {
 	border: 10px solid black;
+  width: 400px;
+  height: 400px;
 }
 
 td {
   font-family: 'Helvetica';
-  background-color: gray;
+  background-color: blue;
   color: white;
 	padding: 10px;
   text-align: center;

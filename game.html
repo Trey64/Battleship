@@ -6,8 +6,20 @@
 
   </head>
   <body>
-    <h2>1 2 3 4 5 6 7 8 9 10</h2>
-    <h2>A B C D E F G H I J</h2>
+    <form>
+      <fieldset>
+        <legend>Enter your coordinates</legend>
+
+        <label for="coordinates">Coordinates</label>
+        <input name="coordinates" type="text" required />
+
+          <button id="fire">Fire!</button>
+      </fieldset>
+    </form>
+
+
+    <h2 id="numbers">1 2 3 4 5 6 7 8 9 10</h2>
+    <h2 id="letters">A B C D E F G H I J</h2>
     <table id="top">
       <tr id="top_row1">
         <td></td>
@@ -131,8 +143,8 @@
       </tr>
     </table>
 
-<h2>1 2 3 4 5 6 7 8 9 10</h2>
-<h2>A B C D E F G H I J</h2>
+    <h2 id="numbers">1 2 3 4 5 6 7 8 9 10</h2>
+    <h2 id="letters">A B C D E F G H I J</h2>
     <table id="bottom">
     <tr id="bottom_row1">
       <td></td>
@@ -255,6 +267,10 @@
       <td></td>
     </tr>
     </table>
+
+
+
+
 
     <script src="game.js">
   </body>

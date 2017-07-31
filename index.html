@@ -4,9 +4,11 @@
     <meta charset="utf-8">
     <title>Battleship</title>
     <link href="https://fonts.googleapis.com/css?family=Abril+Fatface|Alfa+Slab+One|Bevan|Chonburi|Kumar+One" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Arimo|Source+Serif+Pro|Vollkorn" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="index-style.css">
   </head>
   <body>
+      <button id="about" onclick="location.href='about.html';">About Us</button>
     <h1>BATTLESHIP</h1>
     <form>
       <fieldset>
@@ -17,23 +19,21 @@
 
           <button id="play">Play!</button>
 
+          <h2>Choose your difficulty</h2>
+          <form id = "difficulty">
+          <select id="dropMenu" for="chooseDifficulty" name = "chooseDifficulty">
+            <option value = "easy">Easy</option>
+            <option value = "medium">Medium</option>
+            <option value = "hard">Hard</option>
+          </select>
+        </form>
       </fieldset>
     </form>
-
-    <h2>Choose your difficulty</h2>
-    <form id = "difficulty">
-    <select id="dropMenu" for="chooseDifficulty" name = "chooseDifficulty">
-      <option value = "easy">Easy</option>
-      <option value = "medium">Medium</option>
-      <option value = "hard">Hard</option>
-    </select>
-  </form>
-
     <br>
-    <button onclick="location.href='about.html';">About Us</button>
+    <div id="backgroundImage">
+      <img src="images/battle.jpg"></img>
+    </div>
 
-
-
-    <script src="app.js"></script>
+<script src="app.js"></script>
   </body>
 </html>

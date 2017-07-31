@@ -1,3 +1,49 @@
+* {
+  text-align: center;
+}
+
+body {
+  /*background: -webkit-linear-gradient(#F2F2F2, #DBDBDB);*/
+  background: #262626;
+}
+
+#about {
+  position: relative;
+  bottom: 2px;
+  float: left;
+  border-radius: 5px;
+  width: 100px;
+  height: 40px;
+  font-size: 18px;
+  font-family: 'Vollkorn', sans-serif;
+  color: white;
+  background-color: #8C8C8C;
+}
+
+legend {
+  color: #F2F2F2;
+}
+
+fieldset {
+  border-radius: 5px;
+}
+
 h1 {
   font-family: 'Chonburi', cursive;
+  font-size: 60px;
+  color: #F2F2F2;
+  text-decoration: underline;
+  clear: left;
+}
+
+h2 {
+  font-family: 'Vollkorn', sans-serif;
+  color: #F2F2F2;
+}
+
+
+img {
+  background-size: cover;
+  width:1420px;
+  height:auto;
 }

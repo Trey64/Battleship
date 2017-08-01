@@ -3,7 +3,6 @@
 }
 
 body {
-  /*background: -webkit-linear-gradient(#F2F2F2, #DBDBDB);*/
   background: #262626;
   margin-left: 0px;
 }
@@ -25,10 +24,9 @@ h2 {
 
 form {
   background-image: url("images/battleop.jpg");
-  width: 1430px;
+  width: 1420px;
   height: 780px;
 }
-
 
 
 #about {

@@ -1,5 +1,15 @@
 'use strict';
 
+function BattleshipBoard(ships) {
+  this.openSquares = [];
+  this.shipSquares = [];
+  this.hits = [];
+  this.misses = [];
+  this.horizontalShips = [];
+  this.verticalShips = [];
+  this.shipSizes = ships;
+}
+
 //Top Board
 var topOpenSpaces = [];
 var topShipSpaces = [];

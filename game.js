@@ -302,11 +302,22 @@ function computerGuessMedium() {
     if (bottomBoard.shipSquares.includes(randomGuess)) {   // a hit
       tdEl.style.backgroundColor = 'red';
       bottomBoard.hits.push(randomGuess);
+      bottomBoard.shipSquares.splice(bottomBoard.shipSquares.indexOf(randomGuess), 1);
 
+      // checks if the last ship has been sunk
+      //    [!!!] Could also check if bottomBoard.shipSquare is empty
       if (bottomBoard.hits.length === 17) {
         alert('CPU has sunk your fleet! You lose!');
         userInput.removeEventListener('submit', handleUserSubmit);
         return;
+      }
+
+      // check if the random hit resulted in a ship sinking
+      //   if yes, then need to upddate remaining ships array
+      for (var i = 0; i < bottomBoard.shipSquaresKey.length; i++) {
+        if (checkIfStillFloating(bottomBoard.shipSquares, bottomBoard.groupedShipSquares[i])) {
+          bottomBoard.shipSquaresKey.splice(i, 1);
+        }
       }
 
     } else {   // bottomBoard.shipSquares does NOT include randomGuess, i.e. miss

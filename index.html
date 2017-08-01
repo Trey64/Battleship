@@ -12,27 +12,29 @@
     <h1>BATTLESHIP</h1>
     <form>
       <fieldset>
-        <legend>Enter your name</legend>
+        <div id="bgColor">
+        <h2>Enter your name</h2>
 
         <label for="username"></label>
-        <input name="username" type="text" required />
+        <input id="username" name="username" type="text" required />
 
           <button id="play">Play!</button>
 
           <h2>Choose your difficulty</h2>
-          <form id = "difficulty">
+
           <select id="dropMenu" for="chooseDifficulty" name = "chooseDifficulty">
             <option value = "easy">Easy</option>
             <option value = "medium">Medium</option>
             <option value = "hard">Hard</option>
           </select>
-        </form>
+
+      </div>
       </fieldset>
     </form>
     <br>
-    <div id="backgroundImage">
-      <img src="images/battle.jpg"></img>
-    </div>
+    <!-- <div id="backgroundImage">
+      <img src="images/battleop.jpg"></img>
+    </div> -->
 
 <script src="app.js"></script>
   </body>

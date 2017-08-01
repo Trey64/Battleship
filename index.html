@@ -4,9 +4,14 @@
     <meta charset="utf-8">
     <title>Battleship - A Modern Take On A Classic Game</title>
     <link href="https://fonts.googleapis.com/css?family=Chonburi" rel="stylesheet">
-
     <link href="https://fonts.googleapis.com/css?family=Arimo|Source+Serif+Pro|Vollkorn" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="index-style.css">
+
+    <!-- //sweet alert -->
+    <script src="sweetalert.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="sweetalert.css">
+
+
   </head>
   <body>
       <button id="about" onclick="location.href='about.html';">About Us</button>
@@ -16,10 +21,22 @@
         <div id="bgColor">
         <h2>Enter your name</h2>
 
+<!-- ///pop up -->
+  <form>
         <label for="username"></label>
         <input id="username" name="username" type="text" required />
+        <button id="play" onclick="location.href='game.html';" onclick="validation();">Play!</button>
+</form>
 
-          <button id="play" onclick="location.href='game.html';">Play!</button>
+        <script src="sweetalert.min.js"></script>
+        <script src="text/javascript">
+        function validation() {
+
+          swal( title: "Welcome User!",
+          text: "Let's Play!",
+          imageUrl: "images/thumbs-up.jpg");
+        }
+        </script>
 
 
           <h2>Choose your difficulty</h2>
@@ -33,6 +50,11 @@
       </div>
       </fieldset>
     </form>
-<script src="app.js"></script>
+
+
+
+
   </body>
 </html>
+
+<!-- ////////////// -->

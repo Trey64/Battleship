@@ -1,3 +1,12 @@
+* {
+  text-align: center;
+}
+
+body {
+  /*background: -webkit-linear-gradient(#F2F2F2, #DBDBDB);*/
+  background: #262626;
+  margin-left: 0px;
+}
 
 table {
 	position: relative;
@@ -5,6 +14,14 @@ table {
 	border: 10px solid black;
   width: 500px;
   height: 500px;
+}
+
+h1 {
+  font-family: 'Chonburi', cursive;
+  font-size: 80px;
+  color: #F2F2F2;
+  text-decoration: underline;
+  clear: left;
 }
 
 td {

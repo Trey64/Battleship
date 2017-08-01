@@ -162,7 +162,7 @@ function handleUserSubmit(event) {
   var tdEl = document.getElementById(coordinateString);
 
   if (topBoard.shipSquares.includes(guessedCoordinateAdjusted)) {
-    tdEl.style.backgroundColor = 'red';
+    tdEl.style.backgroundColor = '#C90000';
     topBoard.hits.push(guessedCoordinateAdjusted);
 
     if (topBoard.hits.length === 17) {
@@ -207,12 +207,12 @@ function computerGuessEasy() {
 
   var bottomSquareIndex = 'b' + randomGuess.toString();
 
-  alert('Now the computer\'s turn! ' + randomGuessString + '!');
+  alert('The enemy is attacking! ' + randomGuessString.toUpperCase() + '!');
 
   var tdEl = document.getElementById(bottomSquareIndex);
 
   if (bottomBoard.shipSquares.includes(randomGuess)) {
-    tdEl.style.backgroundColor = 'red';
+    tdEl.style.backgroundColor = '#C90000';
     bottomBoard.hits.push(randomGuess);
 
     if (bottomBoard.hits.length === 17) {

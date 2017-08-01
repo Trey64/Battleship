@@ -38,7 +38,10 @@ Battleship.prototype.determineShipOrientation = function() {
   }
 };
 
-
+// method to populate the shipSquaresKey array -- showing the order of the ships in shipSquaresKey
+Battleship.prototype.getShipSquaresKey = function() {
+  this.shipSquaresKey = this.horizontalShips.concat(this.verticalShips);
+};
 
 // method to randomly generate positions of the horizontal ships
 Battleship.prototype.generateHorizontalShipLocations = function() {

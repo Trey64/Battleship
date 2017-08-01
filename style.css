@@ -1,19 +1,40 @@
+* {
+  text-align: center;
+}
+
+body {
+  /*background: -webkit-linear-gradient(#F2F2F2, #DBDBDB);*/
+  background: #262626;
+  margin-left: 0px;
+}
 
 table {
+	position: relative;
+	margin: auto;
 	border: 10px solid black;
-  width: 400px;
-  height: 400px;
+  width: 500px;
+  height: 500px;
+}
+
+h1 {
+  font-family: 'Chonburi', cursive;
+  font-size: 80px;
+  color: #F2F2F2;
+  text-decoration: underline;
+  clear: left;
 }
 
 td {
   font-family: 'Helvetica';
-  background-color: blue;
+  background-color: #034F84;
+	width:30px;
+	height: 30px;
   color: white;
-	padding: 10px;
+
   text-align: center;
   border: 1px solid black;
 }
 
 form {
-  
+
 }

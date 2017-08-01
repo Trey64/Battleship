@@ -42,6 +42,7 @@ form {
   font-family: 'Vollkorn', sans-serif;
   color: white;
   background-color: #73726F;
+  margin-left: 5px;
 }
 
 #about:hover {

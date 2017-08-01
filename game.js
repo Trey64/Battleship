@@ -163,7 +163,15 @@ function handleUserSubmit(event) {
   if (topBoard.shipSquares.includes(guessedCoordinateAdjusted)) {
     tdEl.style.backgroundColor = 'red';
     topBoard.hits.push(guessedCoordinateAdjusted);
-    alert('Hit!');
+
+    if (topBoard.hits.length === 17) {
+      alert('You sunk the CPU\'s fleet! You win!');
+      userInput.removeEventListener('submit', handleUserSubmit);
+      return;
+    } else {
+      alert('Hit!');
+    }
+
   } else {
     tdEl.style.backgroundColor = 'white';
     topBoard.misses.push(guessedCoordinateAdjusted);
@@ -203,6 +211,12 @@ function computerGuessEasy() {
   if (bottomBoard.shipSquares.includes(randomGuess)) {
     tdEl.style.backgroundColor = 'red';
     bottomBoard.hits.push(randomGuess);
+
+    if (bottomBoard.hits.length === 17) {
+      alert('CPU has sunk your fleet! You lose!');
+      userInput.removeEventListener('submit', handleUserSubmit);
+    }
+
   } else {
     tdEl.style.backgroundColor = 'white';
     bottomBoard.misses.push(randomGuess);

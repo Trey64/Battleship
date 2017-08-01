@@ -41,7 +41,7 @@ Battleship.prototype.generateHorizontalShipLocations = function() {
   for (var i = 0; i < this.horizontalShips.length; i++) {
 
     // since it is from the openSpaces array, the starting square will always be valid
-    var startingSquare = this.openSquares[randomNumber(0, this.openSquares.length)];
+    var startingSquare = this.openSquares[randomNumber(0, this.openSquares.length - 1)];
     var endingSquare = startingSquare + (this.horizontalShips[i] - 1);
 
     // checks which row the startingSquare and endingSquare are on
@@ -54,7 +54,7 @@ Battleship.prototype.generateHorizontalShipLocations = function() {
 
     // Fixes the position of the ship
     while (endingSquareRow - startingSquareRow !== 0 || this.shipSquares.includes(startingSquareRow) || this.shipSquares.includes(endingSquareRow) || indexOfEndingSquare - indexOfStartingSquare !== (this.horizontalShips[i] - 1) || typeof startingSquare !== 'number') {
-      startingSquare = this.openSquares[randomNumber(0, this.openSquares.length)];
+      startingSquare = this.openSquares[randomNumber(0, this.openSquares.length - 1)];
       endingSquare = startingSquare + (this.horizontalShips[i] - 1);
       startingSquareRow = Math.floor(startingSquare / 10);
       endingSquareRow = Math.floor(endingSquare / 10);
@@ -76,10 +76,10 @@ Battleship.prototype.generateVerticalShipLocations = function() {
   for (var i = 0; i < this.verticalShips.length; i++) {
 
     // since it is from the openSpaces array, the starting square will always be valid
-    var startingVerticalSquare = this.openSquares[randomNumber(0, this.openSquares.length)];
+    var startingVerticalSquare = this.openSquares[randomNumber(0, this.openSquares.length - 1)];
 
     while(startingVerticalSquare >= 80) {
-      startingVerticalSquare = this.openSquares[randomNumber(0, this.openSquares.length)];
+      startingVerticalSquare = this.openSquares[randomNumber(0, this.openSquares.length - 1)];
     }
 
     var endingVerticalSquare = startingVerticalSquare + ((this.verticalShips[i] - 1) * 10);
@@ -99,7 +99,7 @@ Battleship.prototype.generateVerticalShipLocations = function() {
     };
 
     while (endingVerticalSquare >= 99 || checkIfContains(this.shipSquares, thisShipCoordinates) || typeof startingVerticalSquare !== 'number') {
-      startingVerticalSquare = this.openSquares[randomNumber(0, this.openSquares.length)];
+      startingVerticalSquare = this.openSquares[randomNumber(0, this.openSquares.length - 1)];
       endingVerticalSquare = startingVerticalSquare + ((this.verticalShips[i] - 1) * 10);
       for (var k = 0; k < this.verticalShips[i]; k++) {
         thisShipCoordinates[k] = startingVerticalSquare + (10 * k);
@@ -182,15 +182,15 @@ function handleUserSubmit(event) {
   computerGuessEasy();
 }
 
-// logic for how the computer guesses on its turn
+// logic for how the computer guesses on its turn for easy mode
 function computerGuessEasy() {
 
   var randomGuess = bottomBoard.openSquares[randomNumber(0, bottomBoard.openSquares.length)];
 
   // if we remove the randomGuess from the openSquares array, potentially don't need the
   //   following while loop -- test later
-  while (bottomBoard.misses.includes(randomGuess) || bottomBoard.hits.includes(randomGuess)) {
-    randomGuess = bottomBoard.openSquares[randomNumber(0, bottomBoard.openSquares.length)];
+  while (bottomBoard.misses.includes(randomGuess) || bottomBoard.hits.includes(randomGuess) || typeof randomGuess !== 'number') {
+    randomGuess = bottomBoard.openSquares[randomNumber(0, bottomBoard.openSquares.length - 1)];
   }
 
   var randomGuessTenthValue = (Math.floor(randomGuess / 10)) * 10;
@@ -225,6 +225,50 @@ function computerGuessEasy() {
     bottomBoard.misses.push(randomGuess);
   }
 
+}
+
+// logic for how the computer guesses on its turn for medium mode
+function computerGuessMedium() {
+
+  var randomGuess = bottomBoard.openSquares[randomNumber(0, bottomBoard.openSquares.length - 1)];
+
+  // if we remove the randomGuess from the openSquares array, potentially don't need the
+  //   following while loop -- test later
+  while (bottomBoard.misses.includes(randomGuess) || bottomBoard.hits.includes(randomGuess) || typeof randomGuess !== 'number') {
+    randomGuess = bottomBoard.openSquares[randomNumber(0, bottomBoard.openSquares.length)];
+  }
+
+  var randomGuessTenthValue = (Math.floor(randomGuess / 10)) * 10;
+  // getting the letter for displaying to the user what square the computer guessed
+  var randomGuessRowLetter = alphaValues[(alphaValues.indexOf(randomGuessTenthValue)) - 1];
+
+  var randomGuessString;
+
+  if (randomGuess < 10) {   // row value is A
+    randomGuessString = randomGuessRowLetter + randomGuess.toString();
+  } else {
+    randomGuessString = randomGuessRowLetter + (randomGuess % 10).toString();
+  }
+
+  var bottomSquareIndex = 'b' + randomGuess.toString();
+
+  alert('Now the computer\'s turn! ' + randomGuessString + '!');
+
+  var tdEl = document.getElementById(bottomSquareIndex);
+
+  if (bottomBoard.shipSquares.includes(randomGuess)) {
+    tdEl.style.backgroundColor = 'red';
+    bottomBoard.hits.push(randomGuess);
+
+    if (bottomBoard.hits.length === 17) {
+      alert('CPU has sunk your fleet! You lose!');
+      userInput.removeEventListener('submit', handleUserSubmit);
+    }
+
+  } else {
+    tdEl.style.backgroundColor = 'white';
+    bottomBoard.misses.push(randomGuess);
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////////////

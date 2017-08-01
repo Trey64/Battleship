@@ -162,10 +162,13 @@ function handleUserSubmit(event) {
 
   if (topBoard.shipSquares.includes(guessedCoordinateAdjusted)) {
     tdEl.style.backgroundColor = '#C90000';
+    tdEl.className = 'magictime vanishIn';
+    // tdEl.className = 'vanishIn';
     topBoard.hits.push(guessedCoordinateAdjusted);
     alert('Hit!');
   } else {
     tdEl.style.backgroundColor = 'white';
+    tdEl.className = 'magictime vanishIn';
     topBoard.misses.push(guessedCoordinateAdjusted);
     alert('Miss!');
   }
@@ -202,9 +205,11 @@ function computerGuessEasy() {
 
   if (bottomBoard.shipSquares.includes(randomGuess)) {
     tdEl.style.backgroundColor = '#C90000';
+    tdEl.className = 'magictime vanishIn';
     bottomBoard.hits.push(randomGuess);
   } else {
     tdEl.style.backgroundColor = 'white';
+    tdEl.className = 'magictime vanishIn';
     bottomBoard.misses.push(randomGuess);
   }
 

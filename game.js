@@ -90,14 +90,6 @@ Battleship.prototype.generateVerticalShipLocations = function() {
       thisShipCoordinates[j] = startingVerticalSquare + (10 * j);
     }
 
-    // helper function to check if any of this vertical ship coordinates are already taken
-    //   credit to a user from stack overflow
-    var checkIfContains = function(haystack, arr) {
-      return arr.some(function (v) {
-        return haystack.indexOf(v) >= 0;
-      });
-    };
-
     while (endingVerticalSquare >= 99 || checkIfContains(this.shipSquares, thisShipCoordinates) || typeof startingVerticalSquare !== 'number') {
       startingVerticalSquare = this.openSquares[randomNumber(0, this.openSquares.length - 1)];
       endingVerticalSquare = startingVerticalSquare + ((this.verticalShips[i] - 1) * 10);
@@ -131,6 +123,14 @@ Battleship.prototype.renderShipPositions = function() {
 ////////////////////////////////////////////////////////////////////////////////
 //////////      Function Declarations      /////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
+
+// helper function to check if any of this vertical ship coordinates are already taken
+//   credit to a user from stack overflow
+var checkIfContains = function(haystack, arr) {
+  return arr.some(function (v) {
+    return haystack.indexOf(v) >= 0;
+  });
+};
 
 // returns an integer between the passed min and max parameters (both ends inclusve)
 function randomNumber(min, max) {
@@ -235,7 +235,7 @@ function computerGuessMedium() {
   // if we remove the randomGuess from the openSquares array, potentially don't need the
   //   following while loop -- test later
   while (bottomBoard.misses.includes(randomGuess) || bottomBoard.hits.includes(randomGuess) || typeof randomGuess !== 'number') {
-    randomGuess = bottomBoard.openSquares[randomNumber(0, bottomBoard.openSquares.length)];
+    randomGuess = bottomBoard.openSquares[randomNumber(0, bottomBoard.openSquares.length - 1)];
   }
 
   var randomGuessTenthValue = (Math.floor(randomGuess / 10)) * 10;
@@ -256,7 +256,7 @@ function computerGuessMedium() {
 
   var tdEl = document.getElementById(bottomSquareIndex);
 
-  if (bottomBoard.shipSquares.includes(randomGuess)) {
+  if (bottomBoard.shipSquares.includes(randomGuess)) {   // a hit
     tdEl.style.backgroundColor = 'red';
     bottomBoard.hits.push(randomGuess);
 
@@ -265,7 +265,7 @@ function computerGuessMedium() {
       userInput.removeEventListener('submit', handleUserSubmit);
     }
 
-  } else {
+  } else {   // bottomBoard.shipSquares does NOT include randomGuess, i.e. miss
     tdEl.style.backgroundColor = 'white';
     bottomBoard.misses.push(randomGuess);
   }

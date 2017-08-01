@@ -148,16 +148,23 @@ function handleUserSubmit(event) {
   var guessedCoordinateAlpha = guessedCoordinateRaw[0].toLowerCase();
   var guessedCoordinateNum = parseInt(guessedCoordinateRaw[1]);
   var guessedCoordinateAdjusted = parseInt(alphaValues[(alphaValues.indexOf(guessedCoordinateAlpha)) + 1]) + guessedCoordinateNum;
-  var coordinateString = guessedCoordinateAdjusted.toString();
-  console.log(coordinateString);
-  var tdEl = document.getElementById(coordinateString);
 
   event.target.coordinates.value = null; // clears the input field
 
+  if (topBoard.misses.includes(guessedCoordinateAdjusted) || topBoard.hits.includes(guessedCoordinateAdjusted)) {
+    alert('You\'ve already fired there! Choose a different location.');
+    return;
+  }
+
+  var coordinateString = guessedCoordinateAdjusted.toString();
+  var tdEl = document.getElementById(coordinateString);
+
   if (topBoard.shipSquares.includes(guessedCoordinateAdjusted)) {
     tdEl.style.backgroundColor = 'red';
+    topBoard.hits.push(guessedCoordinateAdjusted);
   } else {
     tdEl.style.backgroundColor = 'white';
+    topBoard.misses.push(guessedCoordinateAdjusted);
   }
 
 }

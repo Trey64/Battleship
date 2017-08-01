@@ -11,6 +11,20 @@ h1 {
   margin-top: 10px;
 }
 
+h4 {
+  width: 30px;
+  height: 30px;
+  margin: 0;
+  margin-right: 0;
+}
+
+p{
+  display: inline-block;
+  /*clear: right;*/
+  width: 30px;
+  position: relative;
+}
+
 .header {
   background-color: #262626;
   text-align: center;
@@ -46,13 +60,38 @@ h1 {
 .us {
   background-color: white;
   height: 800px;
-  width: 900px;
+  width: 1000px;
   position: relative;
   margin: auto;
   border-radius: 5px;
+  padding-top: 5px;
 }
 
-/*#home:active {
-  box-shadow: 0 2px 0;
-  transform: translateY(3px);
-}*/
+.pics ul {
+  /*display: inline-block;*/
+  max-width: 50%;
+    max-height: 50%;
+    height: auto;
+    width: auto;
+    display: inline-block;
+  }
+
+  .pics {
+    display: inline-block;
+  }
+
+.tom {
+    height: 250px;
+    margin-top: 15px;
+    margin-left: 25px;
+    margin-right: 55px;
+}
+
+.gabe {
+  height: 250px;
+  margin-right: 55px;
+}
+
+.joseph {
+  height: 250px;
+}

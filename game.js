@@ -1,6 +1,7 @@
 'use strict';
 
-var ships = [2, 3, 3, 4, 5];
+var ships = [2, 3, 3, 4, 5]; // array of ship sizes each board will contain
+var userInput = document.getElementById('user_input');
 
 // Constructor for a single board of Battleships
 function Battleship(ships) {
@@ -125,6 +126,10 @@ Battleship.prototype.renderShipPositions = function() {
   }
 };
 
+////////////////////////////////////////////////////////////////////////////////
+//////////      Function Declarations      /////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
 // returns an integer between the passed min and max parameters (both ends inclusve)
 function randomNumber(min, max) {
   min = Math.ceil(min);
@@ -132,8 +137,33 @@ function randomNumber(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+// event handler
+function handleUserSubmit(event) {
+
+  event.preventDefault(); // I dunno what this does
+
+  var alphaValues = ['a', 0, 'b', 10, 'c', 20, 'd', 30, 'e', 40, 'f', 50, 'g', 60, 'h', 70, 'i', 80, 'j', 90];
+
+  var guessedCoordinateRaw = event.target.coordinates.value;
+  var guessedCoordinateAlpha = guessedCoordinateRaw[0].toLowerCase();
+  var guessedCoordinateNum = parseInt(guessedCoordinateRaw[1]);
+  var guessedCoordinateAdjusted = parseInt(alphaValues[(alphaValues.indexOf(guessedCoordinateAlpha)) + 1]) + guessedCoordinateNum;
+  var coordinateString = guessedCoordinateAdjusted.toString();
+  console.log(coordinateString);
+  var tdEl = document.getElementById(coordinateString);
+
+  event.target.coordinates.value = null; // clears the input field
+
+  if (topBoard.shipSquares.includes(guessedCoordinateAdjusted)) {
+    tdEl.style.backgroundColor = 'red';
+  } else {
+    tdEl.style.backgroundColor = 'white';
+  }
+
+}
+
 ////////////////////////////////////////////////////////////////////////////////
-//////////          Method Calls           /////////////////////////////////////
+////   Function Calls & Object Instantiation   /////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
 var topBoard = new Battleship(ships);
@@ -148,4 +178,6 @@ bottomBoard.populateOpenSquares();
 bottomBoard.determineShipOrientation();
 bottomBoard.generateHorizontalShipLocations();
 bottomBoard.generateVerticalShipLocations();
-bottomBoard.renderShipPositions();
+bottomBoard.renderShipPositions();    // we only render bottom, i.e. the user's ships
+
+userInput.addEventListener('submit', handleUserSubmit);

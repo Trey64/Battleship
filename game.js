@@ -1,5 +1,6 @@
 'use strict';
 
+var randomMode = true;  // for how the computer guesses with medium and hard difficulties
 var ships = [2, 3, 3, 4, 5]; // array of ship sizes each board will contain
 var alphaValues = ['a', 0, 'b', 10, 'c', 20, 'd', 30, 'e', 40, 'f', 50, 'g', 60, 'h', 70, 'i', 80, 'j', 90];
 var userInput = document.getElementById('user_input');
@@ -269,45 +270,54 @@ function computerGuessEasy() {
 // logic for how the computer guesses on its turn for medium mode
 function computerGuessMedium() {
 
-  var randomGuess = bottomBoard.openSquares[randomNumber(0, bottomBoard.openSquares.length - 1)];
+  // guesses randomly
+  if (randomMode) {
 
-  // if we remove the randomGuess from the openSquares array, potentially don't need the
-  //   following while loop -- test later
-  while (bottomBoard.misses.includes(randomGuess) || bottomBoard.hits.includes(randomGuess) || typeof randomGuess !== 'number') {
-    randomGuess = bottomBoard.openSquares[randomNumber(0, bottomBoard.openSquares.length - 1)];
-  }
+    var randomGuess = bottomBoard.openSquares[randomNumber(0, bottomBoard.openSquares.length - 1)];
 
-  var randomGuessTenthValue = (Math.floor(randomGuess / 10)) * 10;
-  // getting the letter for displaying to the user what square the computer guessed
-  var randomGuessRowLetter = alphaValues[(alphaValues.indexOf(randomGuessTenthValue)) - 1];
-
-  var randomGuessString;
-
-  if (randomGuess < 10) {   // row value is A
-    randomGuessString = randomGuessRowLetter + randomGuess.toString();
-  } else {
-    randomGuessString = randomGuessRowLetter + (randomGuess % 10).toString();
-  }
-
-  var bottomSquareIndex = 'b' + randomGuess.toString();
-
-  alert('Now the computer\'s turn! ' + randomGuessString + '!');
-
-  var tdEl = document.getElementById(bottomSquareIndex);
-
-  if (bottomBoard.shipSquares.includes(randomGuess)) {   // a hit
-    tdEl.style.backgroundColor = 'red';
-    bottomBoard.hits.push(randomGuess);
-
-    if (bottomBoard.hits.length === 17) {
-      alert('CPU has sunk your fleet! You lose!');
-      userInput.removeEventListener('submit', handleUserSubmit);
+    // if we remove the randomGuess from the openSquares array, potentially don't need the
+    //   following while loop -- test later
+    while (bottomBoard.misses.includes(randomGuess) || bottomBoard.hits.includes(randomGuess) || typeof randomGuess !== 'number') {
+      randomGuess = bottomBoard.openSquares[randomNumber(0, bottomBoard.openSquares.length - 1)];
     }
 
-  } else {   // bottomBoard.shipSquares does NOT include randomGuess, i.e. miss
-    tdEl.style.backgroundColor = 'white';
-    bottomBoard.misses.push(randomGuess);
+    var randomGuessTenthValue = (Math.floor(randomGuess / 10)) * 10;
+    // getting the letter for displaying to the user what square the computer guessed
+    var randomGuessRowLetter = alphaValues[(alphaValues.indexOf(randomGuessTenthValue)) - 1];
+
+    var randomGuessString;
+
+    if (randomGuess < 10) {   // row value is A
+      randomGuessString = randomGuessRowLetter + randomGuess.toString();
+    } else {
+      randomGuessString = randomGuessRowLetter + (randomGuess % 10).toString();
+    }
+
+    var bottomSquareIndex = 'b' + randomGuess.toString();
+
+    alert('Now the computer\'s turn! ' + randomGuessString + '!');
+
+    var tdEl = document.getElementById(bottomSquareIndex);
+
+    if (bottomBoard.shipSquares.includes(randomGuess)) {   // a hit
+      tdEl.style.backgroundColor = 'red';
+      bottomBoard.hits.push(randomGuess);
+
+      if (bottomBoard.hits.length === 17) {
+        alert('CPU has sunk your fleet! You lose!');
+        userInput.removeEventListener('submit', handleUserSubmit);
+        return;
+      }
+
+    } else {   // bottomBoard.shipSquares does NOT include randomGuess, i.e. miss
+      tdEl.style.backgroundColor = 'white';
+      bottomBoard.misses.push(randomGuess);
+    }
+
+  } else {  // random mode is off, i.e trying to sink the ship it has found
+
   }
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////

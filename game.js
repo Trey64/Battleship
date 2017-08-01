@@ -161,7 +161,7 @@ function handleUserSubmit(event) {
   var tdEl = document.getElementById(coordinateString);
 
   if (topBoard.shipSquares.includes(guessedCoordinateAdjusted)) {
-    tdEl.style.backgroundColor = 'red';
+    tdEl.style.backgroundColor = '#C90000';
     topBoard.hits.push(guessedCoordinateAdjusted);
     alert('Hit!');
   } else {
@@ -201,7 +201,7 @@ function computerGuessEasy() {
   var tdEl = document.getElementById(bottomSquareIndex);
 
   if (bottomBoard.shipSquares.includes(randomGuess)) {
-    tdEl.style.backgroundColor = 'red';
+    tdEl.style.backgroundColor = '#C90000';
     bottomBoard.hits.push(randomGuess);
   } else {
     tdEl.style.backgroundColor = 'white';

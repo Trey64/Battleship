@@ -8,10 +8,10 @@ body {
 }
 
 table {
-	display: inline-block;
+	display: inline;
 	position: relative;
-	margin: auto;
-	border: 10px solid black;
+	margin: 10px;
+	/*border: 10px solid black;*/
   width: 500px;
   height: 500px;
 }
@@ -27,11 +27,9 @@ h1 {
 td {
   font-family: 'Helvetica';
   background-color: #034F84;
-	width:40px;
+	width: 40px;
 	height: 40px;
   color: white;
-
-  text-align: center;
   border: 1px solid black;
 }
 
@@ -79,6 +77,6 @@ legend {
 
 #fire:hover {
   transition: 250ms all;
-  background-color: #B93A32;
+  background-color: #C90000;
   color: white;
 }

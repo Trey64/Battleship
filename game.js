@@ -196,7 +196,7 @@ function computerGuessEasy() {
 
   var bottomSquareIndex = 'b' + randomGuess.toString();
 
-  alert('Now the computer\'s turn! ' + randomGuessString + '!');
+  alert('The enemy is attacking! ' + randomGuessString.toUpperCase() + '!');
 
   var tdEl = document.getElementById(bottomSquareIndex);
 

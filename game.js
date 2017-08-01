@@ -6,7 +6,7 @@ var userInput = document.getElementById('user_input');
 
 // Constructor for a single board of Battleships
 function Battleship(ships) {
-  this.openSquares = [];
+  this.openSquares;
   this.shipSquares = [];
   this.hits = [];
   this.misses = [];
@@ -18,6 +18,7 @@ function Battleship(ships) {
 // method to generate an empty game board with numbers from 0 to 99
 //   each number represents a square on a classic 10 x 10 board
 Battleship.prototype.populateOpenSquares = function() {
+  this.openSquares = [];   // emptys the array for when we want to "repopulate" a semi-full array
   for (var i = 0; i <= 99; i++) {
     this.openSquares.push(i);
   }
@@ -184,10 +185,12 @@ function handleUserSubmit(event) {
 // logic for how the computer guesses on its turn
 function computerGuessEasy() {
 
-  var randomGuess = randomNumber(0, 99);
+  var randomGuess = bottomBoard.openSquares[randomNumber(0, bottomBoard.openSquares.length)];
 
+  // if we remove the randomGuess from the openSquares array, potentially don't need the
+  //   following while loop -- test later
   while (bottomBoard.misses.includes(randomGuess) || bottomBoard.hits.includes(randomGuess)) {
-    randomGuess = randomNumber(0, 99);
+    randomGuess = bottomBoard.openSquares[randomNumber(0, bottomBoard.openSquares.length)];
   }
 
   var randomGuessTenthValue = (Math.floor(randomGuess / 10)) * 10;
@@ -242,5 +245,6 @@ bottomBoard.determineShipOrientation();
 bottomBoard.generateHorizontalShipLocations();
 bottomBoard.generateVerticalShipLocations();
 bottomBoard.renderShipPositions();    // we only render bottom, i.e. the user's ships
+bottomBoard.populateOpenSquares();  // repopulates the openSquares for use when tracking which squares CPU has already guessed
 
 userInput.addEventListener('submit', handleUserSubmit);

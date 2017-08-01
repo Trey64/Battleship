@@ -7,6 +7,11 @@ body {
   margin-left: 0px;
 }
 
+#text {
+  position: relative;
+  top: 200px;
+}
+
 table {
 	display: inline;
 	position: relative;

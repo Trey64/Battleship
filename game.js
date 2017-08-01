@@ -122,6 +122,18 @@ function createOpenSpaces() {
   }
 }
 
+function renderBottomShips() {
+  for (var i = 0; i < bottomShipSpaces.length; i++) {
+
+    // get the td element id
+    var tdIdentifier = 'b' + bottomShipSpaces[i];
+
+    // give the corresponding squares color
+    var tdEl = document.getElementById(tdIdentifier);
+    tdEl.style.backgroundColor = 'gray';
+  }
+}
+
 createOpenSpaces();
 
 determineShipOrientation(topShipLengths, topHorizontalShips, topVerticalShips);
@@ -132,3 +144,5 @@ generateHorizontalShipLocations(topOpenSpaces, topShipSpaces, topHorizontalShips
 
 generateVerticalShipLocations(bottomOpenSpaces, bottomShipSpaces, bottomVerticalShips);
 generateHorizontalShipLocations(bottomOpenSpaces, bottomShipSpaces, bottomHorizontalShips);
+
+renderBottomShips();

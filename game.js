@@ -12,6 +12,8 @@ function Battleship(ships) {
   this.misses = [];
   this.horizontalShips = [];
   this.verticalShips = [];
+  this.shipSquaresKey = [];    // will contain the order of how ships are arranged in shipSquares
+  this.groupedShipSquares = [];    // will contain an array of arrays, each representing a ship
   this.ships = ships;
 }
 
@@ -35,6 +37,8 @@ Battleship.prototype.determineShipOrientation = function() {
     }
   }
 };
+
+
 
 // method to randomly generate positions of the horizontal ships
 Battleship.prototype.generateHorizontalShipLocations = function() {
@@ -126,11 +130,23 @@ Battleship.prototype.renderShipPositions = function() {
 
 // helper function to check if any of this vertical ship coordinates are already taken
 //   credit to a user from stack overflow
-var checkIfContains = function(haystack, arr) {
-  return arr.some(function (v) {
+var checkIfContains = function(haystack, needle) {
+  return needle.some(function (v) {
     return haystack.indexOf(v) >= 0;
   });
 };
+
+// check if shipSquares array contains at least one element of the ship, i.e. ship is still floating
+//   returns true if ship is floating, else returns false
+function checkIfStillFloating(haystack, needle) {
+  var stillFloating = false;
+  for (var i = 0; i < needle.length; i++) {
+    if (haystack.includes(needle[i])) {
+      stillFloating = true;
+    }
+  }
+  return stillFloating;
+}
 
 // returns an integer between the passed min and max parameters (both ends inclusve)
 function randomNumber(min, max) {
@@ -289,5 +305,13 @@ bottomBoard.generateHorizontalShipLocations();
 bottomBoard.generateVerticalShipLocations();
 bottomBoard.renderShipPositions();    // we only render bottom, i.e. the user's ships
 bottomBoard.populateOpenSquares();  // repopulates the openSquares for use when tracking which squares CPU has already guessed
+
+console.log(topBoard.horizontalShips);
+console.log(topBoard.verticalShips);
+console.log(topBoard.shipSquares);
+
+console.log(bottomBoard.horizontalShips);
+console.log(bottomBoard.verticalShips);
+console.log(bottomBoard.shipSquares);
 
 userInput.addEventListener('submit', handleUserSubmit);

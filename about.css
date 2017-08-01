@@ -8,7 +8,7 @@ h1 {
   color: #F2F2F2;
   text-decoration: underline;
   clear: left;
-  margin-top: 0px;
+  margin-top: 10px;
 }
 
 .header {
@@ -16,8 +16,6 @@ h1 {
   text-align: center;
   height: 220px;
   margin-bottom: 10px;
-
-
 }
 
 .home {
@@ -44,3 +42,17 @@ h1 {
   background-color: #FFC433;
   color: white;
 }
+
+.us {
+  background-color: white;
+  height: 520px;
+  width: 850px;
+  position: relative;
+  margin: auto;
+  border-radius: 5px;
+}
+
+/*#home:active {
+  box-shadow: 0 2px 0;
+  transform: translateY(3px);
+}*/

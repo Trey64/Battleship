@@ -49,7 +49,7 @@ function generateHorizontalShipLocations(openSpaces, shipSpaces, horizontalShips
     var indexOfEndingSquare = openSpaces.indexOf(endingSquare);
 
     // Fixes the position of the ship
-    while (endingSquareRow - startingSquareRow !== 0 || shipSpaces.includes(startingSquareRow) || shipSpaces.includes(endingSquareRow) || indexOfEndingSquare - indexOfStartingSquare !== (horizontalShips[i] - 1)) {
+    while (endingSquareRow - startingSquareRow !== 0 || shipSpaces.includes(startingSquareRow) || shipSpaces.includes(endingSquareRow) || indexOfEndingSquare - indexOfStartingSquare !== (horizontalShips[i] - 1) || typeof startingSquare !== 'number') {
       startingSquare = openSpaces[randomNumber(0, openSpaces.length)];
       endingSquare = startingSquare + (horizontalShips[i] - 1);
       startingSquareRow = Math.floor(startingSquare / 10);
@@ -76,13 +76,18 @@ function generateVerticalShipLocations(openSpaces, shipSpaces, verticalShips) {
   for (var i = 0; i < verticalShips.length; i++) {
 
     // since it is from the openSpaces array, the starting square will always be valid
-    var startingSquare = openSpaces[randomNumber(0, openSpaces.length)];
-    var endingSquare = startingSquare + ((verticalShips[i] - 1) * 10);
+    var startingVerticalSquare = openSpaces[randomNumber(0, openSpaces.length)];
+
+    while(startingVerticalSquare >= 80) {
+      startingVerticalSquare = openSpaces[randomNumber(0, openSpaces.length)];
+    }
+
+    var endingVerticalSquare = startingVerticalSquare + ((verticalShips[i] - 1) * 10);
 
     var thisShipCoordinates = [];
 
     for (var j = 0; j < verticalShips[i]; j++) {
-      thisShipCoordinates[j] = startingSquare + (10 * j);
+      thisShipCoordinates[j] = startingVerticalSquare + (10 * j);
     }
 
     // helper function to check if any of this vertical ship coordinates are already taken
@@ -92,17 +97,17 @@ function generateVerticalShipLocations(openSpaces, shipSpaces, verticalShips) {
       });
     };
 
-    while (endingSquare > 99 || checkIfContains(shipSpaces, thisShipCoordinates)) {
-      startingSquare = openSpaces[randomNumber(0, openSpaces.length)];
-      endingSquare = startingSquare + ((verticalShips[i] - 1) * 10);
+    while (endingVerticalSquare >= 99 || checkIfContains(shipSpaces, thisShipCoordinates) || typeof startingVerticalSquare !== 'number') {
+      startingVerticalSquare = openSpaces[randomNumber(0, openSpaces.length)];
+      endingVerticalSquare = startingVerticalSquare + ((verticalShips[i] - 1) * 10);
       for (var k = 0; k < verticalShips[i]; k++) {
-        thisShipCoordinates[j] = startingSquare + (10 * j);
+        thisShipCoordinates[k] = startingVerticalSquare + (10 * k);
       }
     }
 
     // Adds the ship's coordinates to the shipSpaces array and removes them from the open spaces array
     for (var p = 0; p < verticalShips[i]; p++) {
-      var tempShipCoordinate = startingSquare + (p * 10);
+      var tempShipCoordinate = startingVerticalSquare + (p * 10);
       shipSpaces.push(tempShipCoordinate);
       openSpaces.splice(openSpaces.indexOf(tempShipCoordinate), 1);
     }

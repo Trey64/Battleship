@@ -25,9 +25,50 @@ Battleship.prototype.determineShipOrientation = function() {
   }
 };
 
+// method to randomly generate positions of the horizontal ships
+Battleship.prototype.generateHorizontalShipLocations = function() {
+  for (var i = 0; i < this.horizontalShips.length; i++) {
+
+    // since it is from the openSpaces array, the starting square will always be valid
+    var startingSquare = this.openSquares[randomNumber(0, this.openSquares.length)];
+    var endingSquare = startingSquare + (this.horizontalShips[i] - 1);
+
+    // checks which row the startingSquare and endingSquare are on
+    var startingSquareRow = Math.floor(startingSquare / 10);
+    var endingSquareRow = Math.floor(endingSquare / 10);
+
+    // gets the index of the starting and ending squares in the open spaces array
+    var indexOfStartingSquare = this.openSquares.indexOf(startingSquare);
+    var indexOfEndingSquare = this.openSquares.indexOf(endingSquare);
+
+    // Fixes the position of the ship
+    while (endingSquareRow - startingSquareRow !== 0 || this.shipSquares.includes(startingSquareRow) || this.shipSquares.includes(endingSquareRow) || indexOfEndingSquare - indexOfStartingSquare !== (this.horizontalShips[i] - 1) || typeof startingSquare !== 'number') {
+      startingSquare = this.openSquares[randomNumber(0, this.openSquares.length)];
+      endingSquare = startingSquare + (this.horizontalShips[i] - 1);
+      startingSquareRow = Math.floor(startingSquare / 10);
+      endingSquareRow = Math.floor(endingSquare / 10);
+      indexOfStartingSquare = this.openSquares.indexOf(startingSquare);
+      indexOfEndingSquare = this.openSquares.indexOf(endingSquare);
+    }
+
+    // Adds the ship's coordinates to the shipSpaces array and removes them from the open spaces array
+    for (var j = 0; j < this.horizontalShips[i]; j++) {
+      var tempShipCoordinate = startingSquare + j;
+      this.shipSquares.push(tempShipCoordinate);
+      this.openSquares.splice(this.openSquares.indexOf(tempShipCoordinate), 1);
+    }
+  }
+};
+
+// method to randomly generate positions of the vertical ships
+Battleship.prototype.generateVerticalShipLocations = function() {
+
+};
+
 var topBoard = new Battleship(ships);
 var bottomBoard = new Battleship(ships);
 
+// returns an integer between the passed min and max parameters (both ends inclusve)
 function randomNumber(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);

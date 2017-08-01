@@ -1,13 +1,47 @@
 'use strict';
 
-function BattleshipBoard(ships) {
+var ships = [2, 3, 3, 4, 5];
+
+// Constructor for a single board of Battleships
+function Battleship(ships) {
   this.openSquares = [];
   this.shipSquares = [];
   this.hits = [];
   this.misses = [];
   this.horizontalShips = [];
   this.verticalShips = [];
-  this.shipSizes = ships;
+  this.ships = ships;
+}
+
+// method for each battleship object to randomly determine which ships are vertical
+//   and which ships are horizontal
+Battleship.prototype.determineShipOrientation = function() {
+  for (var i = 0; i < this.shipSizes; i++) {
+    if (randomNumber(0, 1) === 0) {
+      this.horizontalShips.push(this.ships[i]);
+    } else {
+      this.verticalShips.push(this.ships[i]);
+    }
+  }
+};
+
+var topBoard = new Battleship(ships);
+var bottomBoard = new Battleship(ships);
+
+function randomNumber(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function determineShipOrientation(shipArray, horizontalShips, verticalShips) {
+  for (var i = 0; i < shipArray.length; i++){
+    if (randomNumber(0, 1) === 0){
+      verticalShips.push(shipArray[i]);
+    } else {
+      horizontalShips.push(shipArray[i]);
+    }
+  }
 }
 
 //Top Board
@@ -28,15 +62,6 @@ var bottomVerticalShips = [];
 var bottomShipLengths = [2, 3, 3, 4, 5];
 
 
-function determineShipOrientation(shipArray, horizontalShips, verticalShips) {
-  for (var i = 0; i < shipArray.length; i++){
-    if (randomNumber(0, 1) === 0){
-      verticalShips.push(shipArray[i]);
-    } else {
-      horizontalShips.push(shipArray[i]);
-    }
-  }
-}
 
 // Randomly generates the positions of the horizontal ships
 // openSpaces will be the open spaces available to place a shipSpaces
@@ -124,11 +149,6 @@ function generateVerticalShipLocations(openSpaces, shipSpaces, verticalShips) {
   }
 }
 
-function randomNumber(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
 
 function createOpenSpaces() {
   for (var i = 0; i <= 99; i++) {

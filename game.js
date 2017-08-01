@@ -43,6 +43,20 @@ Battleship.prototype.getShipSquaresKey = function() {
   this.shipSquaresKey = this.horizontalShips.concat(this.verticalShips);
 };
 
+// method to populate the groupedShipSquares array
+Battleship.prototype.groupShipSquares = function() {
+  var tempShip = [];
+  var shipSquaresIndex = 0;
+  for (var i = 0; i < this.shipSquaresKey.length; i++) {
+    for (var j = 0; j < this.shipSquaresKey[i]; j++) {
+      tempShip.push(this.shipSquares[shipSquaresIndex]);
+      shipSquaresIndex++;
+    }
+    this.groupedShipSquares.push(tempShip);
+    tempShip = [];
+  }
+};
+
 // method to randomly generate positions of the horizontal ships
 Battleship.prototype.generateHorizontalShipLocations = function() {
   for (var i = 0; i < this.horizontalShips.length; i++) {
@@ -183,7 +197,7 @@ function handleUserSubmit(event) {
   if (topBoard.shipSquares.includes(guessedCoordinateAdjusted)) {
     tdEl.style.backgroundColor = '#C90000';
     tdEl.className = 'magictime vanishIn';
-    tdEl.style.backgroundImage = "url('images/battleshipIcon.png')";
+    tdEl.style.backgroundImage = 'url(\'images/battleshipIcon.png\')';
     topBoard.hits.push(guessedCoordinateAdjusted);
 
     if (topBoard.hits.length === 17) {
@@ -236,7 +250,7 @@ function computerGuessEasy() {
   if (bottomBoard.shipSquares.includes(randomGuess)) {
     tdEl.style.backgroundColor = '#C90000';
     tdEl.className = 'magictime vanishIn';
-    tdEl.style.backgroundImage = "url('images/battleshipIcon.png')";
+    tdEl.style.backgroundImage = 'url(\'images/battleshipIcon.png\')';
     bottomBoard.hits.push(randomGuess);
 
     if (bottomBoard.hits.length === 17) {
@@ -305,22 +319,29 @@ var bottomBoard = new Battleship(ships);
 
 topBoard.populateOpenSquares();
 topBoard.determineShipOrientation();
+topBoard.getShipSquaresKey();
 topBoard.generateHorizontalShipLocations();
 topBoard.generateVerticalShipLocations();
+topBoard.groupShipSquares();
 
 bottomBoard.populateOpenSquares();
 bottomBoard.determineShipOrientation();
+bottomBoard.getShipSquaresKey();
 bottomBoard.generateHorizontalShipLocations();
 bottomBoard.generateVerticalShipLocations();
+bottomBoard.groupShipSquares();
 bottomBoard.renderShipPositions();    // we only render bottom, i.e. the user's ships
 bottomBoard.populateOpenSquares();  // repopulates the openSquares for use when tracking which squares CPU has already guessed
 
 console.log(topBoard.horizontalShips);
 console.log(topBoard.verticalShips);
+console.log(topBoard.shipSquaresKey);
 console.log(topBoard.shipSquares);
+console.log(topBoard.groupedShipSquares);
 
 console.log(bottomBoard.horizontalShips);
 console.log(bottomBoard.verticalShips);
+console.log(bottomBoard.shipSquaresKey);
 console.log(bottomBoard.shipSquares);
 
 userInput.addEventListener('submit', handleUserSubmit);

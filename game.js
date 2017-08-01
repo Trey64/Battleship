@@ -1,6 +1,7 @@
 'use strict';
 
 var ships = [2, 3, 3, 4, 5]; // array of ship sizes each board will contain
+var alphaValues = ['a', 0, 'b', 10, 'c', 20, 'd', 30, 'e', 40, 'f', 50, 'g', 60, 'h', 70, 'i', 80, 'j', 90];
 var userInput = document.getElementById('user_input');
 
 // Constructor for a single board of Battleships
@@ -142,7 +143,7 @@ function handleUserSubmit(event) {
 
   event.preventDefault(); // I dunno what this does
 
-  var alphaValues = ['a', 0, 'b', 10, 'c', 20, 'd', 30, 'e', 40, 'f', 50, 'g', 60, 'h', 70, 'i', 80, 'j', 90];
+  // var alphaValues = ['a', 0, 'b', 10, 'c', 20, 'd', 30, 'e', 40, 'f', 50, 'g', 60, 'h', 70, 'i', 80, 'j', 90];
 
   var guessedCoordinateRaw = event.target.coordinates.value;
   var guessedCoordinateAlpha = guessedCoordinateRaw[0].toLowerCase();
@@ -162,10 +163,51 @@ function handleUserSubmit(event) {
   if (topBoard.shipSquares.includes(guessedCoordinateAdjusted)) {
     tdEl.style.backgroundColor = 'red';
     topBoard.hits.push(guessedCoordinateAdjusted);
+    alert('Hit!');
   } else {
     tdEl.style.backgroundColor = 'white';
     topBoard.misses.push(guessedCoordinateAdjusted);
+    alert('Miss!');
   }
+
+  computerGuessEasy();
+}
+
+// logic for how the computer guesses on its turn
+function computerGuessEasy() {
+
+  var randomGuess = randomNumber(0, 99);
+
+  while (bottomBoard.misses.includes(randomGuess) || bottomBoard.hits.includes(randomGuess)) {
+    randomGuess = randomNumber(0, 99);
+  }
+
+  var randomGuessTenthValue = (Math.floor(randomGuess / 10)) * 10;
+  // getting the letter for displaying to the user what square the computer guessed
+  var randomGuessRowLetter = alphaValues[(alphaValues.indexOf(randomGuessTenthValue)) - 1];
+
+  var randomGuessString;
+
+  if (randomGuess < 10) {   // row value is A
+    randomGuessString = randomGuessRowLetter + randomGuess.toString();
+  } else {
+    randomGuessString = randomGuessRowLetter + (randomGuess % 10).toString();
+  }
+
+  var bottomSquareIndex = 'b' + randomGuess.toString();
+
+  alert('Now the computer\'s turn! ' + randomGuessString + '!');
+
+  var tdEl = document.getElementById(bottomSquareIndex);
+
+  if (bottomBoard.shipSquares.includes(randomGuess)) {
+    tdEl.style.backgroundColor = 'red';
+    bottomBoard.hits.push(randomGuess);
+  } else {
+    tdEl.style.backgroundColor = 'white';
+    bottomBoard.misses.push(randomGuess);
+  }
+
 
 }
 

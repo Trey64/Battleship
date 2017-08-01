@@ -4,12 +4,12 @@
     <meta charset="utf-8">
     <title>Battleship - A Modern Take On A Classic Game</title>
     <link href="https://fonts.googleapis.com/css?family=Chonburi" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Vollkorn" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Arimo|Source+Serif+Pro|Vollkorn" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="index-style.css">
 
     <!-- //sweet alert -->
-    <script src="sweetalert.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="sweetalert.css">
+    <script src="dist/sweetalert.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="dist/sweetalert.css">
 
 
   </head>
@@ -19,27 +19,23 @@
     <form>
       <fieldset>
         <div id="bgColor">
-        <h2>Enter Your Name</h2>
+        <h2>Enter your name</h2>
 
 <!-- ///pop up -->
-  <form>
-        <label for="username"></label>
+
         <input id="username" name="username" type="text" required />
-        <button id="play" onclick="location.href='game.html';" onclick="validation();">Play!</button>
-</form>
+        <label for="username"></label>
+        <button id="play" onclick="location.href='game.html';">Play!</button>
+
+
+
+<!-- onclick="location.href='game.html';" -->
 
         <script src="sweetalert.min.js"></script>
-        <script src="text/javascript">
-        function validation() {
-
-          swal( title: "Welcome User!",
-          text: "Let's Play!",
-          imageUrl: "images/thumbs-up.jpg");
-        }
-        </script>
+        <script src="app.js"></script>
 
 
-          <h2>Choose Your Difficulty</h2>
+          <h2>Choose your difficulty</h2>
 
           <select id="dropMenu" for="chooseDifficulty" name = "chooseDifficulty">
             <option value = "easy">Easy</option>
@@ -50,11 +46,5 @@
       </div>
       </fieldset>
     </form>
-
-
-
-
   </body>
 </html>
-
-<!-- ////////////// -->

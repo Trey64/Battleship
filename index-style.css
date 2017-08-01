@@ -23,9 +23,9 @@ h2 {
 
 
 form {
-  background-image: url("images/battleop.jpg");
+  background-image: url("images/battle_cropped.jpg");
   width: 1420px;
-  height: 780px;
+  height: 760px;
 }
 
 
@@ -39,7 +39,7 @@ form {
   font-size: 18px;
   font-family: 'Vollkorn', sans-serif;
   color: white;
-  background-color: #73726F;
+  background-color: #223A5E;
 }
 
 #about:hover {
@@ -48,13 +48,12 @@ form {
   color: white;
 }
 
-legend {
-  color: white;
-  font-size: 20px;
-}
 
 fieldset {
-  background: rgba(158, 158, 158, 0.5);
+  position: fixed;
+  background: rgba(158, 158, 158, 0.75);
+  width:1388px;
+  margin: 1px;
 }
 
 
@@ -72,7 +71,7 @@ fieldset {
   font-size: 18px;
   font-family: 'Vollkorn', sans-serif;
   color: white;
-  background-color: #73726F;
+  background-color: #223A5E;
 }
 
 #play:hover {
@@ -88,7 +87,7 @@ fieldset {
   font-size: 18px;
   font-family: 'Vollkorn', sans-serif;
   color: white;
-  background-color: #73726F;
+  background-color: #223A5E;
 }
 
 #dropMenu:hover {

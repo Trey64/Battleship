@@ -1,0 +1,22 @@
+body {
+  background-image: url("images/stars.jpg");
+}
+
+h1 {
+  font-family: 'Chonburi', cursive;
+  font-size: 80px;
+  color: #F2F2F2;
+  text-decoration: underline;
+  clear: left;
+}
+
+.header {
+  background-color: #262626;
+  text-align: center;
+  height: 220px;
+  margin-top: 50px;
+}
+
+.home {
+  float: left;
+}

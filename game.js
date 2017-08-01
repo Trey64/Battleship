@@ -15,6 +15,19 @@ function Battleship(ships) {
   this.ships = ships;
 }
 
+var cssId = 'myCss';  // you could encode the css path itself to generate id..
+if (!document.getElementById(cssId))
+{
+    var head  = document.getElementsByTagName('head')[0];
+    var link  = document.createElement('link');
+    link.id   = cssId;
+    link.rel  = 'stylesheet';
+    link.type = 'text/css';
+    link.href = 'magic/magic.css';
+    link.media = 'all';
+    head.appendChild(link);
+}
+
 // method to generate an empty game board with numbers from 0 to 99
 //   each number represents a square on a classic 10 x 10 board
 Battleship.prototype.populateOpenSquares = function() {

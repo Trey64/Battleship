@@ -1,0 +1,100 @@
+* {
+  text-align: center;
+}
+
+body {
+  /*background: -webkit-linear-gradient(#F2F2F2, #DBDBDB);*/
+  background: #262626;
+  margin-left: 0px;
+}
+
+h1 {
+  font-family: 'Chonburi', cursive;
+  font-size: 80px;
+  color: #F2F2F2;
+  text-decoration: underline;
+  clear: left;
+}
+
+h2 {
+  font-family: 'Vollkorn', sans-serif;
+  color: white;
+}
+
+
+
+form {
+  background-image: url("images/battleop.jpg");
+  width: 1430px;
+  height: 780px;
+}
+
+
+
+#about {
+  position: relative;
+  bottom: 2px;
+  float: left;
+  border-radius: 5px;
+  width: 100px;
+  height: 40px;
+  font-size: 18px;
+  font-family: 'Vollkorn', sans-serif;
+  color: white;
+  background-color: #73726F;
+}
+
+#about:hover {
+  transition: 250ms all;
+  background-color: #FFC433;
+  color: white;
+}
+
+legend {
+  color: white;
+  font-size: 20px;
+}
+
+fieldset {
+  background: rgba(158, 158, 158, 0.5);
+}
+
+
+#username {
+  height: 25px;
+  width: 150px;
+  font-size: 18px;
+  border-radius: 5px;
+}
+
+#play {
+  border-radius: 5px;
+  width: 100px;
+  height: 40px;
+  font-size: 18px;
+  font-family: 'Vollkorn', sans-serif;
+  color: white;
+  background-color: #73726F;
+}
+
+#play:hover {
+  transition: 250ms all;
+  background-color: #FFC433;
+  color: white;
+}
+
+#dropMenu {
+  border-radius: 5px;
+  width: 100px;
+  height: 40px;
+  font-size: 18px;
+  font-family: 'Vollkorn', sans-serif;
+  color: white;
+  background-color: #73726F;
+}
+
+#dropMenu:hover {
+    transition: 250ms all;
+    background-color: #FFC433;
+    color: white;
+}

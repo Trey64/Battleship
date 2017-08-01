@@ -2,9 +2,35 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>Battleship</title>
+    <link href="https://fonts.googleapis.com/css?family=Abril+Fatface|Alfa+Slab+One|Bevan|Chonburi|Kumar+One" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Arimo|Source+Serif+Pro|Vollkorn" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="index-style.css">
   </head>
   <body>
+      <button id="about" onclick="location.href='about.html';">About Us</button>
+    <h1>BATTLESHIP</h1>
+    <form>
+      <fieldset>
+        <div id="bgColor">
+        <h2>Enter your name</h2>
 
+        <label for="username"></label>
+        <input id="username" name="username" type="text" required />
+
+          <button id="play" onclick="location.href='game.html';">Play!</button>
+
+          <h2>Choose your difficulty</h2>
+
+          <select id="dropMenu" for="chooseDifficulty" name = "chooseDifficulty">
+            <option value = "easy">Easy</option>
+            <option value = "medium">Medium</option>
+            <option value = "hard">Hard</option>
+          </select>
+
+      </div>
+      </fieldset>
+    </form>
+<script src="app.js"></script>
   </body>
 </html>

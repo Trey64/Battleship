@@ -4,7 +4,7 @@
 
 body {
   background: #262626;
-  margin-left: 0px;
+  margin-left: 1px;
 }
 
 h1 {
@@ -13,6 +13,7 @@ h1 {
   color: #F2F2F2;
   text-decoration: underline;
   clear: left;
+  margin-bottom: 15px;
 }
 
 h2 {
@@ -23,9 +24,9 @@ h2 {
 
 
 form {
-  background-image: url("images/battleop.jpg");
+  background-image: url("images/battle_cropped.jpg");
   width: 1420px;
-  height: 780px;
+  height: 760px;
 }
 
 
@@ -39,8 +40,7 @@ form {
   font-size: 18px;
   font-family: 'Vollkorn', sans-serif;
   color: white;
-  background-color: #73726F;
-  margin-left: 5px;
+  background-color: #223A5E;
 }
 
 #about:hover {
@@ -48,6 +48,7 @@ form {
   background-color: #FFC433;
   color: white;
 }
+
 
 /*#about:active {
   box-shadow: 0 2px 0;
@@ -59,8 +60,11 @@ legend {
   font-size: 20px;
 }
 
+
 fieldset {
-  background: rgba(158, 158, 158, 0.5);
+  position: fixed;
+  background: rgba(158, 158, 158, 0.75);
+  width:1388px;
 }
 
 
@@ -78,7 +82,7 @@ fieldset {
   font-size: 18px;
   font-family: 'Vollkorn', sans-serif;
   color: white;
-  background-color: #73726F;
+  background-color: #223A5E;
 }
 
 #play:hover {
@@ -94,7 +98,7 @@ fieldset {
   font-size: 18px;
   font-family: 'Vollkorn', sans-serif;
   color: white;
-  background-color: #73726F;
+  background-color: #223A5E;
 }
 
 #dropMenu:hover {

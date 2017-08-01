@@ -4,18 +4,18 @@
     <meta charset="utf-8">
     <title>Battleship!</title>
     <link href="https://fonts.googleapis.com/css?family=Chonburi" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Vollkorn" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="style.css">
     <link rel="stylesheet" href="magic/magic.css">
 
   </head>
   <body>
+    <button id="home" onclick="location.href='index.html';">Return to Home</button>
     <h1>BATTLESHIP</h1>
     <form id="user_input">
       <fieldset>
         <legend>Enter target coordinates</legend>
-
-        <label for="coordinates">Coordinates</label>
-        <input name="coordinates" type="text" required />
+        <input id="coordinates" name="coordinates" type="text" required />
 
           <button id="fire">Fire!</button>
       </fieldset>

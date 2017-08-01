@@ -3,12 +3,12 @@
 }
 
 body {
-  /*background: -webkit-linear-gradient(#F2F2F2, #DBDBDB);*/
   background: #262626;
   margin-left: 0px;
 }
 
 table {
+	display: inline-block;
 	position: relative;
 	margin: auto;
 	border: 10px solid black;
@@ -27,14 +27,58 @@ h1 {
 td {
   font-family: 'Helvetica';
   background-color: #034F84;
-	width:30px;
-	height: 30px;
+	width:40px;
+	height: 40px;
   color: white;
 
   text-align: center;
   border: 1px solid black;
 }
 
-form {
+#home {
+  position: relative;
+  bottom: 2px;
+  float: left;
+  border-radius: 5px;
+  width: 100px;
+  height: 40px;
+	font-size: 14px;
+	padding: 1px;
+  font-family: 'Vollkorn', sans-serif;
+  color: white;
+  background-color: #73726F;
+}
 
+#home:hover {
+  transition: 250ms all;
+  background-color: #FFC433;
+  color: white;
+}
+
+legend {
+  color: white;
+  font-size: 20px;
+}
+
+#coordinates {
+  height: 25px;
+  width: 150px;
+  font-size: 18px;
+  border-radius: 5px;
+}
+
+#fire {
+  border-radius: 5px;
+  width: 100px;
+  height: 40px;
+  font-size: 18px;
+  font-family: 'Vollkorn', sans-serif;
+  color: white;
+  background-color: #73726F;
+}
+
+#fire:hover {
+  transition: 250ms all;
+  background-color: #B93A32;
+  color: white;
 }

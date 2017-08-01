@@ -4,7 +4,7 @@
 
 body {
   background: #262626;
-  margin-left: 0px;
+  margin-left: 1px;
 }
 
 h1 {
@@ -13,6 +13,7 @@ h1 {
   color: #F2F2F2;
   text-decoration: underline;
   clear: left;
+  margin-bottom: 15px;
 }
 
 h2 {
@@ -53,7 +54,6 @@ fieldset {
   position: fixed;
   background: rgba(158, 158, 158, 0.75);
   width:1388px;
-  margin: 1px;
 }
 
 

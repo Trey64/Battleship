@@ -22,11 +22,12 @@ h1 {
   color: #F2F2F2;
   text-decoration: underline;
   clear: left;
+	margin-bottom: 15px;
 }
 
 td {
   font-family: 'Helvetica';
-  background-color: #034F84;
+  background-color: #0468af;
 	width: 40px;
 	height: 40px;
   color: white;
@@ -63,6 +64,7 @@ legend {
   width: 150px;
   font-size: 18px;
   border-radius: 5px;
+	width: 100px;
 }
 
 #fire {

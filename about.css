@@ -19,10 +19,16 @@ h4 {
 }
 
 p{
-  display: inline-block;
-  /*clear: right;*/
-  width: 30px;
-  position: relative;
+  display: flex;
+  clear: none;
+  float:left;
+  width: 800px;
+}
+
+.columnOne {
+    display: inline-block;
+    clear: both;
+    width: 10px;
 }
 
 .header {

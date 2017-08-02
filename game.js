@@ -1,5 +1,11 @@
 'use strict';
 
+// Getting the data from localStorage
+var gameInfo = JSON.parse(localStorage.gameInfo);
+var difficulty = gameInfo[1];   // the difficulty value is in index 1 of the array
+
+difficulty = 'easy';    // [!!!!!!!] setting it to easy value for now -- later will use whatever the user chose
+
 var ships = [2, 3, 3, 4, 5]; // array of ship sizes each board will contain
 var alphaValues = ['a', 0, 'b', 10, 'c', 20, 'd', 30, 'e', 40, 'f', 50, 'g', 60, 'h', 70, 'i', 80, 'j', 90];
 var userInput = document.getElementById('user_input');
@@ -192,7 +198,7 @@ function handleUserSubmit(event) {
     swoosh.play();
     (new Audio()).canPlayType('audio/ogg; codecs=vorbis')
     swoosh.currentTime = 0
-  
+
 
 
 

@@ -26,7 +26,7 @@ function Battleship(ships) {
   this.shipSquaresKey = [];    // will contain the order of how ships are arranged in shipSquares
 
   this.groupedShipSquares = [];    // will contain an array of arrays, each representing a ship
-                                  // the order will be determined by shipSquaresKey and goes horizontal -> vertical
+  // the order will be determined by shipSquaresKey and goes horizontal -> vertical
   this.ships = ships;
 }
 
@@ -261,15 +261,38 @@ function handleUserSubmit(event) {
       verticalAlign: 'middle',
     });
   }
-  // var swoosh = new Audio();
-  // swoosh.src = 'Swoosh 1-SoundBible.com-231145780.mp3';
-  // swoosh.controls = true;
-  // swoosh.loop = false;
-  // swoosh.autoplay = false;
-  // window.addEventListener("load", initMp3Player, false);
-  //
 
-  computerGuessEasy();
+} else {       // this will be a miss
+
+  tdEl.style.backgroundColor = 'white';
+  tdEl.className = 'magictime vanishIn';
+
+
+  tdEl.className = 'magictime vanishIn';
+  topBoard.misses.push(guessedCoordinateAdjusted);
+
+  var swoosh = new Audio('Swoosh 1-SoundBible.com-231145780.wav');
+  swoosh.play();
+  (new Audio()).canPlayType('audio/ogg; codecs=vorbis')
+  swoosh.currentTime = 0
+
+  // Prints text to canvas
+  canvasClear();
+  CanvasTextWrapper(myCanvas, 'Miss!', {
+    font: "bold 22px Chonburi, sans-serif",
+    textAlign: "center",
+    verticalAlign: "middle",
+  });
+}
+// var swoosh = new Audio();
+// swoosh.src = 'Swoosh 1-SoundBible.com-231145780.mp3';
+// swoosh.controls = true;
+// swoosh.loop = false;
+// swoosh.autoplay = false;
+// window.addEventListener("load", initMp3Player, false);
+//
+
+computerGuessEasy();
 }
 
 // logic for how the computer guesses on its turn for easy mode

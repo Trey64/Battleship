@@ -50,6 +50,17 @@ form {
 }
 
 
+/*#about:active {
+  box-shadow: 0 2px 0;
+  transform: translateY(2px);
+}*/
+
+legend {
+  color: white;
+  font-size: 20px;
+}
+
+
 fieldset {
   position: fixed;
   background: rgba(158, 158, 158, 0.75);

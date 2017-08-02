@@ -266,10 +266,11 @@ function computerGuessEasy() {
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
 ctx.font = "15px Chonburi";
-ctx.fillStyle = 'green';
+// ctx.fillStyle = white;
+ctx.fillStyle = '#C90000';
 
 function canvasClear() {
-  ctx.clearRect(0, 0, 200, 80);
+  ctx.clearRect(0, 0, 200, 100);
 }
 
 

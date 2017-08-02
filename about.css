@@ -84,21 +84,21 @@ p{
   }
 
   .columnOne {
-    display: inline;
+    display: inline-block;
   }
 
-.tom {
+.tom_column {
     height: 250px;
     margin-top: 15px;
     margin-left: 25px;
     margin-right: 55px;
 }
 
-.gabe {
+.gabe_column {
   height: 250px;
   margin-right: 55px;
 }
 
-.joseph {
+.joseph_column {
   height: 250px;
 }

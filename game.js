@@ -7,7 +7,7 @@
 // difficulty = 'easy';    // [!!!!!!!] setting it to easy value for now -- later will use whatever the user chose
 
 
-var randomMode = true;  // for how the computer guesses with medium and hard difficulties
+var randomMode = true; // for how the computer guesses with medium and hard difficulties
 
 var ships = [2, 3, 3, 4, 5]; // array of ship sizes each board will contain
 var alphaValues = ['a', 0, 'b', 10, 'c', 20, 'd', 30, 'e', 40, 'f', 50, 'g', 60, 'h', 70, 'i', 80, 'j', 90];
@@ -23,17 +23,17 @@ function Battleship(ships) {
   this.horizontalShips = [];
   this.verticalShips = [];
 
-  this.shipSquaresKey = [];    // will contain the order of how ships are arranged in shipSquares
+  this.shipSquaresKey = []; // will contain the order of how ships are arranged in shipSquares
 
-  this.groupedShipSquares = [];    // will contain an array of arrays, each representing a ship
-                                  // the order will be determined by shipSquaresKey and goes horizontal -> vertical
+  this.groupedShipSquares = []; // will contain an array of arrays, each representing a ship
+  // the order will be determined by shipSquaresKey and goes horizontal -> vertical
   this.ships = ships;
 }
 
 // method to generate an empty game board with numbers from 0 to 99
 //   each number represents a square on a classic 10 x 10 board
 Battleship.prototype.populateOpenSquares = function() {
-  this.openSquares = [];   // emptys the array for when we want to "repopulate" a semi-full array
+  this.openSquares = []; // emptys the array for when we want to "repopulate" a semi-full array
   for (var i = 0; i <= 99; i++) {
     this.openSquares.push(i);
   }
@@ -112,7 +112,7 @@ Battleship.prototype.generateVerticalShipLocations = function() {
     // since it is from the openSpaces array, the starting square will always be valid
     var startingVerticalSquare = this.openSquares[randomNumber(0, this.openSquares.length - 1)];
 
-    while(startingVerticalSquare >= 80) {
+    while (startingVerticalSquare >= 80) {
       startingVerticalSquare = this.openSquares[randomNumber(0, this.openSquares.length - 1)];
     }
 
@@ -161,7 +161,7 @@ Battleship.prototype.renderShipPositions = function() {
 // helper function to check if any of this vertical ship coordinates are already taken
 //   credit to a user from stack overflow
 var checkIfContains = function(haystack, needle) {
-  return needle.some(function (v) {
+  return needle.some(function(v) {
     return haystack.indexOf(v) >= 0;
   });
 };
@@ -220,13 +220,13 @@ function handleUserSubmit(event) {
     tdEl.style.backgroundImage = 'url(\'images/battleshipIcon.png\')';
     topBoard.hits.push(guessedCoordinateAdjusted);
 
-    if (topBoard.hits.length === 17) {    // the hit sunk the last ship
+    if (topBoard.hits.length === 17) { // the hit sunk the last ship
 
       alert('You sunk the CPU\'s fleet! You win!');
       userInput.removeEventListener('submit', handleUserSubmit);
       return;
 
-    } else {  // still a valid hit, but it didn't sink the last ship
+    } else { // still a valid hit, but it didn't sink the last ship
 
       // alert('Hit!');
 
@@ -239,7 +239,7 @@ function handleUserSubmit(event) {
       });
     }
 
-  } else {       // this will be a miss
+  } else { // this will be a miss
 
     tdEl.style.backgroundColor = 'white';
     tdEl.className = 'magictime vanishIn';
@@ -300,18 +300,18 @@ function computerGuessEasy() {
   // Prints text to canvas after a slight delay
   setTimeout(function() {
 
-  canvasClear();
+    canvasClear();
 
-  CanvasTextWrapper(myCanvas, 'The enemy has attacked ' + randomGuessString.toUpperCase() + '!', {
-    font: "bold 20px Chonburi, sans-serif",
-    textAlign: "center",
-    verticalAlign: "middle",
-  });
-}, 1700);
+    CanvasTextWrapper(myCanvas, 'The enemy has attacked ' + randomGuessString.toUpperCase() + '!', {
+      font: "bold 20px Chonburi, sans-serif",
+      textAlign: "center",
+      verticalAlign: "middle",
+    });
+  }, 1700);
 
   var tdEl = document.getElementById(bottomSquareIndex);
 
-  if (bottomBoard.shipSquares.includes(randomGuess)) {  // computer got a hit
+  if (bottomBoard.shipSquares.includes(randomGuess)) { // computer got a hit
     setTimeout(function() {
       tdEl.style.backgroundColor = '#C90000';
       tdEl.className = 'magictime vanishIn';
@@ -355,7 +355,7 @@ function computerGuessMedium() {
 
     var randomGuessString;
 
-    if (randomGuess < 10) {   // row value is A
+    if (randomGuess < 10) { // row value is A
       randomGuessString = randomGuessRowLetter + randomGuess.toString();
     } else {
       randomGuessString = randomGuessRowLetter + (randomGuess % 10).toString();
@@ -367,7 +367,7 @@ function computerGuessMedium() {
 
     var tdEl = document.getElementById(bottomSquareIndex);
 
-    if (bottomBoard.shipSquares.includes(randomGuess)) {   // a hit
+    if (bottomBoard.shipSquares.includes(randomGuess)) { // a hit
 
       tdEl.style.backgroundColor = 'red';
       bottomBoard.hits.push(randomGuess);
@@ -388,7 +388,7 @@ function computerGuessMedium() {
 
       for (var i = 0; i < bottomBoard.shipSquaresKey.length; i++) {
         if (!checkIfStillFloating(bottomBoard.shipSquares, bottomBoard.groupedShipSquares[i])) { // ship @ i is sunk
-          bottomBoard.shipSquaresKey.splice(i, 1);   // removes the ship e.g. [2, 3, 4] --> [2, 4]
+          bottomBoard.shipSquaresKey.splice(i, 1); // removes the ship e.g. [2, 3, 4] --> [2, 4]
           sinkingShot = true;
         }
       }
@@ -423,13 +423,13 @@ function computerGuessMedium() {
 
       }
 
-    } else {   // bottomBoard.shipSquares does NOT include randomGuess, i.e. miss
+    } else { // bottomBoard.shipSquares does NOT include randomGuess, i.e. miss
       tdEl.style.backgroundColor = 'white';
       bottomBoard.misses.push(randomGuess);
     }
 
     // if we go into the else below, then the lockedOnStack should not be empty
-  } else {  // random mode is off, i.e trying to sink the ship it has found
+  } else { // random mode is off, i.e trying to sink the ship it has found
 
     randomGuess = lockedOnStack.pop();
   }
@@ -471,8 +471,8 @@ bottomBoard.getShipSquaresKey();
 bottomBoard.generateHorizontalShipLocations();
 bottomBoard.generateVerticalShipLocations();
 bottomBoard.groupShipSquares();
-bottomBoard.renderShipPositions();    // we only render bottom, i.e. the user's ships
-bottomBoard.populateOpenSquares();  // repopulates the openSquares for use when tracking which squares CPU has already guessed
+bottomBoard.renderShipPositions(); // we only render bottom, i.e. the user's ships
+bottomBoard.populateOpenSquares(); // repopulates the openSquares for use when tracking which squares CPU has already guessed
 
 console.log(topBoard.horizontalShips);
 console.log(topBoard.verticalShips);

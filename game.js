@@ -25,7 +25,8 @@ function Battleship(ships) {
 
   this.shipSquaresKey = []; // will contain the order of how ships are arranged in shipSquares
 
-  this.groupedShipSquares = []; // will contain an array of arrays, each representing a ship
+  this.groupedShipSquares = [];    // will contain an array of arrays, each representing a ship
+
   // the order will be determined by shipSquaresKey and goes horizontal -> vertical
   this.ships = ships;
 }
@@ -204,9 +205,9 @@ function handleUserSubmit(event) {
     // Prints text to canvas and resizes it
     canvasClear();
     CanvasTextWrapper(myCanvas, 'You already blew that up! Try again.', {
-      font: "bold 20px Chonburi, sans-serif",
-      textAlign: "center",
-      verticalAlign: "middle",
+      font: 'bold 20px Chonburi, sans-serif',
+      textAlign: 'center',
+      verticalAlign: 'middle',
     });
     return;
   }
@@ -233,9 +234,9 @@ function handleUserSubmit(event) {
       // Prints text to canvas
       canvasClear();
       CanvasTextWrapper(myCanvas, 'Hit!', {
-        font: "bold 22px Chonburi, sans-serif",
-        textAlign: "center",
-        verticalAlign: "middle",
+        font: 'bold 22px Chonburi, sans-serif',
+        textAlign: 'center',
+        verticalAlign: 'middle',
       });
     }
 
@@ -250,26 +251,49 @@ function handleUserSubmit(event) {
 
     var swoosh = new Audio('Swoosh 1-SoundBible.com-231145780.wav');
     swoosh.play();
-    (new Audio()).canPlayType('audio/ogg; codecs=vorbis')
-    swoosh.currentTime = 0
+    (new Audio()).canPlayType('audio/ogg; codecs=vorbis');
+    swoosh.currentTime = 0;
 
     // Prints text to canvas
     canvasClear();
     CanvasTextWrapper(myCanvas, 'Miss!', {
-      font: "bold 22px Chonburi, sans-serif",
-      textAlign: "center",
-      verticalAlign: "middle",
+      font: 'bold 22px Chonburi, sans-serif',
+      textAlign: 'center',
+      verticalAlign: 'middle',
     });
   }
-  // var swoosh = new Audio();
-  // swoosh.src = 'Swoosh 1-SoundBible.com-231145780.mp3';
-  // swoosh.controls = true;
-  // swoosh.loop = false;
-  // swoosh.autoplay = false;
-  // window.addEventListener("load", initMp3Player, false);
-  //
 
-  computerGuessEasy();
+} else {       // this will be a miss
+
+  tdEl.style.backgroundColor = 'white';
+  tdEl.className = 'magictime vanishIn';
+
+
+  tdEl.className = 'magictime vanishIn';
+  topBoard.misses.push(guessedCoordinateAdjusted);
+
+  var swoosh = new Audio('Swoosh 1-SoundBible.com-231145780.wav');
+  swoosh.play();
+  (new Audio()).canPlayType('audio/ogg; codecs=vorbis')
+  swoosh.currentTime = 0
+
+  // Prints text to canvas
+  canvasClear();
+  CanvasTextWrapper(myCanvas, 'Miss!', {
+    font: "bold 22px Chonburi, sans-serif",
+    textAlign: "center",
+    verticalAlign: "middle",
+  });
+}
+// var swoosh = new Audio();
+// swoosh.src = 'Swoosh 1-SoundBible.com-231145780.mp3';
+// swoosh.controls = true;
+// swoosh.loop = false;
+// swoosh.autoplay = false;
+// window.addEventListener("load", initMp3Player, false);
+//
+
+computerGuessEasy();
 }
 
 // logic for how the computer guesses on its turn for easy mode
@@ -303,9 +327,9 @@ function computerGuessEasy() {
     canvasClear();
 
     CanvasTextWrapper(myCanvas, 'The enemy has attacked ' + randomGuessString.toUpperCase() + '!', {
-      font: "bold 20px Chonburi, sans-serif",
-      textAlign: "center",
-      verticalAlign: "middle",
+      font: 'bold 20px Chonburi, sans-serif',
+      textAlign: 'center',
+      verticalAlign: 'middle',
     });
   }, 1700);
 
@@ -441,8 +465,8 @@ function computerGuessMedium() {
 ////   Canvas Stuff   //////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-var canvas = document.getElementById("myCanvas");
-var ctx = canvas.getContext("2d");
+var canvas = document.getElementById('myCanvas');
+var ctx = canvas.getContext('2d');
 // ctx.fillStyle = white;
 ctx.fillStyle = '#C90000';
 

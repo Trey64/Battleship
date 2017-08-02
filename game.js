@@ -1,6 +1,14 @@
 'use strict';
 
+// Getting the data from localStorage
+var gameInfo = JSON.parse(localStorage.gameInfo);
+var difficulty = gameInfo[1];   // the difficulty value is in index 1 of the array
+
+difficulty = 'easy';    // [!!!!!!!] setting it to easy value for now -- later will use whatever the user chose
+
+
 var randomMode = true;  // for how the computer guesses with medium and hard difficulties
+
 var ships = [2, 3, 3, 4, 5]; // array of ship sizes each board will contain
 var alphaValues = ['a', 0, 'b', 10, 'c', 20, 'd', 30, 'e', 40, 'f', 50, 'g', 60, 'h', 70, 'i', 80, 'j', 90];
 var lockedOnStack = [];
@@ -193,7 +201,7 @@ function handleUserSubmit(event) {
 
   if (topBoard.misses.includes(guessedCoordinateAdjusted) || topBoard.hits.includes(guessedCoordinateAdjusted)) {
 
-// Prints text to canvas and resizes it
+    // Prints text to canvas and resizes it
     canvasClear();
     CanvasTextWrapper(myCanvas, 'You already blew that up! Try again.', {
       textAlign: 'center',
@@ -240,7 +248,16 @@ function handleUserSubmit(event) {
     tdEl.style.backgroundColor = 'white';
     tdEl.className = 'magictime vanishIn';
     topBoard.misses.push(guessedCoordinateAdjusted);
-// Prints text to canvas
+
+    var swoosh = new Audio('Swoosh 1-SoundBible.com-231145780.wav');
+    swoosh.play();
+    (new Audio()).canPlayType('audio/ogg; codecs=vorbis')
+    swoosh.currentTime = 0
+
+
+
+
+    // Prints text to canvas
     canvasClear();
     CanvasTextWrapper(myCanvas, 'Miss!', {
       textAlign: 'center',
@@ -250,6 +267,13 @@ function handleUserSubmit(event) {
       paddingY: 30,
     });
   }
+  // var swoosh = new Audio();
+  // swoosh.src = 'Swoosh 1-SoundBible.com-231145780.mp3';
+  // swoosh.controls = true;
+  // swoosh.loop = false;
+  // swoosh.autoplay = false;
+  // window.addEventListener("load", initMp3Player, false);
+  //
 
   computerGuessEasy();
 }
@@ -271,7 +295,7 @@ function computerGuessEasy() {
 
   var randomGuessString;
 
-  if (randomGuess < 10) {   // row value is A
+  if (randomGuess < 10) { // row value is A
     randomGuessString = randomGuessRowLetter + randomGuess.toString();
   } else {
     randomGuessString = randomGuessRowLetter + (randomGuess % 10).toString();

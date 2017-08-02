@@ -49,7 +49,7 @@ p{
   font-size: 18px;
   font-family: 'Vollkorn', sans-serif;
   color: white;
-  background-color: #223A5E;
+  background-color: #73726F;
   margin-left: -3px;
   clear: none;
 }
@@ -80,6 +80,10 @@ p{
   }
 
   .pics {
+    display: inline-block;
+  }
+
+  .columnOne {
     display: inline-block;
   }
 

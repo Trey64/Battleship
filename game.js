@@ -189,32 +189,63 @@ function handleUserSubmit(event) {
   event.target.coordinates.value = null; // clears the input field
 
   if (topBoard.misses.includes(guessedCoordinateAdjusted) || topBoard.hits.includes(guessedCoordinateAdjusted)) {
-    alert('You\'ve already fired there! Choose a different location.');
+
+// Prints text to canvas and resizes it
+    canvasClear();
+    CanvasTextWrapper(myCanvas, 'You already blew that up! Try again.', {
+      textAlign: 'center',
+      verticalAlign: 'middle',
+      sizeToFill: true,
+      paddingX: 10,
+      paddingY: 30,
+    });
     return;
   }
 
   var coordinateString = guessedCoordinateAdjusted.toString();
   var tdEl = document.getElementById(coordinateString);
 
-  if (topBoard.shipSquares.includes(guessedCoordinateAdjusted)) {
+  if (topBoard.shipSquares.includes(guessedCoordinateAdjusted)) { // this means you got a hit
     tdEl.style.backgroundColor = '#C90000';
     tdEl.className = 'magictime vanishIn';
     tdEl.style.backgroundImage = 'url(\'images/battleshipIcon.png\')';
     topBoard.hits.push(guessedCoordinateAdjusted);
+
 
     if (topBoard.hits.length === 17) {
       alert('You sunk the CPU\'s fleet! You win!');
       userInput.removeEventListener('submit', handleUserSubmit);
       return;
     } else {
-      alert('Hit!');
+
+      // alert('Hit!');
+
+
+
+      // Prints text to canvas
+      canvasClear();
+      CanvasTextWrapper(myCanvas, 'Hit!', {
+        textAlign: 'center',
+        verticalAlign: 'middle',
+        sizeToFill: true,
+        paddingX: 10,
+        paddingY: 30,
+      });
     }
 
   } else {
     tdEl.style.backgroundColor = 'white';
     tdEl.className = 'magictime vanishIn';
     topBoard.misses.push(guessedCoordinateAdjusted);
-    alert('Miss!');
+// Prints text to canvas
+    canvasClear();
+    CanvasTextWrapper(myCanvas, 'Miss!', {
+      textAlign: 'center',
+      verticalAlign: 'middle',
+      sizeToFill: true,
+      paddingX: 10,
+      paddingY: 30,
+    });
   }
 
   computerGuessEasy();
@@ -245,25 +276,40 @@ function computerGuessEasy() {
 
   var bottomSquareIndex = 'b' + randomGuess.toString();
 
-  alert('The enemy is attacking! ' + randomGuessString.toUpperCase() + '!');
+  // Prints text to canvas after a slight delay
+  setTimeout(function() {
+    canvasClear();
+    CanvasTextWrapper(myCanvas, 'The enemy has attacked ' + randomGuessString.toUpperCase() + '!', {
+      textAlign: 'center',
+      verticalAlign: 'middle',
+      sizeToFill: true,
+      paddingX: 10,
+      paddingY: 30,
+    });
+  }, 1700);
 
   var tdEl = document.getElementById(bottomSquareIndex);
 
-  if (bottomBoard.shipSquares.includes(randomGuess)) {
-    tdEl.style.backgroundColor = '#C90000';
-    tdEl.className = 'magictime vanishIn';
-    tdEl.style.backgroundImage = 'url(\'images/battleshipIcon.png\')';
-    bottomBoard.hits.push(randomGuess);
+  if (bottomBoard.shipSquares.includes(randomGuess)) {  // computer got a hit
+    setTimeout(function() {
+      tdEl.style.backgroundColor = '#C90000';
+      tdEl.className = 'magictime vanishIn';
+      tdEl.style.backgroundImage = 'url(\'images/battleshipIcon.png\')';
+      bottomBoard.hits.push(randomGuess);
+    }, 1700);
+
 
     if (bottomBoard.hits.length === 17) {
       alert('CPU has sunk your fleet! You lose!');
       userInput.removeEventListener('submit', handleUserSubmit);
     }
 
-  } else {
-    tdEl.style.backgroundColor = 'white';
-    tdEl.className = 'magictime vanishIn';
-    bottomBoard.misses.push(randomGuess);
+  } else { // the computer misses
+    setTimeout(function() {
+      tdEl.style.backgroundColor = 'white';
+      tdEl.className = 'magictime vanishIn';
+      bottomBoard.misses.push(randomGuess);
+    }, 1700);
   }
 
 }
@@ -367,6 +413,25 @@ function computerGuessMedium() {
   }
 
 }
+
+
+////////////////////////////////////////////////////////////////////////////////
+////   Canvas Stuff   //////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+
+var canvas = document.getElementById('myCanvas');
+var ctx = canvas.getContext('2d');
+ctx.font = '15px Chonburi';
+// ctx.fillStyle = white;
+ctx.fillStyle = '#C90000';
+
+function canvasClear() {
+  ctx.clearRect(0, 0, 200, 100);
+}
+
+
+
 
 ////////////////////////////////////////////////////////////////////////////////
 ////   Function Calls & Object Instantiation   /////////////////////////////////

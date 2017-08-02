@@ -7,13 +7,29 @@ body {
   margin-left: 0px;
 }
 
+#outline {
+  /*outline: 1px dotted orange;*/
+  float:right;
+  margin-top: 4%;
+  margin-right: 2%;
+  border: 5px solid blue;
+  border-radius: 5px;
+}
+
 .textCanvas {
-  /*text-align: 150,120;*/
-  background-color: white;
+  position: relative;
+  top: 0px;
+  background-color: #262626;
+  /*background-color: white;*/
+}
+
+fieldset {
+  position: relative;
+  margin-bottom: 0px;
 }
 
 table {
-	display: inline;
+	display: inline-block;
 	position: relative;
 	margin: 10px;
 	/*border: 10px solid black;*/
@@ -28,6 +44,10 @@ h1 {
   text-decoration: underline;
   clear: left;
 	margin-bottom: 15px;
+}
+h2 {
+  font-family: 'Vollkorn', sans-serif;
+  color: white;
 }
 
 td {
@@ -66,7 +86,6 @@ legend {
 
 #coordinates {
   height: 25px;
-  width: 150px;
   font-size: 18px;
   border-radius: 5px;
 	width: 100px;

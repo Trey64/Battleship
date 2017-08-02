@@ -12,17 +12,19 @@
   <body>
     <button id="home" onclick="location.href='index.html';">Return to Home</button>
     <h1>BATTLESHIP</h1>
+    <div id='outline'>
     <form id="user_input">
-      <fieldset>
-        <legend>Enter Target Coordinates</legend>
+
+        <h2>Enter Target Coordinates</h2>
         <input id="coordinates" name="coordinates" type="text" required />
 
           <button id="fire">Fire!</button>
-      </fieldset>
+
     </form>
 
+    <canvas class="textCanvas" id="myCanvas" width="200" height="100"></canvas>
+  </div>
     <br />
-
     <table id="top">
       <tr id="topNumbers">
         <td> </td>
@@ -171,10 +173,6 @@
 
 
 
-      <canvas class="textCanvas" id="myCanvas" width="300" height="200"></canvas>
-      <!-- <canvas class="anvas" id="myCanvas2" width="200" height="100"></canvas> -->
-
-
     <table id="bottom">
       <tr id="bottomNumbers">
         <td> </td>
@@ -320,10 +318,6 @@
         <td id="b99"></td>
       </tr>
     </table>
-
-
-
-
 
     <script src="game.js"></script>
     <script src="canvas-text-wrapper.js"></script>

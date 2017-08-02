@@ -156,7 +156,7 @@ function handleUserSubmit(event) {
 
 // Prints text to canvas and resizes it
     canvasClear();
-    CanvasTextWrapper(myCanvas, 'You\'ve already fired there! Choose a different location.', {
+    CanvasTextWrapper(myCanvas, 'You already blew that up! Try again.', {
     textAlign: "center",
     verticalAlign: "middle",
     sizeToFill: true,
@@ -235,7 +235,7 @@ function computerGuessEasy() {
   paddingX: 10,
   paddingY: 30,
   });
-}, 1500);
+}, 1700);
 
   var tdEl = document.getElementById(bottomSquareIndex);
 
@@ -245,13 +245,13 @@ function computerGuessEasy() {
     tdEl.className = 'magictime vanishIn';
     tdEl.style.backgroundImage = "url('images/battleshipIcon.png')";
     bottomBoard.hits.push(randomGuess);
-  }, 1500);
+  }, 1700);
   } else {
     setTimeout(function() {
     tdEl.style.backgroundColor = 'white';
     tdEl.className = 'magictime vanishIn';
     bottomBoard.misses.push(randomGuess);
-  }, 1500);
+  }, 1700);
   }
 
 
@@ -265,10 +265,11 @@ function computerGuessEasy() {
 
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
-ctx.font = "15px Arial";
+ctx.font = "15px Chonburi";
+ctx.fillStyle = 'green';
 
 function canvasClear() {
-  ctx.clearRect(0, 0, 300, 200);
+  ctx.clearRect(0, 0, 200, 80);
 }
 
 

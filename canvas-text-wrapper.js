@@ -89,7 +89,7 @@
       } while (text.indexOf('\n\n') > -1);
       return text;
     }
-    
+
     function setFont(fontSize) {
       if (!fontParts) fontParts = (!opts.sizeToFill) ? opts.font.split(/\b\d+px\b/i) : context.font.split(/\b\d+px\b/i);
       context.font = fontParts[0] + fontSize + 'px' + fontParts[1];
@@ -270,7 +270,7 @@
         textPos.y = parseInt(textPos.y) + lineHeight;
         if (lines[i] !== skipLineOnMatch) {
           context.fillText(lines[i], textPos.x, textPos.y);
-        
+
           if (opts.strokeText) {
             context.strokeText(lines[i], textPos.x, textPos.y);
           }

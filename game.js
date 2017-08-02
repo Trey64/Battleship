@@ -163,11 +163,9 @@ function handleUserSubmit(event) {
     // Prints text to canvas and resizes it
     canvasClear();
     CanvasTextWrapper(myCanvas, 'You already blew that up! Try again.', {
-      textAlign: 'center',
-      verticalAlign: 'middle',
-      sizeToFill: true,
-      paddingX: 10,
-      paddingY: 30,
+      font: "bold 20px Chonburi, sans-serif",
+      textAlign: "center",
+      verticalAlign: "middle",
     });
     return;
   }
@@ -183,11 +181,9 @@ function handleUserSubmit(event) {
     // Prints text to canvas
     canvasClear();
     CanvasTextWrapper(myCanvas, 'Hit!', {
-      textAlign: 'center',
-      verticalAlign: 'middle',
-      sizeToFill: true,
-      paddingX: 10,
-      paddingY: 30,
+      font: "bold 22px Chonburi, sans-serif",
+      textAlign: "center",
+      verticalAlign: "middle",
     });
   } else {
     tdEl.style.backgroundColor = 'white';
@@ -205,11 +201,9 @@ function handleUserSubmit(event) {
     // Prints text to canvas
     canvasClear();
     CanvasTextWrapper(myCanvas, 'Miss!', {
-      textAlign: 'center',
-      verticalAlign: 'middle',
-      sizeToFill: true,
-      paddingX: 10,
-      paddingY: 30,
+      font: "bold 22px Chonburi, sans-serif",
+      textAlign: "center",
+      verticalAlign: "middle",
     });
   }
   // var swoosh = new Audio();
@@ -249,15 +243,14 @@ function computerGuessEasy() {
   // Prints text to canvas after a slight delay
   setTimeout(function() {
 
-    canvasClear();
-    CanvasTextWrapper(myCanvas, 'The enemy has attacked ' + randomGuessString.toUpperCase() + '!', {
-      textAlign: 'center',
-      verticalAlign: "middle",
-      sizeToFill: true,
-      paddingX: 10,
-      paddingY: 30,
-    });
-  }, 1700);
+  canvasClear();
+
+  CanvasTextWrapper(myCanvas, 'The enemy has attacked ' + randomGuessString.toUpperCase() + '!', {
+    font: "bold 20px Chonburi, sans-serif",
+    textAlign: "center",
+    verticalAlign: "middle",
+  });
+}, 1700);
 
   var tdEl = document.getElementById(bottomSquareIndex);
 
@@ -284,18 +277,14 @@ function computerGuessEasy() {
 ////   Canvas Stuff   //////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
-ctx.font = "15px Chonburi";
 // ctx.fillStyle = white;
 ctx.fillStyle = '#C90000';
 
 function canvasClear() {
   ctx.clearRect(0, 0, 200, 100);
 }
-
-
 
 
 ////////////////////////////////////////////////////////////////////////////////

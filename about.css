@@ -80,11 +80,11 @@ p{
   }
 
   .pics {
-    display: inline-block;
+    /**/
   }
 
   .columnOne {
-    display: inline-block;
+    display: inline;
   }
 
 .tom {

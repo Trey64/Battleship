@@ -204,9 +204,9 @@ function handleUserSubmit(event) {
     // Prints text to canvas and resizes it
     canvasClear();
     CanvasTextWrapper(myCanvas, 'You already blew that up! Try again.', {
-      font: "bold 20px Chonburi, sans-serif",
-      textAlign: "center",
-      verticalAlign: "middle",
+      font: 'bold 20px Chonburi, sans-serif',
+      textAlign: 'center',
+      verticalAlign: 'middle',
     });
     return;
   }
@@ -233,9 +233,9 @@ function handleUserSubmit(event) {
       // Prints text to canvas
       canvasClear();
       CanvasTextWrapper(myCanvas, 'Hit!', {
-        font: "bold 22px Chonburi, sans-serif",
-        textAlign: "center",
-        verticalAlign: "middle",
+        font: 'bold 22px Chonburi, sans-serif',
+        textAlign: 'center',
+        verticalAlign: 'middle',
       });
     }
 
@@ -250,15 +250,15 @@ function handleUserSubmit(event) {
 
     var swoosh = new Audio('Swoosh 1-SoundBible.com-231145780.wav');
     swoosh.play();
-    (new Audio()).canPlayType('audio/ogg; codecs=vorbis')
-    swoosh.currentTime = 0
+    (new Audio()).canPlayType('audio/ogg; codecs=vorbis');
+    swoosh.currentTime = 0;
 
     // Prints text to canvas
     canvasClear();
     CanvasTextWrapper(myCanvas, 'Miss!', {
-      font: "bold 22px Chonburi, sans-serif",
-      textAlign: "center",
-      verticalAlign: "middle",
+      font: 'bold 22px Chonburi, sans-serif',
+      textAlign: 'center',
+      verticalAlign: 'middle',
     });
   }
   // var swoosh = new Audio();
@@ -300,14 +300,14 @@ function computerGuessEasy() {
   // Prints text to canvas after a slight delay
   setTimeout(function() {
 
-  canvasClear();
+    canvasClear();
 
-  CanvasTextWrapper(myCanvas, 'The enemy has attacked ' + randomGuessString.toUpperCase() + '!', {
-    font: "bold 20px Chonburi, sans-serif",
-    textAlign: "center",
-    verticalAlign: "middle",
-  });
-}, 1700);
+    CanvasTextWrapper(myCanvas, 'The enemy has attacked ' + randomGuessString.toUpperCase() + '!', {
+      font: 'bold 20px Chonburi, sans-serif',
+      textAlign: 'center',
+      verticalAlign: 'middle',
+    });
+  }, 1700);
 
   var tdEl = document.getElementById(bottomSquareIndex);
 
@@ -441,8 +441,8 @@ function computerGuessMedium() {
 ////   Canvas Stuff   //////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
-var canvas = document.getElementById("myCanvas");
-var ctx = canvas.getContext("2d");
+var canvas = document.getElementById('myCanvas');
+var ctx = canvas.getContext('2d');
 // ctx.fillStyle = white;
 ctx.fillStyle = '#C90000';
 

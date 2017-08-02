@@ -1,10 +1,10 @@
 'use strict';
 
 // Getting the data from localStorage
-var gameInfo = JSON.parse(localStorage.gameInfo);
-var difficulty = gameInfo[1];   // the difficulty value is in index 1 of the array
+// var gameInfo = JSON.parse(localStorage.gameInfo);
+// var difficulty = gameInfo[1];   // the difficulty value is in index 1 of the array
 
-difficulty = 'easy';    // [!!!!!!!] setting it to easy value for now -- later will use whatever the user chose
+// difficulty = 'easy';    // [!!!!!!!] setting it to easy value for now -- later will use whatever the user chose
 
 
 var randomMode = true;  // for how the computer guesses with medium and hard difficulties

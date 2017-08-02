@@ -1,0 +1,100 @@
+body {
+  background-image: url("images/stars.jpg");
+}
+
+h1 {
+  font-family: 'Chonburi', cursive;
+  font-size: 80px;
+  color: #F2F2F2;
+  text-decoration: underline;
+  clear: left;
+  margin-top: 10px;
+}
+
+h4 {
+  width: 30px;
+  height: 30px;
+  margin: 0;
+  margin-right: 0;
+}
+
+p{
+
+}
+
+.columnOne {
+    display: inline-block;
+    clear: both;
+    width: 10px;
+}
+
+.header {
+  background-color: #262626;
+  text-align: center;
+  height: 220px;
+  margin-bottom: 10px;
+}
+
+.home {
+  float: left;
+}
+
+#home {
+  position: relative;
+  bottom: 2px;
+  float: left;
+  border-radius: 5px;
+  width: 100px;
+  height: 40px;
+  font-size: 18px;
+  font-family: 'Vollkorn', sans-serif;
+  color: white;
+  background-color: #73726F;
+  margin-left: -3px;
+  clear: none;
+}
+
+#home:hover {
+  transition: 250ms all;
+  background-color: #FFC433;
+  color: white;
+}
+
+.us {
+  background-color: white;
+  height: 800px;
+  width: 1000px;
+  position: relative;
+  margin: auto;
+  border-radius: 5px;
+  padding-top: 5px;
+}
+
+.pics ul {
+  /*display: inline-block;*/
+  max-width: 50%;
+    max-height: 50%;
+    height: auto;
+    width: auto;
+    display: inline-block;
+  }
+
+  .pics {
+    display: inline-block;
+  }
+
+.tom {
+    height: 250px;
+    margin-top: 15px;
+    margin-left: 25px;
+    margin-right: 55px;
+}
+
+.gabe {
+  height: 250px;
+  margin-right: 55px;
+}
+
+.joseph {
+  height: 250px;
+}

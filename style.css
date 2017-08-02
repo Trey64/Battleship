@@ -10,9 +10,10 @@ body {
 #outline {
   /*outline: 1px dotted orange;*/
   float:right;
+  top: 10px;
   margin-top: 8%;
-  margin-right: 2%;
-  margin-left: -5%;
+  margin-right: 1%;
+  margin-left: -11%;
   padding: 2px;
   border: 5px solid #838487;
   border-radius: 5px;
@@ -25,10 +26,9 @@ body {
   /*background-color: white;*/
 }
 
-/*fieldset {
-  position: relative;
-  margin-bottom: 0px;
-}*/
+.gameboards {
+  /*display: inline-block;*/
+}
 
 table {
 	display: inline-block;

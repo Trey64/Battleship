@@ -14,7 +14,7 @@ function Battleship(ships) {
   this.misses = [];
   this.horizontalShips = [];
   this.verticalShips = [];
-  
+
   this.shipSquaresKey = [];    // will contain the order of how ships are arranged in shipSquares
 
   this.groupedShipSquares = [];    // will contain an array of arrays, each representing a ship

@@ -22,6 +22,9 @@ function eventHandler(event) {
   var userName = event.target.username.value;
   var difficulty = event.target.dropMenu.value;
 
+  event.target.username.value = null;
+  event.target.dropMenu.value = null;
+
   // pushing the values
   gameInfo.push(userName);
   gameInfo.push(difficulty);
@@ -32,11 +35,5 @@ function eventHandler(event) {
     localStorage.gameInfo = JSON.stringify(gameInfo);
     location.href = 'game.html';
   }
-  event.target.username.value = null;
-  event.target.dropMenu.value = null;
-  gameInfo.push(userName);
-  gameInfo.push(difficulty);
-
-
 
 }

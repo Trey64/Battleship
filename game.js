@@ -325,8 +325,34 @@ function computerGuessMedium() {
         }
       }
 
+      // the shot was a hit, but it didn't sink the ship, so now we try to finish the ship
       if (!shipSunkByThisShot) {
         randomMode = false;
+
+        // var lockedOnStackTemp = [];
+        var upSquare = randomGuess - 10;
+        var downSquare = randomGuess + 10;
+        var leftSquare = randomGuess - 1;
+        var rightSquare = randomGuess + 1;
+
+        if (upSquare >= 0 && bottomBoard.openSquares.includes(upSquare)) {
+          lockedOnStack.push(upSquare);
+        }
+
+        if (downSquare <= 99 && bottomBoard.openSquares.includes(downSquare)) {
+          lockedOnStack.push(downSquare);
+        }
+
+        // checks if the "left" is even on the same row
+        if ((Math.floor(leftSquare / 10)) === (Math.floor(randomGuess / 10)) && bottomBoard.openSquares.includes(leftSquare)) {
+          lockedOnStack.push(leftSquare);
+        }
+
+        // checks if the "right" is even on the same row
+        if ((Math.floor(rightSquare / 10)) === (Math.floor(randomGuess / 10)) && bottomBoard.openSquares.includes(rightSquare)) {
+          lockedOnStack.push(rightSquare);
+        }
+
       }
 
     } else {   // bottomBoard.shipSquares does NOT include randomGuess, i.e. miss
@@ -334,8 +360,10 @@ function computerGuessMedium() {
       bottomBoard.misses.push(randomGuess);
     }
 
+    // if we go into the else below, then the lockedOnStack should not be empty
   } else {  // random mode is off, i.e trying to sink the ship it has found
 
+    randomGuess = lockedOnStack.pop();
   }
 
 }

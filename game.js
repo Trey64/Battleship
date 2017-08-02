@@ -1,5 +1,11 @@
 'use strict';
 
+// Getting the data from localStorage
+var gameInfo = JSON.parse(localStorage.gameInfo);
+var difficulty = gameInfo[1];   // the difficulty value is in index 1 of the array
+
+difficulty = 'easy';    // [!!!!!!!] setting it to easy value for now -- later will use whatever the user chose
+
 var ships = [2, 3, 3, 4, 5]; // array of ship sizes each board will contain
 var alphaValues = ['a', 0, 'b', 10, 'c', 20, 'd', 30, 'e', 40, 'f', 50, 'g', 60, 'h', 70, 'i', 80, 'j', 90];
 var userInput = document.getElementById('user_input');
@@ -77,7 +83,7 @@ Battleship.prototype.generateVerticalShipLocations = function() {
     // since it is from the openSpaces array, the starting square will always be valid
     var startingVerticalSquare = this.openSquares[randomNumber(0, this.openSquares.length)];
 
-    while(startingVerticalSquare >= 80) {
+    while (startingVerticalSquare >= 80) {
       startingVerticalSquare = this.openSquares[randomNumber(0, this.openSquares.length)];
     }
 
@@ -92,7 +98,7 @@ Battleship.prototype.generateVerticalShipLocations = function() {
     // helper function to check if any of this vertical ship coordinates are already taken
     //   credit to a user from stack overflow
     var checkIfContains = function(haystack, arr) {
-      return arr.some(function (v) {
+      return arr.some(function(v) {
         return haystack.indexOf(v) >= 0;
       });
     };
@@ -154,7 +160,7 @@ function handleUserSubmit(event) {
 
   if (topBoard.misses.includes(guessedCoordinateAdjusted) || topBoard.hits.includes(guessedCoordinateAdjusted)) {
 
-// Prints text to canvas and resizes it
+    // Prints text to canvas and resizes it
     canvasClear();
     CanvasTextWrapper(myCanvas, 'You already blew that up! Try again.', {
       font: "bold 20px Chonburi, sans-serif",
@@ -183,7 +189,16 @@ function handleUserSubmit(event) {
     tdEl.style.backgroundColor = 'white';
     tdEl.className = 'magictime vanishIn';
     topBoard.misses.push(guessedCoordinateAdjusted);
-// Prints text to canvas
+
+    var swoosh = new Audio('Swoosh 1-SoundBible.com-231145780.wav');
+    swoosh.play();
+    (new Audio()).canPlayType('audio/ogg; codecs=vorbis')
+    swoosh.currentTime = 0
+
+
+
+
+    // Prints text to canvas
     canvasClear();
     CanvasTextWrapper(myCanvas, 'Miss!', {
       font: "bold 22px Chonburi, sans-serif",
@@ -191,6 +206,13 @@ function handleUserSubmit(event) {
       verticalAlign: "middle",
     });
   }
+  // var swoosh = new Audio();
+  // swoosh.src = 'Swoosh 1-SoundBible.com-231145780.mp3';
+  // swoosh.controls = true;
+  // swoosh.loop = false;
+  // swoosh.autoplay = false;
+  // window.addEventListener("load", initMp3Player, false);
+  //
 
   computerGuessEasy();
 }
@@ -210,7 +232,7 @@ function computerGuessEasy() {
 
   var randomGuessString;
 
-  if (randomGuess < 10) {   // row value is A
+  if (randomGuess < 10) { // row value is A
     randomGuessString = randomGuessRowLetter + randomGuess.toString();
   } else {
     randomGuessString = randomGuessRowLetter + (randomGuess % 10).toString();
@@ -234,17 +256,17 @@ function computerGuessEasy() {
 
   if (bottomBoard.shipSquares.includes(randomGuess)) {
     setTimeout(function() {
-    tdEl.style.backgroundColor = '#C90000';
-    tdEl.className = 'magictime vanishIn';
-    tdEl.style.backgroundImage = "url('images/battleshipIcon.png')";
-    bottomBoard.hits.push(randomGuess);
-  }, 1700);
+      tdEl.style.backgroundColor = '#C90000';
+      tdEl.className = 'magictime vanishIn';
+      tdEl.style.backgroundImage = "url('images/battleshipIcon.png')";
+      bottomBoard.hits.push(randomGuess);
+    }, 1700);
   } else {
     setTimeout(function() {
-    tdEl.style.backgroundColor = 'white';
-    tdEl.className = 'magictime vanishIn';
-    bottomBoard.misses.push(randomGuess);
-  }, 1700);
+      tdEl.style.backgroundColor = 'white';
+      tdEl.className = 'magictime vanishIn';
+      bottomBoard.misses.push(randomGuess);
+    }, 1700);
   }
 
 
@@ -281,6 +303,6 @@ bottomBoard.populateOpenSquares();
 bottomBoard.determineShipOrientation();
 bottomBoard.generateHorizontalShipLocations();
 bottomBoard.generateVerticalShipLocations();
-bottomBoard.renderShipPositions();    // we only render bottom, i.e. the user's ships
+bottomBoard.renderShipPositions(); // we only render bottom, i.e. the user's ships
 
 userInput.addEventListener('submit', handleUserSubmit);

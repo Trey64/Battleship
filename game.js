@@ -14,8 +14,11 @@ function Battleship(ships) {
   this.misses = [];
   this.horizontalShips = [];
   this.verticalShips = [];
+  
   this.shipSquaresKey = [];    // will contain the order of how ships are arranged in shipSquares
+
   this.groupedShipSquares = [];    // will contain an array of arrays, each representing a ship
+                                  // the order will be determined by shipSquaresKey and goes horizontal -> vertical
   this.ships = ships;
 }
 
@@ -318,7 +321,7 @@ function computerGuessEasy() {
 function computerGuessMedium() {
 
   // guesses randomly
-  if (randomMode) {
+  if (lockedOnStack.length === 0) {
 
     var randomGuess = bottomBoard.openSquares[randomNumber(0, bottomBoard.openSquares.length - 1)];
 
@@ -347,9 +350,10 @@ function computerGuessMedium() {
     var tdEl = document.getElementById(bottomSquareIndex);
 
     if (bottomBoard.shipSquares.includes(randomGuess)) {   // a hit
+
       tdEl.style.backgroundColor = 'red';
       bottomBoard.hits.push(randomGuess);
-      bottomBoard.shipSquares.splice(bottomBoard.shipSquares.indexOf(randomGuess), 1);
+      bottomBoard.shipSquares.splice(bottomBoard.shipSquares.indexOf(randomGuess), 1); // removes the hit square
 
       // checks if the last ship has been sunk
       //    [!!!] Could also check if bottomBoard.shipSquare is empty
@@ -362,17 +366,17 @@ function computerGuessMedium() {
       // check if the random hit resulted in a ship sinking
       //   if yes, then need to upddate remaining ships array
 
-      var shipSunkByThisShot = false;
+      var sinkingShot = false;
 
       for (var i = 0; i < bottomBoard.shipSquaresKey.length; i++) {
-        if (!checkIfStillFloating(bottomBoard.shipSquares, bottomBoard.groupedShipSquares[i])) {
-          bottomBoard.shipSquaresKey.splice(i, 1);
-          shipSunkByThisShot = true;
+        if (!checkIfStillFloating(bottomBoard.shipSquares, bottomBoard.groupedShipSquares[i])) { // ship @ i is sunk
+          bottomBoard.shipSquaresKey.splice(i, 1);   // removes the ship e.g. [2, 3, 4] --> [2, 4]
+          sinkingShot = true;
         }
       }
 
       // the shot was a hit, but it didn't sink the ship, so now we try to finish the ship
-      if (!shipSunkByThisShot) {
+      if (!sinkingShot) {
         randomMode = false;
 
         // var lockedOnStackTemp = [];

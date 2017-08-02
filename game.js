@@ -3,6 +3,7 @@
 var randomMode = true;  // for how the computer guesses with medium and hard difficulties
 var ships = [2, 3, 3, 4, 5]; // array of ship sizes each board will contain
 var alphaValues = ['a', 0, 'b', 10, 'c', 20, 'd', 30, 'e', 40, 'f', 50, 'g', 60, 'h', 70, 'i', 80, 'j', 90];
+var lockedOnStack = [];
 var userInput = document.getElementById('user_input');
 
 // Constructor for a single board of Battleships
@@ -314,10 +315,18 @@ function computerGuessMedium() {
 
       // check if the random hit resulted in a ship sinking
       //   if yes, then need to upddate remaining ships array
+
+      var shipSunkByThisShot = false;
+
       for (var i = 0; i < bottomBoard.shipSquaresKey.length; i++) {
-        if (checkIfStillFloating(bottomBoard.shipSquares, bottomBoard.groupedShipSquares[i])) {
+        if (!checkIfStillFloating(bottomBoard.shipSquares, bottomBoard.groupedShipSquares[i])) {
           bottomBoard.shipSquaresKey.splice(i, 1);
+          shipSunkByThisShot = true;
         }
+      }
+
+      if (!shipSunkByThisShot) {
+        randomMode = false;
       }
 
     } else {   // bottomBoard.shipSquares does NOT include randomGuess, i.e. miss

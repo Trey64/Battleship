@@ -8,23 +8,10 @@ body {
 }
 
 #outline {
-  /*outline: 1px dotted orange;*/
   margin: auto;
   padding: 2px;
-  /*border: 1px solid #838487;*/
   border-radius: 5px;
   -webkit-border-radius: 5px;
-}
-
-.textCanvas {
-  position: relative;
-  top: 0px;
-  background-color: #262626;
-  /*background-color: white;*/
-}
-
-.gameboards {
-  /*display: inline-block;*/
 }
 
 table {
@@ -108,8 +95,3 @@ td {
   background-color: #C90000;
   color: white;
 }
-
-/*.page-wrap {
-width: 100%;
-margin: 0 auto;
-}*/

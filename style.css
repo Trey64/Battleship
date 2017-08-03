@@ -8,26 +8,10 @@ body {
 }
 
 #outline {
-  /*outline: 1px dotted orange;*/
-  float:right;
-  top: 10px;
-  margin-top: 8%;
-  margin-right: 1%;
-  margin-left: -11%;
+  margin: auto;
   padding: 2px;
-  border: 5px solid #838487;
   border-radius: 5px;
-}
-
-.textCanvas {
-  position: relative;
-  top: 0px;
-  background-color: #262626;
-  /*background-color: white;*/
-}
-
-.gameboards {
-  /*display: inline-block;*/
+  -webkit-border-radius: 5px;
 }
 
 table {
@@ -36,7 +20,6 @@ table {
   margin-top: 1%;
   margin-right: 1%;
 	/*border: 10px solid black;*/
-  padding-top: -3px;
   width: 500px;
   height: 500px;
   background-image: url("images/water.gif");
@@ -59,8 +42,6 @@ h2 {
 td {
   font-family: 'Helvetica';
   /*background-color: #0468af;*/
-  /*background-image: url("images/water2.gif");*/
-  z-index: -1;
 	width: 40px;
 	height: 40px;
   color: white;
@@ -74,7 +55,7 @@ td {
   border-radius: 5px;
   width: 100px;
   height: 40px;
-	font-size: 14px;
+	font-size: 18px;
 	padding: 1px;
   font-family: 'Vollkorn', sans-serif;
   color: white;
@@ -114,8 +95,3 @@ td {
   background-color: #C90000;
   color: white;
 }
-
-/*.page-wrap {
-width: 100%;
-margin: 0 auto;
-}*/

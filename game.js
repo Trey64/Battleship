@@ -432,7 +432,7 @@ function computerGuessEasy() {
       tdEl.style.backgroundColor = '#C90000';
       tdEl.className = 'magictime vanishIn';
       tdEl.style.backgroundImage = 'url(\'images/battleshipIcon.png\')';
-    }, 2600);
+    }, 2700);
 
 
     if (bottomBoard.hits.length === 17) {
@@ -454,7 +454,7 @@ function computerGuessEasy() {
       tdEl.style.backgroundColor = 'white';
       tdEl.className = 'magictime vanishIn';
       bottomBoard.misses.push(randomGuess);
-    }, 2600);
+    }, 2700);
 
     bottomBoard.misses.push(randomGuess);
 

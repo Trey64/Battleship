@@ -234,7 +234,7 @@ function handleUserSubmit(event) {
         title: 'Nice!',
         text: 'You got a hit',
         type: 'success',
-        // showConfirmButton: false
+        showConfirmButton: false
       });
 
     }
@@ -256,7 +256,7 @@ function handleUserSubmit(event) {
       title: 'Miss!',
       text: 'You hit the water',
       type: 'error',
-      // showConfirmButton: false
+      showConfirmButton: false
     });
   }
 
@@ -268,7 +268,7 @@ function handleUserSubmit(event) {
 // window.addEventListener("load", initMp3Player, false);
 //
 
-  computerGuessMedium();
+  computerGuessEasy();
 }
 
 // logic for how the computer guesses on its turn for easy mode
@@ -549,21 +549,45 @@ function computerGuessMedium() {
           if (continueUp >= 0 && bottomBoard.openSquares.includes(continueUp)) {
             lockedOnStack.push(continueUp);
             huntDirection.push('up');
+          } else if (bottomBoard.hits.includes(continueUp)) {
+            continueUp -= 10;
+            if (continueUp >= 0 && bottomBoard.openSquares.includes(continueUp)) {
+              lockedOnStack.push(continueUp);
+              huntDirection.push('up');
+            }
           }
         } else if (direction === 'down') {
           if (continueDown <= 99 && bottomBoard.openSquares.includes(continueDown)) {
             lockedOnStack.push(continueDown);
             huntDirection.push('down');
+          } else if (bottomBoard.hits.includes(continueDown)) {
+            continueDown += 10;
+            if (continueDown <= 99 && bottomBoard.openSquares.includes(continueDown)) {
+              lockedOnStack.push(continueDown);
+              huntDirection.push('down');
+            }
           }
         } else if (direction === 'left') {
           if ((Math.floor(continueLeft / 10)) === (Math.floor(huntingGuess / 10)) && bottomBoard.openSquares.includes(continueLeft)) {
             lockedOnStack.push(continueLeft);
             huntDirection.push('left');
+          } else if (bottomBoard.hits.includes(continueLeft)) {
+            continueLeft -= 1;
+            if ((Math.floor(continueLeft / 10)) === (Math.floor(huntingGuess / 10)) && bottomBoard.openSquares.includes(continueLeft)) {
+              lockedOnStack.push(continueLeft);
+              huntDirection.push('left');
+            }
           }
         } else if (direction === 'right') {
           if ((Math.floor(continueRight / 10)) === (Math.floor(huntingGuess / 10)) && bottomBoard.openSquares.includes(continueRight)) {
             lockedOnStack.push(continueRight);
             huntDirection.push('right');
+          } else if (bottomBoard.hits.includes(continueRight)) {
+            continueRight += 1;
+            if ((Math.floor(continueRight / 10)) === (Math.floor(huntingGuess / 10)) && bottomBoard.openSquares.includes(continueRight)) {
+              lockedOnStack.push(continueRight);
+              huntDirection.push('right');
+            }
           }
         }
       }

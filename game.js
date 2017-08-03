@@ -202,7 +202,7 @@ function handleUserSubmit(event) {
 
     swal({
       title: 'Error',
-      text: 'You\'ve already fired there!',
+      text: 'You\'ve already fired there! Choose another spot, genius.',
       type: 'error'
     });
 
@@ -400,16 +400,18 @@ function computerGuessEasy() {
 
   var bottomSquareIndex = 'b' + randomGuess.toString();
 
-  // Prints text to canvas after a slight delay
+  // Prints text after a slight delay
   setTimeout(function() {
 
-    swal(
-      'Enemy\'s turn!',
-      'The enemy attacks ' + randomGuessString.toUpperCase() + '!',
-      'warning'
-    );
+    swal({
+      title: 'Enemy\'s turn!',
+      text:  'The enemy attacks ' + randomGuessString.toUpperCase() + '!',
+      type: 'warning',
+      timer: 1500,
+      showConfirmButton: false
+    });
 
-  }, 1700);
+  }, 1500);
 
   var tdEl = document.getElementById(bottomSquareIndex);
 
@@ -427,7 +429,7 @@ function computerGuessEasy() {
       tdEl.style.backgroundColor = '#C90000';
       tdEl.className = 'magictime vanishIn';
       tdEl.style.backgroundImage = 'url(\'images/battleshipIcon.png\')';
-    }, 1700);
+    }, 2600);
 
 
     if (bottomBoard.hits.length === 17) {
@@ -448,7 +450,7 @@ function computerGuessEasy() {
       tdEl.style.backgroundColor = 'white';
       tdEl.className = 'magictime vanishIn';
       bottomBoard.misses.push(randomGuess);
-    }, 1700);
+    }, 2600);
 
     bottomBoard.misses.push(randomGuess);
 
@@ -707,20 +709,6 @@ function computerGuessMedium() {
 
   }
 
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
-////   Canvas Stuff   //////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-
-var canvas = document.getElementById('myCanvas');
-var ctx = canvas.getContext('2d');
-// ctx.fillStyle = white;
-ctx.fillStyle = '#C90000';
-
-function canvasClear() {
-  ctx.clearRect(0, 0, 200, 100);
 }
 
 

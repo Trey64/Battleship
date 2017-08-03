@@ -97,3 +97,7 @@ td {
   background-color: #C90000;
   color: white;
 }
+
+#topNumbers {
+  border: 5px solid black;
+}

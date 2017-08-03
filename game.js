@@ -1,5 +1,6 @@
 'use strict';
 
+
 //Getting the data from localStorage
 var gameInfo = JSON.parse(localStorage.gameInfo);
 var difficulty = gameInfo[1];   // the difficulty value is in index 1 of the array
@@ -11,6 +12,7 @@ var consecutiveMisses = 1; // counts the number of turns the computer guesses wr
 var userInput = document.getElementById('user_input');
 var topTable = document.getElementById('top');
 
+
 // Constructor for a single board of Battleships
 function Battleship(ships) {
   this.openSquares;
@@ -20,9 +22,10 @@ function Battleship(ships) {
   this.horizontalShips = [];
   this.verticalShips = [];
 
-  this.shipSquaresKey = [];    // will contain the order of how ships are arranged in shipSquares
+  this.shipSquaresKey = []; // will contain the order of how ships are arranged in shipSquares
 
   this.groupedShipSquares = [];    // will contain an array of arrays, each representing a ship
+
   // the order will be determined by shipSquaresKey and goes horizontal -> vertical
   this.ships = ships;
 }
@@ -30,7 +33,7 @@ function Battleship(ships) {
 // method to generate an empty game board with numbers from 0 to 99
 //   each number represents a square on a classic 10 x 10 board
 Battleship.prototype.populateOpenSquares = function() {
-  this.openSquares = [];   // emptys the array for when we want to "repopulate" a semi-full array
+  this.openSquares = []; // emptys the array for when we want to "repopulate" a semi-full array
   for (var i = 0; i <= 99; i++) {
     this.openSquares.push(i);
   }
@@ -109,7 +112,7 @@ Battleship.prototype.generateVerticalShipLocations = function() {
     // since it is from the openSpaces array, the starting square will always be valid
     var startingVerticalSquare = this.openSquares[randomNumber(0, this.openSquares.length - 1)];
 
-    while(startingVerticalSquare >= 80) {
+    while (startingVerticalSquare >= 80) {
       startingVerticalSquare = this.openSquares[randomNumber(0, this.openSquares.length - 1)];
     }
 
@@ -158,7 +161,7 @@ Battleship.prototype.renderShipPositions = function() {
 // helper function to check if any of this vertical ship coordinates are already taken
 //   credit to a user from stack overflow
 var checkIfContains = function(haystack, needle) {
-  return needle.some(function (v) {
+  return needle.some(function(v) {
     return haystack.indexOf(v) >= 0;
   });
 };
@@ -214,7 +217,7 @@ function handleUserSubmit(event) {
     tdEl.style.backgroundImage = 'url(\'images/battleshipIcon.png\')';
     topBoard.hits.push(guessedCoordinateAdjusted);
 
-    if (topBoard.hits.length === 17) {    // the hit sunk the last ship
+    if (topBoard.hits.length === 17) { // the hit sunk the last ship
 
       swal(
         'Victory!',
@@ -225,7 +228,7 @@ function handleUserSubmit(event) {
       userInput.removeEventListener('submit', handleUserSubmit);
       return;
 
-    } else {  // still a valid hit, but it didn't sink the last ship
+    } else { // still a valid hit, but it didn't sink the last ship
 
       swal({
         title: 'Nice!',
@@ -236,7 +239,7 @@ function handleUserSubmit(event) {
 
     }
 
-  } else {       // this will be a miss
+  } else { // this will be a miss
 
     tdEl.style.backgroundColor = 'white';
     tdEl.className = 'magictime vanishIn';
@@ -257,13 +260,6 @@ function handleUserSubmit(event) {
     });
   }
 
-// var swoosh = new Audio();
-// swoosh.src = 'Swoosh 1-SoundBible.com-231145780.mp3';
-// swoosh.controls = true;
-// swoosh.loop = false;
-// swoosh.autoplay = false;
-// window.addEventListener("load", initMp3Player, false);
-//
 
   if (difficulty === 'easy') {
     computerGuessEasy();
@@ -423,8 +419,6 @@ function computerGuessEasy() {
 
   var tdEl = document.getElementById(bottomSquareIndex);
 
-
-
   //////////////////////////////////////////////////////////////////////////////////
   /////////////// Logic for a hit starts here //////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////////
@@ -432,6 +426,7 @@ function computerGuessEasy() {
 
     bottomBoard.hits.push(randomGuess);
     bottomBoard.shipSquares.splice(bottomBoard.shipSquares.indexOf(randomGuess), 1); // removes the guessed square
+
 
     setTimeout(function() {
       tdEl.style.backgroundColor = '#C90000';
@@ -490,7 +485,7 @@ function computerGuessMedium() {
 
     var randomGuessString;
 
-    if (randomGuess < 10) {   // row value is A
+    if (randomGuess < 10) { // row value is A
       randomGuessString = randomGuessRowLetter + randomGuess.toString();
     } else {
       randomGuessString = randomGuessRowLetter + (randomGuess % 10).toString();
@@ -514,7 +509,6 @@ function computerGuessMedium() {
     }, 1500);
 
     var tdEl = document.getElementById(bottomSquareIndex);
-
 
 
 
@@ -605,7 +599,6 @@ function computerGuessMedium() {
         tdEl.className = 'magictime vanishIn';
         bottomBoard.misses.push(randomGuess);
       }, 2600);
-
       bottomBoard.misses.push(randomGuess);
     }
 
@@ -1087,8 +1080,8 @@ bottomBoard.getShipSquaresKey();
 bottomBoard.generateHorizontalShipLocations();
 bottomBoard.generateVerticalShipLocations();
 bottomBoard.groupShipSquares();
-bottomBoard.renderShipPositions();    // we only render bottom, i.e. the user's ships
-bottomBoard.populateOpenSquares();  // repopulates the openSquares for use when tracking which squares CPU has already guessed
+bottomBoard.renderShipPositions(); // we only render bottom, i.e. the user's ships
+bottomBoard.populateOpenSquares(); // repopulates the openSquares for use when tracking which squares CPU has already guessed
 
 console.log(topBoard.horizontalShips);
 console.log(topBoard.verticalShips);

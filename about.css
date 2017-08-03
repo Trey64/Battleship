@@ -18,8 +18,11 @@ h4 {
   margin-right: 0;
 }
 
-p{
 
+.portrait {
+  /*border: 1px solid black;*/
+  display:inline-block;
+  text-align: center;
 }
 
 .columnOne {
@@ -32,7 +35,7 @@ p{
   background-color: #262626;
   text-align: center;
   height: 220px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 
 .home {
@@ -85,14 +88,25 @@ p{
 
 .tom {
     height: 250px;
-    margin-top: 15px;
+    margin-left: 50px;
+    margin-right: 30px;
+    /*margin-top: 15px;
     margin-left: 25px;
-    margin-right: 55px;
+    margin-right: 55px;*/
+}
+
+.tomInfo {
+  margin-left: 20px;
 }
 
 .gabe {
   height: 250px;
-  margin-right: 55px;
+  margin-right: 30px;
+  /*margin-right: 55px;*/
+}
+
+.gabeInfo {
+  margin-right: 25px;
 }
 
 .joseph {

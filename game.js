@@ -500,7 +500,7 @@ function computerGuessMedium() {
     if (bottomBoard.shipSquares.includes(huntingGuess)) {
 
       bottomBoard.hits.push(huntingGuess);
-      bottomBoard.shipSquares.splice(bottomBoard.shipSquares.indexOf(randomGuess), 1); // removes the guessed square
+      bottomBoard.shipSquares.splice(bottomBoard.shipSquares.indexOf(huntingGuess), 1); // removes the guessed square
 
       setTimeout(function() {
         huntingTdEl.style.backgroundColor = '#C90000';

@@ -228,8 +228,6 @@ function handleUserSubmit(event) {
 
     } else {  // still a valid hit, but it didn't sink the last ship
 
-      // alert('Hit!');
-
       // Prints text to canvas
       canvasClear();
       CanvasTextWrapper(myCanvas, 'Hit!', {

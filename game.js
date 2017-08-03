@@ -298,7 +298,7 @@ function computerGuessEasy() {
 
   var bottomSquareIndex = 'b' + randomGuess.toString();
 
-  // Prints text to canvas after a slight delay
+  // Prints text after a slight delay
   setTimeout(function() {
 
     swal(
@@ -600,20 +600,6 @@ function computerGuessMedium() {
 
   }
 
-}
-
-
-////////////////////////////////////////////////////////////////////////////////
-////   Canvas Stuff   //////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-
-var canvas = document.getElementById('myCanvas');
-var ctx = canvas.getContext('2d');
-// ctx.fillStyle = white;
-ctx.fillStyle = '#C90000';
-
-function canvasClear() {
-  ctx.clearRect(0, 0, 200, 100);
 }
 
 

@@ -263,13 +263,6 @@ function handleUserSubmit(event) {
     });
   }
 
-// var swoosh = new Audio();
-// swoosh.src = 'Swoosh 1-SoundBible.com-231145780.mp3';
-// swoosh.controls = true;
-// swoosh.loop = false;
-// swoosh.autoplay = false;
-// window.addEventListener("load", initMp3Player, false);
-//
 
   computerGuessEasy();
 }
@@ -643,7 +636,3 @@ console.log(bottomBoard.shipSquaresKey);
 console.log(bottomBoard.shipSquares);
 
 userInput.addEventListener('submit', handleUserSubmit);
-
-var audio = document.getElementById('IntroSong');
-audio.autoplay = true;
-audio.load();

@@ -35,5 +35,8 @@ function eventHandler(event) {
     localStorage.gameInfo = JSON.stringify(gameInfo);
     location.href = 'game.html';
   }
-
 }
+
+var audio = document.getElementById('introSong');
+audio.autoplay = true;
+audio.load();

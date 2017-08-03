@@ -190,8 +190,6 @@ function handleUserSubmit(event) {
 
   event.preventDefault(); // I dunno what this does
 
-  // var alphaValues = ['a', 0, 'b', 10, 'c', 20, 'd', 30, 'e', 40, 'f', 50, 'g', 60, 'h', 70, 'i', 80, 'j', 90];
-
   var guessedCoordinateRaw = event.target.coordinates.value;
   var guessedCoordinateAlpha = guessedCoordinateRaw[0].toLowerCase();
   var guessedCoordinateNum = parseInt(guessedCoordinateRaw[1]);
@@ -201,13 +199,12 @@ function handleUserSubmit(event) {
 
   if (topBoard.misses.includes(guessedCoordinateAdjusted) || topBoard.hits.includes(guessedCoordinateAdjusted)) {
 
-    // Prints text to canvas and resizes it
-    canvasClear();
-    CanvasTextWrapper(myCanvas, 'You already blew that up! Try again.', {
-      font: 'bold 20px Chonburi, sans-serif',
-      textAlign: 'center',
-      verticalAlign: 'middle',
+    swal({
+      title: 'Error',
+      text: 'You\'ve already fired there!',
+      type: 'error'
     });
+
     return;
   }
 
@@ -222,28 +219,30 @@ function handleUserSubmit(event) {
 
     if (topBoard.hits.length === 17) {    // the hit sunk the last ship
 
-      alert('You sunk the CPU\'s fleet! You win!');
+      swal(
+        'Victory!',
+        'You sunk the enemy fleet',
+        'success'
+      );
+
       userInput.removeEventListener('submit', handleUserSubmit);
       return;
 
     } else {  // still a valid hit, but it didn't sink the last ship
 
-      // alert('Hit!');
-
-      // Prints text to canvas
-      canvasClear();
-      CanvasTextWrapper(myCanvas, 'Hit!', {
-        font: 'bold 22px Chonburi, sans-serif',
-        textAlign: 'center',
-        verticalAlign: 'middle',
+      swal({
+        title: 'Nice!',
+        text: 'You got a hit',
+        type: 'success',
+        showConfirmButton: false
       });
+
     }
 
   } else {       // this will be a miss
 
     tdEl.style.backgroundColor = 'white';
     tdEl.className = 'magictime vanishIn';
-
 
     tdEl.className = 'magictime vanishIn';
     topBoard.misses.push(guessedCoordinateAdjusted);
@@ -253,12 +252,11 @@ function handleUserSubmit(event) {
     (new Audio()).canPlayType('audio/ogg; codecs=vorbis');
     swoosh.currentTime = 0;
 
-    // Prints text to canvas
-    canvasClear();
-    CanvasTextWrapper(myCanvas, 'Miss!', {
-      font: 'bold 22px Chonburi, sans-serif',
-      textAlign: 'center',
-      verticalAlign: 'middle',
+    swal({
+      title: 'Miss!',
+      text: 'You hit water',
+      type: 'error',
+      showConfirmButton: false
     });
   }
 
@@ -301,13 +299,12 @@ function computerGuessEasy() {
   // Prints text to canvas after a slight delay
   setTimeout(function() {
 
-    canvasClear();
+    swal(
+      'Enemy\'s turn!',
+      'The enemy has attacked ' + randomGuessString.toUpperCase() + '!',
+      'warning'
+    );
 
-    CanvasTextWrapper(myCanvas, 'The enemy has attacked ' + randomGuessString.toUpperCase() + '!', {
-      font: 'bold 20px Chonburi, sans-serif',
-      textAlign: 'center',
-      verticalAlign: 'middle',
-    });
   }, 1700);
 
   var tdEl = document.getElementById(bottomSquareIndex);
@@ -322,11 +319,17 @@ function computerGuessEasy() {
 
 
     if (bottomBoard.hits.length === 17) {
-      alert('CPU has sunk your fleet! You lose!');
+
+      swal({
+        title: 'Defeat!',
+        text: 'The enemy has sunk your fleet',
+        type: 'error'
+      });
       userInput.removeEventListener('submit', handleUserSubmit);
     }
 
   } else { // the computer misses
+
     setTimeout(function() {
       tdEl.style.backgroundColor = 'white';
       tdEl.className = 'magictime vanishIn';

@@ -7,8 +7,9 @@
 // difficulty = 'easy';    // [!!!!!!!] setting it to easy value for now -- later will use whatever the user chose
 
 
-var randomMode = true; // for how the computer guesses with medium and hard difficulties
 
+var randomMode = true;  // for how the computer guesses with medium and hard difficulties
+var huntDirection = [];
 var ships = [2, 3, 3, 4, 5]; // array of ship sizes each board will contain
 var alphaValues = ['a', 0, 'b', 10, 'c', 20, 'd', 30, 'e', 40, 'f', 50, 'g', 60, 'h', 70, 'i', 80, 'j', 90];
 var lockedOnStack = [];
@@ -191,8 +192,6 @@ function handleUserSubmit(event) {
 
   event.preventDefault(); // I dunno what this does
 
-  // var alphaValues = ['a', 0, 'b', 10, 'c', 20, 'd', 30, 'e', 40, 'f', 50, 'g', 60, 'h', 70, 'i', 80, 'j', 90];
-
   var guessedCoordinateRaw = event.target.coordinates.value;
   var guessedCoordinateAlpha = guessedCoordinateRaw[0].toLowerCase();
   var guessedCoordinateNum = parseInt(guessedCoordinateRaw[1]);
@@ -202,13 +201,12 @@ function handleUserSubmit(event) {
 
   if (topBoard.misses.includes(guessedCoordinateAdjusted) || topBoard.hits.includes(guessedCoordinateAdjusted)) {
 
-    // Prints text to canvas and resizes it
-    canvasClear();
-    CanvasTextWrapper(myCanvas, 'You already blew that up! Try again.', {
-      font: 'bold 20px Chonburi, sans-serif',
-      textAlign: 'center',
-      verticalAlign: 'middle',
+    swal({
+      title: 'Error',
+      text: 'You\'ve already fired there!',
+      type: 'error'
     });
+
     return;
   }
 
@@ -223,21 +221,24 @@ function handleUserSubmit(event) {
 
     if (topBoard.hits.length === 17) { // the hit sunk the last ship
 
-      alert('You sunk the CPU\'s fleet! You win!');
+      swal(
+        'Victory!',
+        'You sunk the enemy fleet',
+        'success'
+      );
+
       userInput.removeEventListener('submit', handleUserSubmit);
       return;
 
     } else { // still a valid hit, but it didn't sink the last ship
 
-      // alert('Hit!');
-
-      // Prints text to canvas
-      canvasClear();
-      CanvasTextWrapper(myCanvas, 'Hit!', {
-        font: 'bold 22px Chonburi, sans-serif',
-        textAlign: 'center',
-        verticalAlign: 'middle',
+      swal({
+        title: 'Nice!',
+        text: 'You got a hit',
+        type: 'success',
+        showConfirmButton: false
       });
+
     }
 
   } else { // this will be a miss
@@ -245,21 +246,19 @@ function handleUserSubmit(event) {
     tdEl.style.backgroundColor = 'white';
     tdEl.className = 'magictime vanishIn';
 
-
     tdEl.className = 'magictime vanishIn';
     topBoard.misses.push(guessedCoordinateAdjusted);
 
-    var swoosh = new Audio('Swoosh 1-SoundBible.com-231145780.wav');
-    swoosh.play();
-    (new Audio()).canPlayType('audio/ogg; codecs=vorbis');
-    swoosh.currentTime = 0;
+    // var swoosh = new Audio('Swoosh 1-SoundBible.com-231145780.wav');
+    // swoosh.play();
+    // (new Audio()).canPlayType('audio/ogg; codecs=vorbis');
+    // swoosh.currentTime = 0;
 
-    // Prints text to canvas
-    canvasClear();
-    CanvasTextWrapper(myCanvas, 'Miss!', {
-      font: 'bold 22px Chonburi, sans-serif',
-      textAlign: 'center',
-      verticalAlign: 'middle',
+    swal({
+      title: 'Miss!',
+      text: 'You hit the water',
+      type: 'error',
+      showConfirmButton: false
     });
   }
 
@@ -277,13 +276,15 @@ function handleUserSubmit(event) {
 // logic for how the computer guesses on its turn for easy mode
 function computerGuessEasy() {
 
-  var randomGuess = bottomBoard.openSquares[randomNumber(0, bottomBoard.openSquares.length)];
+  var randomGuess = bottomBoard.openSquares[randomNumber(0, bottomBoard.openSquares.length - 1)];
 
   // if we remove the randomGuess from the openSquares array, potentially don't need the
   //   following while loop -- test later
   while (bottomBoard.misses.includes(randomGuess) || bottomBoard.hits.includes(randomGuess) || typeof randomGuess !== 'number') {
     randomGuess = bottomBoard.openSquares[randomNumber(0, bottomBoard.openSquares.length - 1)];
   }
+
+  bottomBoard.openSquares.splice(bottomBoard.openSquares.indexOf(randomGuess), 1); // removes the guessed square
 
   var randomGuessTenthValue = (Math.floor(randomGuess / 10)) * 10;
   // getting the letter for displaying to the user what square the computer guessed
@@ -302,37 +303,51 @@ function computerGuessEasy() {
   // Prints text to canvas after a slight delay
   setTimeout(function() {
 
-    canvasClear();
+    swal(
+      'Enemy\'s turn!',
+      'The enemy attacks ' + randomGuessString.toUpperCase() + '!',
+      'warning'
+    );
 
-    CanvasTextWrapper(myCanvas, 'The enemy has attacked ' + randomGuessString.toUpperCase() + '!', {
-      font: 'bold 20px Chonburi, sans-serif',
-      textAlign: 'center',
-      verticalAlign: 'middle',
-    });
   }, 1700);
 
   var tdEl = document.getElementById(bottomSquareIndex);
 
-  if (bottomBoard.shipSquares.includes(randomGuess)) { // computer got a hit
+  //////////////////////////////////////////////////////////////////////////////////
+  /////////////// Logic for a hit starts here //////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////////
+  if (bottomBoard.shipSquares.includes(randomGuess)) {
+
+    bottomBoard.shipSquares.splice(bottomBoard.shipSquares.indexOf(randomGuess), 1); // removes the guessed square
+
+
     setTimeout(function() {
       tdEl.style.backgroundColor = '#C90000';
       tdEl.className = 'magictime vanishIn';
       tdEl.style.backgroundImage = 'url(\'images/battleshipIcon.png\')';
-      bottomBoard.hits.push(randomGuess);
     }, 1700);
 
 
     if (bottomBoard.hits.length === 17) {
-      alert('CPU has sunk your fleet! You lose!');
+
+      swal({
+        title: 'Defeat!',
+        text: 'The enemy has sunk your fleet',
+        type: 'error'
+      });
       userInput.removeEventListener('submit', handleUserSubmit);
     }
 
   } else { // the computer misses
+
     setTimeout(function() {
       tdEl.style.backgroundColor = 'white';
       tdEl.className = 'magictime vanishIn';
       bottomBoard.misses.push(randomGuess);
     }, 1700);
+
+    bottomBoard.misses.push(randomGuess);
+
   }
 
 }
@@ -340,7 +355,8 @@ function computerGuessEasy() {
 // logic for how the computer guesses on its turn for medium mode
 function computerGuessMedium() {
 
-  // guesses randomly
+
+  // we haven't pushed any squares on to lockedOnStack, which means we are in random guessing mode
   if (lockedOnStack.length === 0) {
 
     var randomGuess = bottomBoard.openSquares[randomNumber(0, bottomBoard.openSquares.length - 1)];
@@ -350,6 +366,8 @@ function computerGuessMedium() {
     while (bottomBoard.misses.includes(randomGuess) || bottomBoard.hits.includes(randomGuess) || typeof randomGuess !== 'number') {
       randomGuess = bottomBoard.openSquares[randomNumber(0, bottomBoard.openSquares.length - 1)];
     }
+
+    bottomBoard.openSquares.splice(bottomBoard.openSquares.indexOf(randomGuess), 1); // removes the guessed square
 
     var randomGuessTenthValue = (Math.floor(randomGuess / 10)) * 10;
     // getting the letter for displaying to the user what square the computer guessed
@@ -369,11 +387,22 @@ function computerGuessMedium() {
 
     var tdEl = document.getElementById(bottomSquareIndex);
 
-    if (bottomBoard.shipSquares.includes(randomGuess)) { // a hit
 
-      tdEl.style.backgroundColor = 'red';
+
+
+    //////////////////////////////////////////////////////////////////////////////////
+    /////////////// Logic for a hit starts here //////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////
+    if (bottomBoard.shipSquares.includes(randomGuess)) {
+
       bottomBoard.hits.push(randomGuess);
-      bottomBoard.shipSquares.splice(bottomBoard.shipSquares.indexOf(randomGuess), 1); // removes the hit square
+      bottomBoard.shipSquares.splice(bottomBoard.shipSquares.indexOf(randomGuess), 1); // removes the guessed square
+
+      setTimeout(function() {
+        tdEl.style.backgroundColor = '#C90000';
+        tdEl.className = 'magictime vanishIn';
+        tdEl.style.backgroundImage = 'url(\'images/battleshipIcon.png\')';
+      }, 1700);
 
       // checks if the last ship has been sunk
       //    [!!!] Could also check if bottomBoard.shipSquare is empty
@@ -382,6 +411,8 @@ function computerGuessMedium() {
         userInput.removeEventListener('submit', handleUserSubmit);
         return;
       }
+
+      alert('hit');
 
       // check if the random hit resulted in a ship sinking
       //   if yes, then need to upddate remaining ships array
@@ -399,30 +430,37 @@ function computerGuessMedium() {
       if (!sinkingShot) {
         randomMode = false;
 
-        // var lockedOnStackTemp = [];
-        var upSquare = randomGuess - 10;
-        var downSquare = randomGuess + 10;
-        var leftSquare = randomGuess - 1;
+        // Will use a stack structure for the squares to guess
+        //   when popping the order of which direction we choose will be top->bottom->left->right
         var rightSquare = randomGuess + 1;
+        var leftSquare = randomGuess - 1;
+        var downSquare = randomGuess + 10;
+        var upSquare = randomGuess - 10;
 
-        if (upSquare >= 0 && bottomBoard.openSquares.includes(upSquare)) {
-          lockedOnStack.push(upSquare);
-        }
-
-        if (downSquare <= 99 && bottomBoard.openSquares.includes(downSquare)) {
-          lockedOnStack.push(downSquare);
-        }
-
-        // checks if the "left" is even on the same row
-        if ((Math.floor(leftSquare / 10)) === (Math.floor(randomGuess / 10)) && bottomBoard.openSquares.includes(leftSquare)) {
-          lockedOnStack.push(leftSquare);
-        }
-
-        // checks if the "right" is even on the same row
+        // checks if the "right" is valid
+        //    if true then pushes it
         if ((Math.floor(rightSquare / 10)) === (Math.floor(randomGuess / 10)) && bottomBoard.openSquares.includes(rightSquare)) {
           lockedOnStack.push(rightSquare);
+          huntDirection.push('right');
         }
-
+        // checks if the "left" is valid
+        //    if true then pushes it
+        if ((Math.floor(leftSquare / 10)) === (Math.floor(randomGuess / 10)) && bottomBoard.openSquares.includes(leftSquare)) {
+          lockedOnStack.push(leftSquare);
+          huntDirection.push('left');
+        }
+        // checks if the "bottom" is valid
+        //    if true then pushes it
+        if (downSquare <= 99 && bottomBoard.openSquares.includes(downSquare)) {
+          lockedOnStack.push(downSquare);
+          huntDirection.push('down');
+        }
+        // checks if the "top" is valid
+        //    if true then pushes it
+        if (upSquare >= 0 && bottomBoard.openSquares.includes(upSquare)) {
+          lockedOnStack.push(upSquare);
+          huntDirection.push('up');
+        }
       }
 
     } else { // bottomBoard.shipSquares does NOT include randomGuess, i.e. miss
@@ -430,10 +468,136 @@ function computerGuessMedium() {
       bottomBoard.misses.push(randomGuess);
     }
 
-    // if we go into the else below, then the lockedOnStack should not be empty
-  } else { // random mode is off, i.e trying to sink the ship it has found
+  // if we go into the else below, then the lockedOnStack is non empty
+  } else {
 
-    randomGuess = lockedOnStack.pop();
+    var huntingGuess = lockedOnStack.pop();
+    var direction = huntDirection.pop();
+    bottomBoard.openSquares.splice(bottomBoard.openSquares.indexOf(huntingGuess), 1); // removes the guessed square
+
+    var huntingGuessTenthValue = (Math.floor(huntingGuess / 10)) * 10;
+    // getting the letter for displaying to the user what square the computer guessed
+    var huntingGuessRowLetter = alphaValues[(alphaValues.indexOf(huntingGuessTenthValue)) - 1];
+
+    var huntingGuessString;
+
+    if (huntingGuess < 10) {   // row value is A
+      huntingGuessString = huntingGuessRowLetter + huntingGuess.toString();
+    } else {
+      huntingGuessString = huntingGuessRowLetter + (huntingGuess % 10).toString();
+    }
+
+    var medBottomSquareIndex = 'b' + huntingGuess.toString();
+
+    alert('Now the computer\'s turn! ' + huntingGuessString + '!');
+
+    var huntingTdEl = document.getElementById(medBottomSquareIndex);
+
+
+    //////////////////////////////////////////////////////////////////////////////////
+    /////////////// Logic for a hit starts here //////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////
+    if (bottomBoard.shipSquares.includes(huntingGuess)) {
+
+      bottomBoard.hits.push(huntingGuess);
+      bottomBoard.shipSquares.splice(bottomBoard.shipSquares.indexOf(huntingGuess), 1); // removes the guessed square
+
+      setTimeout(function() {
+        huntingTdEl.style.backgroundColor = '#C90000';
+        huntingTdEl.className = 'magictime vanishIn';
+        huntingTdEl.style.backgroundImage = 'url(\'images/battleshipIcon.png\')';
+      }, 1700);
+
+      // checks if the last ship has been sunk
+      //    [!!!] Could also check if bottomBoard.shipSquare is empty
+      if (bottomBoard.hits.length === 17) {
+        alert('CPU has sunk your fleet! You lose!');
+        userInput.removeEventListener('submit', handleUserSubmit);
+        return;
+      }
+
+      alert('hit');
+
+
+      // check if the random hit resulted in a ship sinking
+      //   if yes, then need to upddate remaining ships array
+
+      var huntingDone = false;
+
+      for (var j = 0; j < bottomBoard.shipSquaresKey.length; j++) {
+        if (!checkIfStillFloating(bottomBoard.shipSquares, bottomBoard.groupedShipSquares[j])) { // ship @ j is sunk
+          bottomBoard.shipSquaresKey.splice(j, 1);   // removes the ship e.g. [2, 3, 4] --> [2, 4]
+          huntingDone = true;
+          break;
+        }
+      }
+
+      // the hunted guess sunk the ship, so we can empty the lockedOnStack, which will return us to random mode
+      if (huntingDone) {
+
+        lockedOnStack = [];
+        huntDirection = [];
+
+      } else { // wasn't a sinking shot so, we must push more squares to continue hunting
+
+        var continueRight = huntingGuess + 1;
+        var continueLeft = huntingGuess - 1;
+        var continueDown = huntingGuess + 10;
+        var continueUp = huntingGuess - 10;
+
+        if (direction === 'up') {
+          if (continueUp >= 0 && bottomBoard.openSquares.includes(continueUp)) {
+            lockedOnStack.push(continueUp);
+            huntDirection.push('up');
+          } else if (bottomBoard.hits.includes(continueUp)) {
+            continueUp -= 10;
+            if (continueUp >= 0 && bottomBoard.openSquares.includes(continueUp)) {
+              lockedOnStack.push(continueUp);
+              huntDirection.push('up');
+            }
+          }
+        } else if (direction === 'down') {
+          if (continueDown <= 99 && bottomBoard.openSquares.includes(continueDown)) {
+            lockedOnStack.push(continueDown);
+            huntDirection.push('down');
+          } else if (bottomBoard.hits.includes(continueDown)) {
+            continueDown += 10;
+            if (continueDown <= 99 && bottomBoard.openSquares.includes(continueDown)) {
+              lockedOnStack.push(continueDown);
+              huntDirection.push('down');
+            }
+          }
+        } else if (direction === 'left') {
+          if ((Math.floor(continueLeft / 10)) === (Math.floor(huntingGuess / 10)) && bottomBoard.openSquares.includes(continueLeft)) {
+            lockedOnStack.push(continueLeft);
+            huntDirection.push('left');
+          } else if (bottomBoard.hits.includes(continueLeft)) {
+            continueLeft -= 1;
+            if ((Math.floor(continueLeft / 10)) === (Math.floor(huntingGuess / 10)) && bottomBoard.openSquares.includes(continueLeft)) {
+              lockedOnStack.push(continueLeft);
+              huntDirection.push('left');
+            }
+          }
+        } else if (direction === 'right') {
+          if ((Math.floor(continueRight / 10)) === (Math.floor(huntingGuess / 10)) && bottomBoard.openSquares.includes(continueRight)) {
+            lockedOnStack.push(continueRight);
+            huntDirection.push('right');
+          } else if (bottomBoard.hits.includes(continueRight)) {
+            continueRight += 1;
+            if ((Math.floor(continueRight / 10)) === (Math.floor(huntingGuess / 10)) && bottomBoard.openSquares.includes(continueRight)) {
+              lockedOnStack.push(continueRight);
+              huntDirection.push('right');
+            }
+          }
+        }
+      }
+
+    } else {   // the square from lockedOnStack was a miss
+
+      huntingTdEl.style.backgroundColor = 'white';
+      bottomBoard.misses.push(randomGuess);
+    }
+
   }
 
 }

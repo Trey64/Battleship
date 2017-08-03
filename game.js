@@ -318,6 +318,7 @@ function computerGuessEasy() {
   //////////////////////////////////////////////////////////////////////////////////
   if (bottomBoard.shipSquares.includes(randomGuess)) {
 
+    bottomBoard.hits.push(randomGuess);
     bottomBoard.shipSquares.splice(bottomBoard.shipSquares.indexOf(randomGuess), 1); // removes the guessed square
 
     setTimeout(function() {
@@ -335,6 +336,7 @@ function computerGuessEasy() {
         type: 'error'
       });
       userInput.removeEventListener('submit', handleUserSubmit);
+      return;
     }
 
   } else { // the computer misses

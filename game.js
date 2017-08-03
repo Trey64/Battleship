@@ -1,18 +1,15 @@
 'use strict';
 
-// Getting the data from localStorage
-// var gameInfo = JSON.parse(localStorage.gameInfo);
-// var difficulty = gameInfo[1];   // the difficulty value is in index 1 of the array
-
-// difficulty = 'easy';    // [!!!!!!!] setting it to easy value for now -- later will use whatever the user chose
-
-
-var randomMode = true;  // for how the computer guesses with medium and hard difficulties
+//Getting the data from localStorage
+var gameInfo = JSON.parse(localStorage.gameInfo);
+var difficulty = gameInfo[1];   // the difficulty value is in index 1 of the array
 var huntDirection = [];
 var ships = [2, 3, 3, 4, 5]; // array of ship sizes each board will contain
 var alphaValues = ['a', 0, 'b', 10, 'c', 20, 'd', 30, 'e', 40, 'f', 50, 'g', 60, 'h', 70, 'i', 80, 'j', 90];
 var lockedOnStack = [];
+var consecutiveMisses = 1; // counts the number of turns the computer guesses wrong consecutively
 var userInput = document.getElementById('user_input');
+var topTable = document.getElementById('top');
 
 // Constructor for a single board of Battleships
 function Battleship(ships) {
@@ -268,8 +265,121 @@ function handleUserSubmit(event) {
 // window.addEventListener("load", initMp3Player, false);
 //
 
-  computerGuessEasy();
+  if (difficulty === 'easy') {
+    computerGuessEasy();
+  } else if (difficulty === 'medium') {
+    computerGuessMedium();
+  } else {
+    computerGuessHard();
+  }
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+function handleUserClick(event) {
+
+  event.preventDefault(); // I dunno what this does
+
+  var clickedCoordinate = event.target.id;
+  var clickedCoordinateNum = parseInt(clickedCoordinate);
+
+  if (typeof clickedCoordinateNum !== 'number') {
+
+    swal({
+      title: 'Error',
+      text: 'Choose a valid square!',
+      type: 'error'
+    });
+
+    return;
+  }
+
+  if (topBoard.misses.includes(clickedCoordinateNum) || topBoard.hits.includes(clickedCoordinateNum)) {
+
+    swal({
+      title: 'Error',
+      text: 'You\'ve already fired there!',
+      type: 'error'
+    });
+
+    return;
+  }
+
+  var tdEl = document.getElementById(clickedCoordinate);
+
+  if (topBoard.shipSquares.includes(clickedCoordinateNum)) { // this means you got a hit
+    tdEl.style.backgroundColor = '#C90000';
+    tdEl.className = 'magictime vanishIn';
+    tdEl.style.backgroundImage = 'url(\'images/battleshipIcon.png\')';
+    topBoard.hits.push(clickedCoordinateNum);
+
+    if (topBoard.hits.length === 17) {    // the hit sunk the last ship
+
+      swal(
+        'Victory!',
+        'You sunk the enemy fleet',
+        'success'
+      );
+
+      topTable.removeEventListener('click', handleUserClick);
+      return;
+
+    } else {  // still a valid hit, but it didn't sink the last ship
+
+      swal({
+        title: 'Nice!',
+        text: 'You got a hit',
+        type: 'success',
+        showConfirmButton: false
+      });
+
+    }
+
+  } else {       // this will be a miss
+
+    tdEl.style.backgroundColor = 'white';
+    tdEl.className = 'magictime vanishIn';
+
+    tdEl.className = 'magictime vanishIn';
+    topBoard.misses.push(clickedCoordinateNum);
+
+    // var swoosh = new Audio('Swoosh 1-SoundBible.com-231145780.wav');
+    // swoosh.play();
+    // (new Audio()).canPlayType('audio/ogg; codecs=vorbis');
+    // swoosh.currentTime = 0;
+
+    swal({
+      title: 'Miss!',
+      text: 'You hit the water',
+      type: 'error',
+      showConfirmButton: false
+    });
+  }
+
+// var swoosh = new Audio();
+// swoosh.src = 'Swoosh 1-SoundBible.com-231145780.mp3';
+// swoosh.controls = true;
+// swoosh.loop = false;
+// swoosh.autoplay = false;
+// window.addEventListener("load", initMp3Player, false);
+//
+
+  if (difficulty === 'easy') {
+    computerGuessEasy();
+  } else if (difficulty === 'medium') {
+    computerGuessMedium();
+  } else {
+    computerGuessHard();
+  }
+}
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 // logic for how the computer guesses on its turn for easy mode
 function computerGuessEasy() {
@@ -335,9 +445,11 @@ function computerGuessEasy() {
       swal({
         title: 'Defeat!',
         text: 'The enemy has sunk your fleet',
-        type: 'error'
+        type: 'error',
+        timer: 5000
       });
       userInput.removeEventListener('submit', handleUserSubmit);
+      topTable.removeEventListener('click', handleUserClick);
       return;
     }
 
@@ -386,7 +498,20 @@ function computerGuessMedium() {
 
     var bottomSquareIndex = 'b' + randomGuess.toString();
 
-    alert('Now the computer\'s turn! ' + randomGuessString + '!');
+    // alert('Now the computer\'s turn! ' + randomGuessString + '!');
+
+    // Prints text after a slight delay
+    setTimeout(function() {
+
+      swal({
+        title: 'Enemy\'s turn!',
+        text:  'The enemy attacks ' + randomGuessString.toUpperCase() + '!',
+        type: 'warning',
+        timer: 1500,
+        showConfirmButton: false
+      });
+
+    }, 1500);
 
     var tdEl = document.getElementById(bottomSquareIndex);
 
@@ -406,17 +531,21 @@ function computerGuessMedium() {
         tdEl.style.backgroundColor = '#C90000';
         tdEl.className = 'magictime vanishIn';
         tdEl.style.backgroundImage = 'url(\'images/battleshipIcon.png\')';
-      }, 1700);
+      }, 2600);
 
       // checks if the last ship has been sunk
       //    [!!!] Could also check if bottomBoard.shipSquare is empty
       if (bottomBoard.hits.length === 17) {
-        alert('CPU has sunk your fleet! You lose!');
+        swal({
+          title: 'Defeat!',
+          text: 'The enemy has sunk your fleet',
+          type: 'error',
+          timer: 5000
+        });
         userInput.removeEventListener('submit', handleUserSubmit);
+        topTable.removeEventListener('click', handleUserClick);
         return;
       }
-
-      alert('hit');
 
       // check if the random hit resulted in a ship sinking
       //   if yes, then need to upddate remaining ships array
@@ -426,13 +555,15 @@ function computerGuessMedium() {
       for (var i = 0; i < bottomBoard.shipSquaresKey.length; i++) {
         if (!checkIfStillFloating(bottomBoard.shipSquares, bottomBoard.groupedShipSquares[i])) { // ship @ i is sunk
           bottomBoard.shipSquaresKey.splice(i, 1);   // removes the ship e.g. [2, 3, 4] --> [2, 4]
+          bottomBoard.groupedShipSquares.splice(i, 1);
           sinkingShot = true;
+          break;
         }
       }
 
       // the shot was a hit, but it didn't sink the ship, so now we try to finish the ship
       if (!sinkingShot) {
-        randomMode = false;
+        // randomMode = false;
 
         // Will use a stack structure for the squares to guess
         //   when popping the order of which direction we choose will be top->bottom->left->right
@@ -468,7 +599,13 @@ function computerGuessMedium() {
       }
 
     } else {   // bottomBoard.shipSquares does NOT include randomGuess, i.e. miss
-      tdEl.style.backgroundColor = 'white';
+
+      setTimeout(function() {
+        tdEl.style.backgroundColor = 'white';
+        tdEl.className = 'magictime vanishIn';
+        bottomBoard.misses.push(randomGuess);
+      }, 2600);
+
       bottomBoard.misses.push(randomGuess);
     }
 
@@ -493,7 +630,19 @@ function computerGuessMedium() {
 
     var medBottomSquareIndex = 'b' + huntingGuess.toString();
 
-    alert('Now the computer\'s turn! ' + huntingGuessString + '!');
+    setTimeout(function() {
+
+      swal({
+        title: 'Enemy\'s turn!',
+        text:  'The enemy attacks ' + huntingGuessString.toUpperCase() + '!',
+        type: 'warning',
+        timer: 1500,
+        showConfirmButton: false
+      });
+
+    }, 1500);
+
+    // alert('Now the computer\'s turn! ' + huntingGuessString + '!');
 
     var huntingTdEl = document.getElementById(medBottomSquareIndex);
 
@@ -510,18 +659,21 @@ function computerGuessMedium() {
         huntingTdEl.style.backgroundColor = '#C90000';
         huntingTdEl.className = 'magictime vanishIn';
         huntingTdEl.style.backgroundImage = 'url(\'images/battleshipIcon.png\')';
-      }, 1700);
+      }, 2600);
 
       // checks if the last ship has been sunk
       //    [!!!] Could also check if bottomBoard.shipSquare is empty
       if (bottomBoard.hits.length === 17) {
-        alert('CPU has sunk your fleet! You lose!');
+        swal({
+          title: 'Defeat!',
+          text: 'The enemy has sunk your fleet',
+          type: 'error',
+          timer: 5000
+        });
         userInput.removeEventListener('submit', handleUserSubmit);
+        topTable.removeEventListener('click', handleUserClick);
         return;
       }
-
-      alert('hit');
-
 
       // check if the random hit resulted in a ship sinking
       //   if yes, then need to upddate remaining ships array
@@ -531,6 +683,7 @@ function computerGuessMedium() {
       for (var j = 0; j < bottomBoard.shipSquaresKey.length; j++) {
         if (!checkIfStillFloating(bottomBoard.shipSquares, bottomBoard.groupedShipSquares[j])) { // ship @ j is sunk
           bottomBoard.shipSquaresKey.splice(j, 1);   // removes the ship e.g. [2, 3, 4] --> [2, 4]
+          bottomBoard.groupedShipSquares.splice(j, 1);
           huntingDone = true;
           break;
         }
@@ -598,7 +751,11 @@ function computerGuessMedium() {
 
     } else {   // the square from lockedOnStack was a miss
 
-      huntingTdEl.style.backgroundColor = 'white';
+      setTimeout(function() {
+        huntingTdEl.style.backgroundColor = 'white';
+        huntingTdEl.className = 'magictime vanishIn';
+        bottomBoard.misses.push(randomGuess);
+      }, 2600);
       bottomBoard.misses.push(randomGuess);
     }
 
@@ -606,6 +763,309 @@ function computerGuessMedium() {
 
 }
 
+// logic for how the computer guesses on its turn for hard mode
+function computerGuessHard() {
+
+  // we haven't pushed any squares on to lockedOnStack, which means we are in random guessing mode
+  if (lockedOnStack.length === 0) {
+
+    var randomGuess;
+
+    if (consecutiveMisses > 5) {
+      randomGuess = bottomBoard.shipSquares[0];
+    } else {
+      randomGuess = bottomBoard.openSquares[randomNumber(0, bottomBoard.openSquares.length - 1)];
+    }
+
+
+    // if we remove the randomGuess from the openSquares array, potentially don't need the
+    //   following while loop -- test later
+    while (bottomBoard.misses.includes(randomGuess) || bottomBoard.hits.includes(randomGuess) || typeof randomGuess !== 'number') {
+      randomGuess = bottomBoard.openSquares[randomNumber(0, bottomBoard.openSquares.length - 1)];
+    }
+
+    bottomBoard.openSquares.splice(bottomBoard.openSquares.indexOf(randomGuess), 1); // removes the guessed square
+
+    var randomGuessTenthValue = (Math.floor(randomGuess / 10)) * 10;
+    // getting the letter for displaying to the user what square the computer guessed
+    var randomGuessRowLetter = alphaValues[(alphaValues.indexOf(randomGuessTenthValue)) - 1];
+
+    var randomGuessString;
+
+    if (randomGuess < 10) {   // row value is A
+      randomGuessString = randomGuessRowLetter + randomGuess.toString();
+    } else {
+      randomGuessString = randomGuessRowLetter + (randomGuess % 10).toString();
+    }
+
+    var bottomSquareIndex = 'b' + randomGuess.toString();
+
+    // alert('Now the computer\'s turn! ' + randomGuessString + '!');
+
+    // Prints text after a slight delay
+    setTimeout(function() {
+
+      swal({
+        title: 'Enemy\'s turn!',
+        text:  'The enemy attacks ' + randomGuessString.toUpperCase() + '!',
+        type: 'warning',
+        timer: 1500,
+        showConfirmButton: false
+      });
+
+    }, 1500);
+
+    var tdEl = document.getElementById(bottomSquareIndex);
+
+
+
+
+
+    //////////////////////////////////////////////////////////////////////////////////
+    /////////////// Logic for a hit starts here //////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////
+    if (bottomBoard.shipSquares.includes(randomGuess)) {
+
+      consecutiveMisses = 0;
+      bottomBoard.hits.push(randomGuess);
+      bottomBoard.shipSquares.splice(bottomBoard.shipSquares.indexOf(randomGuess), 1); // removes the guessed square
+
+      setTimeout(function() {
+        tdEl.style.backgroundColor = '#C90000';
+        tdEl.className = 'magictime vanishIn';
+        tdEl.style.backgroundImage = 'url(\'images/battleshipIcon.png\')';
+      }, 2600);
+
+      // checks if the last ship has been sunk
+      //    [!!!] Could also check if bottomBoard.shipSquare is empty
+      if (bottomBoard.hits.length === 17) {
+        swal({
+          title: 'Defeat!',
+          text: 'The enemy has sunk your fleet',
+          type: 'error',
+          timer: 5000
+        });
+        userInput.removeEventListener('submit', handleUserSubmit);
+        topTable.removeEventListener('click', handleUserClick);
+        return;
+      }
+
+      // check if the random hit resulted in a ship sinking
+      //   if yes, then need to upddate remaining ships array
+
+      var sinkingShot = false;
+
+      for (var i = 0; i < bottomBoard.shipSquaresKey.length; i++) {
+        if (!checkIfStillFloating(bottomBoard.shipSquares, bottomBoard.groupedShipSquares[i])) { // ship @ i is sunk
+          bottomBoard.shipSquaresKey.splice(i, 1);   // removes the ship e.g. [2, 3, 4] --> [2, 4]
+          bottomBoard.groupedShipSquares.splice(i, 1);
+          sinkingShot = true;
+          break;
+        }
+      }
+
+      // the shot was a hit, but it didn't sink the ship, so now we try to finish the ship
+      if (!sinkingShot) {
+        // randomMode = false;
+
+        // Will use a stack structure for the squares to guess
+        //   when popping the order of which direction we choose will be top->bottom->left->right
+        var rightSquare = randomGuess + 1;
+        var leftSquare = randomGuess - 1;
+        var downSquare = randomGuess + 10;
+        var upSquare = randomGuess - 10;
+
+        // checks if the "right" is valid
+        //    if true then pushes it
+        if ((Math.floor(rightSquare / 10)) === (Math.floor(randomGuess / 10)) && bottomBoard.openSquares.includes(rightSquare)) {
+          lockedOnStack.push(rightSquare);
+          huntDirection.push('right');
+        }
+        // checks if the "left" is valid
+        //    if true then pushes it
+        if ((Math.floor(leftSquare / 10)) === (Math.floor(randomGuess / 10)) && bottomBoard.openSquares.includes(leftSquare)) {
+          lockedOnStack.push(leftSquare);
+          huntDirection.push('left');
+        }
+        // checks if the "bottom" is valid
+        //    if true then pushes it
+        if (downSquare <= 99 && bottomBoard.openSquares.includes(downSquare)) {
+          lockedOnStack.push(downSquare);
+          huntDirection.push('down');
+        }
+        // checks if the "top" is valid
+        //    if true then pushes it
+        if (upSquare >= 0 && bottomBoard.openSquares.includes(upSquare)) {
+          lockedOnStack.push(upSquare);
+          huntDirection.push('up');
+        }
+      }
+
+    } else {   // bottomBoard.shipSquares does NOT include randomGuess, i.e. miss
+
+      setTimeout(function() {
+        tdEl.style.backgroundColor = 'white';
+        tdEl.className = 'magictime vanishIn';
+        bottomBoard.misses.push(randomGuess);
+      }, 2600);
+
+      bottomBoard.misses.push(randomGuess);
+      consecutiveMisses++;
+    }
+
+  // if we go into the else below, then the lockedOnStack is non empty
+  } else {
+
+    var huntingGuess = lockedOnStack.pop();
+    var direction = huntDirection.pop();
+    bottomBoard.openSquares.splice(bottomBoard.openSquares.indexOf(huntingGuess), 1); // removes the guessed square
+
+    var huntingGuessTenthValue = (Math.floor(huntingGuess / 10)) * 10;
+    // getting the letter for displaying to the user what square the computer guessed
+    var huntingGuessRowLetter = alphaValues[(alphaValues.indexOf(huntingGuessTenthValue)) - 1];
+
+    var huntingGuessString;
+
+    if (huntingGuess < 10) {   // row value is A
+      huntingGuessString = huntingGuessRowLetter + huntingGuess.toString();
+    } else {
+      huntingGuessString = huntingGuessRowLetter + (huntingGuess % 10).toString();
+    }
+
+    var medBottomSquareIndex = 'b' + huntingGuess.toString();
+
+    setTimeout(function() {
+
+      swal({
+        title: 'Enemy\'s turn!',
+        text:  'The enemy attacks ' + huntingGuessString.toUpperCase() + '!',
+        type: 'warning',
+        timer: 1500,
+        showConfirmButton: false
+      });
+
+    }, 1500);
+
+    // alert('Now the computer\'s turn! ' + huntingGuessString + '!');
+
+    var huntingTdEl = document.getElementById(medBottomSquareIndex);
+
+
+    //////////////////////////////////////////////////////////////////////////////////
+    /////////////// Logic for a hit starts here //////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////
+    if (bottomBoard.shipSquares.includes(huntingGuess)) {
+
+      bottomBoard.hits.push(huntingGuess);
+      bottomBoard.shipSquares.splice(bottomBoard.shipSquares.indexOf(huntingGuess), 1); // removes the guessed square
+
+      setTimeout(function() {
+        huntingTdEl.style.backgroundColor = '#C90000';
+        huntingTdEl.className = 'magictime vanishIn';
+        huntingTdEl.style.backgroundImage = 'url(\'images/battleshipIcon.png\')';
+      }, 2600);
+
+      // checks if the last ship has been sunk
+      //    [!!!] Could also check if bottomBoard.shipSquare is empty
+      if (bottomBoard.hits.length === 17) {
+        swal({
+          title: 'Defeat!',
+          text: 'The enemy has sunk your fleet',
+          type: 'error',
+          timer: 5000
+        });
+        userInput.removeEventListener('submit', handleUserSubmit);
+        topTable.removeEventListener('click', handleUserClick);
+        return;
+      }
+
+      // check if the random hit resulted in a ship sinking
+      //   if yes, then need to upddate remaining ships array
+
+      var huntingDone = false;
+
+      for (var j = 0; j < bottomBoard.shipSquaresKey.length; j++) {
+        if (!checkIfStillFloating(bottomBoard.shipSquares, bottomBoard.groupedShipSquares[j])) { // ship @ j is sunk
+          bottomBoard.shipSquaresKey.splice(j, 1);   // removes the ship e.g. [2, 3, 4] --> [2, 4]
+          bottomBoard.groupedShipSquares.splice(j, 1);
+          huntingDone = true;
+          break;
+        }
+      }
+
+      // the hunted guess sunk the ship, so we can empty the lockedOnStack, which will return us to random mode
+      if (huntingDone) {
+
+        lockedOnStack = [];
+        huntDirection = [];
+
+      } else { // wasn't a sinking shot so, we must push more squares to continue hunting
+
+        var continueRight = huntingGuess + 1;
+        var continueLeft = huntingGuess - 1;
+        var continueDown = huntingGuess + 10;
+        var continueUp = huntingGuess - 10;
+
+        if (direction === 'up') {
+          if (continueUp >= 0 && bottomBoard.openSquares.includes(continueUp)) {
+            lockedOnStack.push(continueUp);
+            huntDirection.push('up');
+          } else if (bottomBoard.hits.includes(continueUp)) {
+            continueUp -= 10;
+            if (continueUp >= 0 && bottomBoard.openSquares.includes(continueUp)) {
+              lockedOnStack.push(continueUp);
+              huntDirection.push('up');
+            }
+          }
+        } else if (direction === 'down') {
+          if (continueDown <= 99 && bottomBoard.openSquares.includes(continueDown)) {
+            lockedOnStack.push(continueDown);
+            huntDirection.push('down');
+          } else if (bottomBoard.hits.includes(continueDown)) {
+            continueDown += 10;
+            if (continueDown <= 99 && bottomBoard.openSquares.includes(continueDown)) {
+              lockedOnStack.push(continueDown);
+              huntDirection.push('down');
+            }
+          }
+        } else if (direction === 'left') {
+          if ((Math.floor(continueLeft / 10)) === (Math.floor(huntingGuess / 10)) && bottomBoard.openSquares.includes(continueLeft)) {
+            lockedOnStack.push(continueLeft);
+            huntDirection.push('left');
+          } else if (bottomBoard.hits.includes(continueLeft)) {
+            continueLeft -= 1;
+            if ((Math.floor(continueLeft / 10)) === (Math.floor(huntingGuess / 10)) && bottomBoard.openSquares.includes(continueLeft)) {
+              lockedOnStack.push(continueLeft);
+              huntDirection.push('left');
+            }
+          }
+        } else if (direction === 'right') {
+          if ((Math.floor(continueRight / 10)) === (Math.floor(huntingGuess / 10)) && bottomBoard.openSquares.includes(continueRight)) {
+            lockedOnStack.push(continueRight);
+            huntDirection.push('right');
+          } else if (bottomBoard.hits.includes(continueRight)) {
+            continueRight += 1;
+            if ((Math.floor(continueRight / 10)) === (Math.floor(huntingGuess / 10)) && bottomBoard.openSquares.includes(continueRight)) {
+              lockedOnStack.push(continueRight);
+              huntDirection.push('right');
+            }
+          }
+        }
+      }
+
+    } else {   // the square from lockedOnStack was a miss
+
+      setTimeout(function() {
+        huntingTdEl.style.backgroundColor = 'white';
+        huntingTdEl.className = 'magictime vanishIn';
+        bottomBoard.misses.push(randomGuess);
+      }, 2600);
+      bottomBoard.misses.push(randomGuess);
+    }
+
+  }
+
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 ////   Function Calls & Object Instantiation   /////////////////////////////////
@@ -642,3 +1102,4 @@ console.log(bottomBoard.shipSquaresKey);
 console.log(bottomBoard.shipSquares);
 
 userInput.addEventListener('submit', handleUserSubmit);
+topTable.addEventListener('click', handleUserClick);

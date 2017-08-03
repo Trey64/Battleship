@@ -13,6 +13,7 @@ var ships = [2, 3, 3, 4, 5]; // array of ship sizes each board will contain
 var alphaValues = ['a', 0, 'b', 10, 'c', 20, 'd', 30, 'e', 40, 'f', 50, 'g', 60, 'h', 70, 'i', 80, 'j', 90];
 var lockedOnStack = [];
 var userInput = document.getElementById('user_input');
+var topTable = document.getElementById('top');
 
 // Constructor for a single board of Battleships
 function Battleship(ships) {
@@ -268,8 +269,109 @@ function handleUserSubmit(event) {
 // window.addEventListener("load", initMp3Player, false);
 //
 
+  computerGuessMedium();
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+function handleUserClick(event) {
+
+  event.preventDefault(); // I dunno what this does
+
+  var clickedCoordinate = event.target.id;
+  var clickedCoordinateNum = parseInt(clickedCoordinate);
+
+  if (typeof clickedCoordinateNum !== 'number') {
+
+    swal({
+      title: 'Error',
+      text: 'Choose a valid square!',
+      type: 'error'
+    });
+
+    return;
+  }
+
+  if (topBoard.misses.includes(clickedCoordinateNum) || topBoard.hits.includes(clickedCoordinateNum)) {
+
+    swal({
+      title: 'Error',
+      text: 'You\'ve already fired there!',
+      type: 'error'
+    });
+
+    return;
+  }
+
+  var tdEl = document.getElementById(clickedCoordinate);
+
+  if (topBoard.shipSquares.includes(clickedCoordinateNum)) { // this means you got a hit
+    tdEl.style.backgroundColor = '#C90000';
+    tdEl.className = 'magictime vanishIn';
+    tdEl.style.backgroundImage = 'url(\'images/battleshipIcon.png\')';
+    topBoard.hits.push(clickedCoordinateNum);
+
+    if (topBoard.hits.length === 17) {    // the hit sunk the last ship
+
+      swal(
+        'Victory!',
+        'You sunk the enemy fleet',
+        'success'
+      );
+
+      topTable.removeEventListener('click', handleUserClick);
+      return;
+
+    } else {  // still a valid hit, but it didn't sink the last ship
+
+      swal({
+        title: 'Nice!',
+        text: 'You got a hit',
+        type: 'success',
+        showConfirmButton: false
+      });
+
+    }
+
+  } else {       // this will be a miss
+
+    tdEl.style.backgroundColor = 'white';
+    tdEl.className = 'magictime vanishIn';
+
+    tdEl.className = 'magictime vanishIn';
+    topBoard.misses.push(clickedCoordinateNum);
+
+    // var swoosh = new Audio('Swoosh 1-SoundBible.com-231145780.wav');
+    // swoosh.play();
+    // (new Audio()).canPlayType('audio/ogg; codecs=vorbis');
+    // swoosh.currentTime = 0;
+
+    swal({
+      title: 'Miss!',
+      text: 'You hit the water',
+      type: 'error',
+      showConfirmButton: false
+    });
+  }
+
+// var swoosh = new Audio();
+// swoosh.src = 'Swoosh 1-SoundBible.com-231145780.mp3';
+// swoosh.controls = true;
+// swoosh.loop = false;
+// swoosh.autoplay = false;
+// window.addEventListener("load", initMp3Player, false);
+//
+
   computerGuessEasy();
 }
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 // logic for how the computer guesses on its turn for easy mode
 function computerGuessEasy() {
@@ -336,6 +438,7 @@ function computerGuessEasy() {
         type: 'error'
       });
       userInput.removeEventListener('submit', handleUserSubmit);
+      topTable.removeEventListener('click', handleUserClick);
       return;
     }
 
@@ -411,6 +514,7 @@ function computerGuessMedium() {
       if (bottomBoard.hits.length === 17) {
         alert('CPU has sunk your fleet! You lose!');
         userInput.removeEventListener('submit', handleUserSubmit);
+        topTable.removeEventListener('click', handleUserClick);
         return;
       }
 
@@ -515,6 +619,7 @@ function computerGuessMedium() {
       if (bottomBoard.hits.length === 17) {
         alert('CPU has sunk your fleet! You lose!');
         userInput.removeEventListener('submit', handleUserSubmit);
+        topTable.removeEventListener('click', handleUserClick);
         return;
       }
 
@@ -654,3 +759,4 @@ console.log(bottomBoard.shipSquaresKey);
 console.log(bottomBoard.shipSquares);
 
 userInput.addEventListener('submit', handleUserSubmit);
+topTable.addEventListener('click', handleUserClick);

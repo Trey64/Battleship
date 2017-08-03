@@ -15,6 +15,7 @@ var alphaValues = ['a', 0, 'b', 10, 'c', 20, 'd', 30, 'e', 40, 'f', 50, 'g', 60,
 var lockedOnStack = [];
 var userInput = document.getElementById('user_input');
 
+
 // Constructor for a single board of Battleships
 function Battleship(ships) {
   this.openSquares;
@@ -159,6 +160,9 @@ Battleship.prototype.renderShipPositions = function() {
 ////////////////////////////////////////////////////////////////////////////////
 //////////      Function Declarations      /////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
+var audio = document.getElementById('IntroSong');
+audio.autoplay = true;
+audio.load();
 
 // helper function to check if any of this vertical ship coordinates are already taken
 //   credit to a user from stack overflow

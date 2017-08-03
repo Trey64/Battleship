@@ -8,7 +8,7 @@
 
 
 var randomMode = true;  // for how the computer guesses with medium and hard difficulties
-
+var huntDirection;
 var ships = [2, 3, 3, 4, 5]; // array of ship sizes each board will contain
 var alphaValues = ['a', 0, 'b', 10, 'c', 20, 'd', 30, 'e', 40, 'f', 50, 'g', 60, 'h', 70, 'i', 80, 'j', 90];
 var lockedOnStack = [];
@@ -254,7 +254,7 @@ function handleUserSubmit(event) {
 
     swal({
       title: 'Miss!',
-      text: 'You hit water',
+      text: 'You hit the water',
       type: 'error',
       showConfirmButton: false
     });
@@ -274,7 +274,7 @@ function handleUserSubmit(event) {
 // logic for how the computer guesses on its turn for easy mode
 function computerGuessEasy() {
 
-  var randomGuess = bottomBoard.openSquares[randomNumber(0, bottomBoard.openSquares.length)];
+  var randomGuess = bottomBoard.openSquares[randomNumber(0, bottomBoard.openSquares.length - 1)];
 
   // if we remove the randomGuess from the openSquares array, potentially don't need the
   //   following while loop -- test later
@@ -301,7 +301,7 @@ function computerGuessEasy() {
 
     swal(
       'Enemy\'s turn!',
-      'The enemy has attacked ' + randomGuessString.toUpperCase() + '!',
+      'The enemy attacks ' + randomGuessString.toUpperCase() + '!',
       'warning'
     );
 
@@ -309,7 +309,15 @@ function computerGuessEasy() {
 
   var tdEl = document.getElementById(bottomSquareIndex);
 
-  if (bottomBoard.shipSquares.includes(randomGuess)) {  // computer got a hit
+
+
+  //////////////////////////////////////////////////////////////////////////////////
+  /////////////// Logic for a hit starts here //////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////////
+  if (bottomBoard.shipSquares.includes(randomGuess)) {
+
+    bottomBoard.shipSquares.splice(bottomBoard.shipSquares.indexOf(randomGuess), 1); // removes the hit square
+
     setTimeout(function() {
       tdEl.style.backgroundColor = '#C90000';
       tdEl.className = 'magictime vanishIn';
@@ -342,7 +350,7 @@ function computerGuessEasy() {
 // logic for how the computer guesses on its turn for medium mode
 function computerGuessMedium() {
 
-  // guesses randomly
+  // we haven't pushed any squares on to lockedOnStack, which means we are in random guessing mode
   if (lockedOnStack.length === 0) {
 
     var randomGuess = bottomBoard.openSquares[randomNumber(0, bottomBoard.openSquares.length - 1)];
@@ -371,7 +379,14 @@ function computerGuessMedium() {
 
     var tdEl = document.getElementById(bottomSquareIndex);
 
-    if (bottomBoard.shipSquares.includes(randomGuess)) {   // a hit
+
+
+
+
+    //////////////////////////////////////////////////////////////////////////////////
+    /////////////// Logic for a hit starts here //////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////
+    if (bottomBoard.shipSquares.includes(randomGuess)) {
 
       tdEl.style.backgroundColor = 'red';
       bottomBoard.hits.push(randomGuess);

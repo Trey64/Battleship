@@ -36,7 +36,6 @@ table {
   margin-top: 1%;
   margin-right: 1%;
 	/*border: 10px solid black;*/
-  padding-top: -3px;
   width: 500px;
   height: 500px;
   background-image: url("images/water.gif");
@@ -59,8 +58,6 @@ h2 {
 td {
   font-family: 'Helvetica';
   /*background-color: #0468af;*/
-  /*background-image: url("images/water2.gif");*/
-  z-index: -1;
 	width: 40px;
 	height: 40px;
   color: white;
@@ -74,7 +71,7 @@ td {
   border-radius: 5px;
   width: 100px;
   height: 40px;
-	font-size: 14px;
+	font-size: 18px;
 	padding: 1px;
   font-family: 'Vollkorn', sans-serif;
   color: white;

@@ -18,9 +18,6 @@ h4 {
   margin-right: 0;
 }
 
-p{
-
-}
 
 .portrait {
   /*border: 1px solid black;*/
@@ -38,7 +35,7 @@ p{
   background-color: #262626;
   text-align: center;
   height: 220px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 
 .home {

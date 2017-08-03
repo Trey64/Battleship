@@ -160,9 +160,6 @@ Battleship.prototype.renderShipPositions = function() {
 ////////////////////////////////////////////////////////////////////////////////
 //////////      Function Declarations      /////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-var audio = document.getElementById('IntroSong');
-audio.autoplay = true;
-audio.load();
 
 // helper function to check if any of this vertical ship coordinates are already taken
 //   credit to a user from stack overflow
@@ -658,3 +655,7 @@ console.log(bottomBoard.shipSquaresKey);
 console.log(bottomBoard.shipSquares);
 
 userInput.addEventListener('submit', handleUserSubmit);
+
+var audio = document.getElementById('IntroSong');
+audio.autoplay = true;
+audio.load();

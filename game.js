@@ -233,7 +233,7 @@ function handleUserSubmit(event) {
           type: 'success'
         });
 
-      }, 3300);
+      }, 5400);
 
       userInput.removeEventListener('submit', handleUserSubmit);
       return;
@@ -364,7 +364,7 @@ function handleUserClick(event) {
           text: 'You sunk the enemy fleet',
           type: 'success'
         });
-      }, 3300);
+      }, 5400);
 
       topTable.removeEventListener('click', handleUserClick);
       return;
@@ -521,7 +521,7 @@ function computerGuessEasy() {
           text: 'The enemy has sunk your fleet',
           type: 'error'
         });
-      }, 3300);
+      }, 5400);
       userInput.removeEventListener('submit', handleUserSubmit);
       topTable.removeEventListener('click', handleUserClick);
       return;
@@ -642,7 +642,7 @@ function computerGuessMedium() {
             text: 'The enemy has sunk your fleet',
             type: 'error'
           });
-        }, 3300);
+        }, 5400);
         userInput.removeEventListener('submit', handleUserSubmit);
         topTable.removeEventListener('click', handleUserClick);
         return;
@@ -786,7 +786,7 @@ function computerGuessMedium() {
             text: 'The enemy has sunk your fleet',
             type: 'error'
           });
-        }, 3300);
+        }, 5400);
         userInput.removeEventListener('submit', handleUserSubmit);
         topTable.removeEventListener('click', handleUserClick);
         return;
@@ -981,7 +981,7 @@ function computerGuessHard() {
             text: 'The enemy has sunk your fleet',
             type: 'error'
           });
-        }, 3300);
+        }, 5400);
         userInput.removeEventListener('submit', handleUserSubmit);
         topTable.removeEventListener('click', handleUserClick);
         return;
@@ -1132,7 +1132,7 @@ function computerGuessHard() {
             text: 'The enemy has sunk your fleet',
             type: 'error'
           });
-        }, 3300);
+        }, 5400);
         userInput.removeEventListener('submit', handleUserSubmit);
         topTable.removeEventListener('click', handleUserClick);
         return;

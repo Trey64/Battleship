@@ -214,6 +214,10 @@ function handleUserSubmit(event) {
   var tdEl = document.getElementById(coordinateString);
 
   if (topBoard.shipSquares.includes(guessedCoordinateAdjusted)) { // this means you got a hit
+
+    topBoard.hits.push(guessedCoordinateAdjusted);
+    topBoard.shipSquares.splice(topBoard.shipSquares.indexOf(guessedCoordinateAdjusted), 1); // removes the guessed square
+
     tdEl.style.backgroundColor = '#C90000';
     tdEl.className = 'magictime vanishIn';
     tdEl.style.backgroundImage = 'url(\'images/battleshipIcon.png\')';
@@ -229,19 +233,50 @@ function handleUserSubmit(event) {
           type: 'success'
         });
 
-      }, 3500);
+      }, 3300);
 
       userInput.removeEventListener('submit', handleUserSubmit);
       return;
 
     } else { // still a valid hit, but it didn't sink the last ship
 
-      swal({
-        title: 'Nice!',
-        text: 'You got a hit',
-        type: 'success',
-        showConfirmButton: false
-      });
+      // check if the random hit resulted in a ship sinking
+      //   if yes, then need to upddate remaining ships array
+
+      var yourSinkingShot = false;
+      var yourShipLength;
+      var yourShipNameIndex;
+      var yourSunkShipName;
+
+      for (var i = 0; i < topBoard.shipSquaresKey.length; i++) {
+        if (!checkIfStillFloating(topBoard.shipSquares, topBoard.groupedShipSquares[i])) { // ship @ i is sunk
+          topBoard.shipSquaresKey.splice(i, 1);   // removes the ship e.g. [2, 3, 4] --> [2, 4]
+
+          // Getting the name of the ship that was sunk
+          yourShipLength = topBoard.groupedShipSquares[i].length;
+          yourShipNameIndex = shipNames.indexOf(yourShipLength);
+          yourSunkShipName = shipNames[yourShipNameIndex + 1];
+          yourSinkingShot = true;
+          topBoard.groupedShipSquares.splice(i, 1);
+          break;
+        }
+      }
+
+      if (yourSinkingShot) {
+        swal({
+          title: 'Hurrah!',
+          text: 'You sunk the enemy\'s ' + yourSunkShipName,
+          type: 'success',
+          showConfirmButton: false
+        });
+      } else {
+        swal({
+          title: 'Nice!',
+          text: 'You got a hit',
+          type: 'success',
+          showConfirmButton: false
+        });
+      }
 
     }
 
@@ -312,6 +347,10 @@ function handleUserClick(event) {
   var tdEl = document.getElementById(clickedCoordinate);
 
   if (topBoard.shipSquares.includes(clickedCoordinateNum)) { // this means you got a hit
+
+    topBoard.hits.push(clickedCoordinateNum);
+    topBoard.shipSquares.splice(topBoard.shipSquares.indexOf(clickedCoordinateNum), 1); // removes the guessed square
+
     tdEl.style.backgroundColor = '#C90000';
     tdEl.className = 'magictime vanishIn';
     tdEl.style.backgroundImage = 'url(\'images/battleshipIcon.png\')';
@@ -325,19 +364,50 @@ function handleUserClick(event) {
           text: 'You sunk the enemy fleet',
           type: 'success'
         });
-      }, 3500);
+      }, 3300);
 
       topTable.removeEventListener('click', handleUserClick);
       return;
 
     } else {  // still a valid hit, but it didn't sink the last ship
 
-      swal({
-        title: 'Nice!',
-        text: 'You got a hit',
-        type: 'success',
-        showConfirmButton: false
-      });
+    // check if the random hit resulted in a ship sinking
+    //   if yes, then need to upddate remaining ships array
+
+      var yourSinkingShot = false;
+      var yourShipLength;
+      var yourShipNameIndex;
+      var yourSunkShipName;
+
+      for (var i = 0; i < topBoard.shipSquaresKey.length; i++) {
+        if (!checkIfStillFloating(topBoard.shipSquares, topBoard.groupedShipSquares[i])) { // ship @ i is sunk
+          topBoard.shipSquaresKey.splice(i, 1);   // removes the ship e.g. [2, 3, 4] --> [2, 4]
+
+          // Getting the name of the ship that was sunk
+          yourShipLength = topBoard.groupedShipSquares[i].length;
+          yourShipNameIndex = shipNames.indexOf(yourShipLength);
+          yourSunkShipName = shipNames[yourShipNameIndex + 1];
+          yourSinkingShot = true;
+          topBoard.groupedShipSquares.splice(i, 1);
+          break;
+        }
+      }
+
+      if (yourSinkingShot) {
+        swal({
+          title: 'Hurrah!',
+          text: 'You sunk the enemy\'s ' + yourSunkShipName,
+          type: 'success',
+          showConfirmButton: false
+        });
+      } else {
+        swal({
+          title: 'Nice!',
+          text: 'You got a hit',
+          type: 'success',
+          showConfirmButton: false
+        });
+      }
 
     }
 
@@ -451,7 +521,7 @@ function computerGuessEasy() {
           text: 'The enemy has sunk your fleet',
           type: 'error'
         });
-      }, 3500);
+      }, 3300);
       userInput.removeEventListener('submit', handleUserSubmit);
       topTable.removeEventListener('click', handleUserClick);
       return;
@@ -474,9 +544,10 @@ function computerGuessEasy() {
           swal({
             title: 'Warning!',
             text: 'The enemy has sunk your ' + sunkShipName,
-            type: 'error'
+            type: 'error',
+            showConfirmButton: false
           });
-        }, 3500);
+        }, 3300);
 
         bottomBoard.groupedShipSquares.splice(i, 1);
         break;
@@ -571,7 +642,7 @@ function computerGuessMedium() {
             text: 'The enemy has sunk your fleet',
             type: 'error'
           });
-        }, 3500);
+        }, 3300);
         userInput.removeEventListener('submit', handleUserSubmit);
         topTable.removeEventListener('click', handleUserClick);
         return;
@@ -596,9 +667,10 @@ function computerGuessMedium() {
             swal({
               title: 'Warning!',
               text: 'The enemy has sunk your ' + sunkShipName,
-              type: 'error'
+              type: 'error',
+              showConfirmButton: false
             });
-          }, 3500);
+          }, 3300);
 
           bottomBoard.groupedShipSquares.splice(i, 1);
           sinkingShot = true;
@@ -714,7 +786,7 @@ function computerGuessMedium() {
             text: 'The enemy has sunk your fleet',
             type: 'error'
           });
-        }, 3500);
+        }, 3300);
         userInput.removeEventListener('submit', handleUserSubmit);
         topTable.removeEventListener('click', handleUserClick);
         return;
@@ -739,9 +811,10 @@ function computerGuessMedium() {
             swal({
               title: 'Warning!',
               text: 'The enemy has sunk your ' + sunkShipName2,
-              type: 'error'
+              type: 'error',
+              showConfirmButton: false
             });
-          }, 3500);
+          }, 3300);
 
           bottomBoard.groupedShipSquares.splice(j, 1);
           huntingDone = true;
@@ -908,7 +981,7 @@ function computerGuessHard() {
             text: 'The enemy has sunk your fleet',
             type: 'error'
           });
-        }, 3500);
+        }, 3300);
         userInput.removeEventListener('submit', handleUserSubmit);
         topTable.removeEventListener('click', handleUserClick);
         return;
@@ -933,9 +1006,10 @@ function computerGuessHard() {
             swal({
               title: 'Warning!',
               text: 'The enemy has sunk your ' + sunkShipName,
-              type: 'error'
+              type: 'error',
+              showConfirmButton: false
             });
-          }, 3500);
+          }, 3300);
 
           bottomBoard.groupedShipSquares.splice(i, 1);
           sinkingShot = true;
@@ -1058,7 +1132,7 @@ function computerGuessHard() {
             text: 'The enemy has sunk your fleet',
             type: 'error'
           });
-        }, 3500);
+        }, 3300);
         userInput.removeEventListener('submit', handleUserSubmit);
         topTable.removeEventListener('click', handleUserClick);
         return;
@@ -1083,9 +1157,10 @@ function computerGuessHard() {
             swal({
               title: 'Warning!',
               text: 'The enemy has sunk your ' + sunkShipName2,
-              type: 'error'
+              type: 'error',
+              showConfirmButton: false
             });
-          }, 3500);
+          }, 3300);
 
           bottomBoard.groupedShipSquares.splice(j, 1);
           huntingDone = true;

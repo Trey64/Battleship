@@ -5,7 +5,9 @@
 var gameInfo = JSON.parse(localStorage.gameInfo);
 var difficulty = gameInfo[1];   // the difficulty value is in index 1 of the array
 var huntDirection = [];
-var ships = [2, 3, 3, 4, 5]; // array of ship sizes each board will contain
+var ships = [2, 3, 3, 4, 5]; // array of ship sizes each board will contain]
+var shipNames = [2, 'frigate', 3, 'destroyer', 4, 'battleship', 5, 'aircraft carrier'];
+var evenSquares = [0, 2, 4, 6, 8, 11, 13, 15, 17, 19, 20, 22, 24, 26, 28, 31, 33, 35, 37, 39, 40, 42, 44, 46, 48, 51, 53, 55, 57, 59, 60, 62, 64, 66, 68, 71, 73, 75, 77, 79, 80, 82, 84, 86, 88, 91, 93, 95, 97, 99]; // even numbered squares for smarter random guessing
 var alphaValues = ['a', 0, 'b', 10, 'c', 20, 'd', 30, 'e', 40, 'f', 50, 'g', 60, 'h', 70, 'i', 80, 'j', 90];
 var lockedOnStack = [];
 var consecutiveMisses = 1; // counts the number of turns the computer guesses wrong consecutively
@@ -212,6 +214,10 @@ function handleUserSubmit(event) {
   var tdEl = document.getElementById(coordinateString);
 
   if (topBoard.shipSquares.includes(guessedCoordinateAdjusted)) { // this means you got a hit
+
+    topBoard.hits.push(guessedCoordinateAdjusted);
+    topBoard.shipSquares.splice(topBoard.shipSquares.indexOf(guessedCoordinateAdjusted), 1); // removes the guessed square
+
     tdEl.style.backgroundColor = '#C90000';
     tdEl.className = 'magictime vanishIn';
     tdEl.style.backgroundImage = 'url(\'images/battleshipIcon.png\')';
@@ -219,23 +225,58 @@ function handleUserSubmit(event) {
 
     if (topBoard.hits.length === 17) { // the hit sunk the last ship
 
-      swal(
-        'Victory!',
-        'You sunk the enemy fleet',
-        'success'
-      );
+      setTimeout(function() {
+
+        swal({
+          title: 'Victory!',
+          text: 'You sunk the enemy fleet',
+          type: 'success'
+        });
+
+      }, 3300);
 
       userInput.removeEventListener('submit', handleUserSubmit);
       return;
 
     } else { // still a valid hit, but it didn't sink the last ship
 
-      swal({
-        title: 'Nice!',
-        text: 'You got a hit',
-        type: 'success',
-        showConfirmButton: false
-      });
+      // check if the random hit resulted in a ship sinking
+      //   if yes, then need to upddate remaining ships array
+
+      var yourSinkingShot = false;
+      var yourShipLength;
+      var yourShipNameIndex;
+      var yourSunkShipName;
+
+      for (var i = 0; i < topBoard.shipSquaresKey.length; i++) {
+        if (!checkIfStillFloating(topBoard.shipSquares, topBoard.groupedShipSquares[i])) { // ship @ i is sunk
+          topBoard.shipSquaresKey.splice(i, 1);   // removes the ship e.g. [2, 3, 4] --> [2, 4]
+
+          // Getting the name of the ship that was sunk
+          yourShipLength = topBoard.groupedShipSquares[i].length;
+          yourShipNameIndex = shipNames.indexOf(yourShipLength);
+          yourSunkShipName = shipNames[yourShipNameIndex + 1];
+          yourSinkingShot = true;
+          topBoard.groupedShipSquares.splice(i, 1);
+          break;
+        }
+      }
+
+      if (yourSinkingShot) {
+        swal({
+          title: 'Hurrah!',
+          text: 'You sunk the enemy\'s ' + yourSunkShipName,
+          type: 'success',
+          showConfirmButton: false
+        });
+      } else {
+        swal({
+          title: 'Nice!',
+          text: 'You got a hit',
+          type: 'success',
+          showConfirmButton: false
+        });
+      }
 
     }
 
@@ -306,6 +347,10 @@ function handleUserClick(event) {
   var tdEl = document.getElementById(clickedCoordinate);
 
   if (topBoard.shipSquares.includes(clickedCoordinateNum)) { // this means you got a hit
+
+    topBoard.hits.push(clickedCoordinateNum);
+    topBoard.shipSquares.splice(topBoard.shipSquares.indexOf(clickedCoordinateNum), 1); // removes the guessed square
+
     tdEl.style.backgroundColor = '#C90000';
     tdEl.className = 'magictime vanishIn';
     tdEl.style.backgroundImage = 'url(\'images/battleshipIcon.png\')';
@@ -313,23 +358,56 @@ function handleUserClick(event) {
 
     if (topBoard.hits.length === 17) {    // the hit sunk the last ship
 
-      swal(
-        'Victory!',
-        'You sunk the enemy fleet',
-        'success'
-      );
+      setTimeout(function() {
+        swal({
+          title: 'Victory!',
+          text: 'You sunk the enemy fleet',
+          type: 'success'
+        });
+      }, 3300);
 
       topTable.removeEventListener('click', handleUserClick);
       return;
 
     } else {  // still a valid hit, but it didn't sink the last ship
 
-      swal({
-        title: 'Nice!',
-        text: 'You got a hit',
-        type: 'success',
-        showConfirmButton: false
-      });
+    // check if the random hit resulted in a ship sinking
+    //   if yes, then need to upddate remaining ships array
+
+      var yourSinkingShot = false;
+      var yourShipLength;
+      var yourShipNameIndex;
+      var yourSunkShipName;
+
+      for (var i = 0; i < topBoard.shipSquaresKey.length; i++) {
+        if (!checkIfStillFloating(topBoard.shipSquares, topBoard.groupedShipSquares[i])) { // ship @ i is sunk
+          topBoard.shipSquaresKey.splice(i, 1);   // removes the ship e.g. [2, 3, 4] --> [2, 4]
+
+          // Getting the name of the ship that was sunk
+          yourShipLength = topBoard.groupedShipSquares[i].length;
+          yourShipNameIndex = shipNames.indexOf(yourShipLength);
+          yourSunkShipName = shipNames[yourShipNameIndex + 1];
+          yourSinkingShot = true;
+          topBoard.groupedShipSquares.splice(i, 1);
+          break;
+        }
+      }
+
+      if (yourSinkingShot) {
+        swal({
+          title: 'Hurrah!',
+          text: 'You sunk the enemy\'s ' + yourSunkShipName,
+          type: 'success',
+          showConfirmButton: false
+        });
+      } else {
+        swal({
+          title: 'Nice!',
+          text: 'You got a hit',
+          type: 'success',
+          showConfirmButton: false
+        });
+      }
 
     }
 
@@ -370,6 +448,7 @@ function handleUserClick(event) {
     computerGuessHard();
   }
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -436,15 +515,43 @@ function computerGuessEasy() {
 
 
     if (bottomBoard.hits.length === 17) {
-
-      swal(
-        'Defeat!',
-        'The enemy has sunk your fleet',
-        'error'
-      );
+      setTimeout(function() {
+        swal({
+          title: 'Defeat!',
+          text: 'The enemy has sunk your fleet',
+          type: 'error'
+        });
+      }, 3300);
       userInput.removeEventListener('submit', handleUserSubmit);
       topTable.removeEventListener('click', handleUserClick);
       return;
+    }
+
+    // check if the random hit resulted in a ship sinking
+    //   if yes, then need to upddate remaining ships array
+
+    for (var i = 0; i < bottomBoard.shipSquaresKey.length; i++) {
+      if (!checkIfStillFloating(bottomBoard.shipSquares, bottomBoard.groupedShipSquares[i])) { // ship @ i is sunk
+        bottomBoard.shipSquaresKey.splice(i, 1);   // removes the ship e.g. [2, 3, 4] --> [2, 4]
+
+        // Getting the name of the ship that was sunk
+        var shipLength = bottomBoard.groupedShipSquares[i].length;
+        var shipNameIndex = shipNames.indexOf(shipLength);
+        var sunkShipName = shipNames[shipNameIndex + 1];
+
+        // alerting the name of the ship that was sunk
+        setTimeout(function() {
+          swal({
+            title: 'Warning!',
+            text: 'The enemy has sunk your ' + sunkShipName,
+            type: 'error',
+            showConfirmButton: false
+          });
+        }, 3300);
+
+        bottomBoard.groupedShipSquares.splice(i, 1);
+        break;
+      }
     }
 
   } else { // the computer misses
@@ -529,11 +636,13 @@ function computerGuessMedium() {
       // checks if the last ship has been sunk
       //    [!!!] Could also check if bottomBoard.shipSquare is empty
       if (bottomBoard.hits.length === 17) {
-        swal(
-          'Defeat!',
-          'The enemy has sunk your fleet',
-          'error'
-        );
+        setTimeout(function() {
+          swal({
+            title: 'Defeat!',
+            text: 'The enemy has sunk your fleet',
+            type: 'error'
+          });
+        }, 3300);
         userInput.removeEventListener('submit', handleUserSubmit);
         topTable.removeEventListener('click', handleUserClick);
         return;
@@ -547,6 +656,22 @@ function computerGuessMedium() {
       for (var i = 0; i < bottomBoard.shipSquaresKey.length; i++) {
         if (!checkIfStillFloating(bottomBoard.shipSquares, bottomBoard.groupedShipSquares[i])) { // ship @ i is sunk
           bottomBoard.shipSquaresKey.splice(i, 1);   // removes the ship e.g. [2, 3, 4] --> [2, 4]
+
+          // Getting the name of the ship that was sunk
+          var shipLength = bottomBoard.groupedShipSquares[i].length;
+          var shipNameIndex = shipNames.indexOf(shipLength);
+          var sunkShipName = shipNames[shipNameIndex + 1];
+
+          // alerting the name of the ship that was sunk
+          setTimeout(function() {
+            swal({
+              title: 'Warning!',
+              text: 'The enemy has sunk your ' + sunkShipName,
+              type: 'error',
+              showConfirmButton: false
+            });
+          }, 3300);
+
           bottomBoard.groupedShipSquares.splice(i, 1);
           sinkingShot = true;
           break;
@@ -655,11 +780,13 @@ function computerGuessMedium() {
       // checks if the last ship has been sunk
       //    [!!!] Could also check if bottomBoard.shipSquare is empty
       if (bottomBoard.hits.length === 17) {
-        swal(
-          'Defeat!',
-          'The enemy has sunk your fleet',
-          'error'
-        );
+        setTimeout(function() {
+          swal({
+            title: 'Defeat!',
+            text: 'The enemy has sunk your fleet',
+            type: 'error'
+          });
+        }, 3300);
         userInput.removeEventListener('submit', handleUserSubmit);
         topTable.removeEventListener('click', handleUserClick);
         return;
@@ -673,6 +800,22 @@ function computerGuessMedium() {
       for (var j = 0; j < bottomBoard.shipSquaresKey.length; j++) {
         if (!checkIfStillFloating(bottomBoard.shipSquares, bottomBoard.groupedShipSquares[j])) { // ship @ j is sunk
           bottomBoard.shipSquaresKey.splice(j, 1);   // removes the ship e.g. [2, 3, 4] --> [2, 4]
+
+          // Getting the name of the ship that was sunk
+          var shipLength2 = bottomBoard.groupedShipSquares[j].length;
+          var shipNameIndex2 = shipNames.indexOf(shipLength2);
+          var sunkShipName2 = shipNames[shipNameIndex2 + 1];
+
+          // alerting the name of the ship that was sunk
+          setTimeout(function() {
+            swal({
+              title: 'Warning!',
+              text: 'The enemy has sunk your ' + sunkShipName2,
+              type: 'error',
+              showConfirmButton: false
+            });
+          }, 3300);
+
           bottomBoard.groupedShipSquares.splice(j, 1);
           huntingDone = true;
           break;
@@ -764,17 +907,20 @@ function computerGuessHard() {
     if (consecutiveMisses > 5) {
       randomGuess = bottomBoard.shipSquares[0];
     } else {
-      randomGuess = bottomBoard.openSquares[randomNumber(0, bottomBoard.openSquares.length - 1)];
+      randomGuess = evenSquares[randomNumber(0, evenSquares.length - 1)];
     }
 
 
     // if we remove the randomGuess from the openSquares array, potentially don't need the
     //   following while loop -- test later
     while (bottomBoard.misses.includes(randomGuess) || bottomBoard.hits.includes(randomGuess) || typeof randomGuess !== 'number') {
-      randomGuess = bottomBoard.openSquares[randomNumber(0, bottomBoard.openSquares.length - 1)];
+      randomGuess = evenSquares[randomNumber(0, evenSquares.length - 1)];
     }
 
-    bottomBoard.openSquares.splice(bottomBoard.openSquares.indexOf(randomGuess), 1); // removes the guessed square
+    // removing the guessed square from both even squares and open squares
+    //   open squares needs to be updated for pushing to lockedOnStack later
+    evenSquares.splice(evenSquares.indexOf(randomGuess), 1);
+    bottomBoard.openSquares.splice(bottomBoard.openSquares.indexOf(randomGuess), 1);
 
     var randomGuessTenthValue = (Math.floor(randomGuess / 10)) * 10;
     // getting the letter for displaying to the user what square the computer guessed
@@ -829,11 +975,13 @@ function computerGuessHard() {
       // checks if the last ship has been sunk
       //    [!!!] Could also check if bottomBoard.shipSquare is empty
       if (bottomBoard.hits.length === 17) {
-        swal(
-          'Defeat!',
-          'The enemy has sunk your fleet',
-          'error'
-        );
+        setTimeout(function() {
+          swal({
+            title: 'Defeat!',
+            text: 'The enemy has sunk your fleet',
+            type: 'error'
+          });
+        }, 3300);
         userInput.removeEventListener('submit', handleUserSubmit);
         topTable.removeEventListener('click', handleUserClick);
         return;
@@ -847,6 +995,22 @@ function computerGuessHard() {
       for (var i = 0; i < bottomBoard.shipSquaresKey.length; i++) {
         if (!checkIfStillFloating(bottomBoard.shipSquares, bottomBoard.groupedShipSquares[i])) { // ship @ i is sunk
           bottomBoard.shipSquaresKey.splice(i, 1);   // removes the ship e.g. [2, 3, 4] --> [2, 4]
+
+          // Getting the name of the ship that was sunk
+          var shipLength = bottomBoard.groupedShipSquares[i].length;
+          var shipNameIndex = shipNames.indexOf(shipLength);
+          var sunkShipName = shipNames[shipNameIndex + 1];
+
+          // alerting the name of the ship that was sunk
+          setTimeout(function() {
+            swal({
+              title: 'Warning!',
+              text: 'The enemy has sunk your ' + sunkShipName,
+              type: 'error',
+              showConfirmButton: false
+            });
+          }, 3300);
+
           bottomBoard.groupedShipSquares.splice(i, 1);
           sinkingShot = true;
           break;
@@ -907,7 +1071,12 @@ function computerGuessHard() {
 
     var huntingGuess = lockedOnStack.pop();
     var direction = huntDirection.pop();
-    bottomBoard.openSquares.splice(bottomBoard.openSquares.indexOf(huntingGuess), 1); // removes the guessed square
+
+    // removes the "cheating" square from evenSquares if it is an even number
+    if (evenSquares.includes(huntingGuess)) {
+      evenSquares.splice(evenSquares.indexOf(randomGuess), 1);
+    }
+    bottomBoard.openSquares.splice(bottomBoard.openSquares.indexOf(huntingGuess), 1); // removing from open squares
 
     var huntingGuessTenthValue = (Math.floor(huntingGuess / 10)) * 10;
     // getting the letter for displaying to the user what square the computer guessed
@@ -957,11 +1126,13 @@ function computerGuessHard() {
       // checks if the last ship has been sunk
       //    [!!!] Could also check if bottomBoard.shipSquare is empty
       if (bottomBoard.hits.length === 17) {
-        swal(
-          'Defeat!',
-          'The enemy has sunk your fleet',
-          'error'
-        );
+        setTimeout(function() {
+          swal({
+            title: 'Defeat!',
+            text: 'The enemy has sunk your fleet',
+            type: 'error'
+          });
+        }, 3300);
         userInput.removeEventListener('submit', handleUserSubmit);
         topTable.removeEventListener('click', handleUserClick);
         return;
@@ -975,6 +1146,22 @@ function computerGuessHard() {
       for (var j = 0; j < bottomBoard.shipSquaresKey.length; j++) {
         if (!checkIfStillFloating(bottomBoard.shipSquares, bottomBoard.groupedShipSquares[j])) { // ship @ j is sunk
           bottomBoard.shipSquaresKey.splice(j, 1);   // removes the ship e.g. [2, 3, 4] --> [2, 4]
+
+          // Getting the name of the ship that was sunk
+          var shipLength2 = bottomBoard.groupedShipSquares[j].length;
+          var shipNameIndex2 = shipNames.indexOf(shipLength2);
+          var sunkShipName2 = shipNames[shipNameIndex2 + 1];
+
+          // alerting the name of the ship that was sunk
+          setTimeout(function() {
+            swal({
+              title: 'Warning!',
+              text: 'The enemy has sunk your ' + sunkShipName2,
+              type: 'error',
+              showConfirmButton: false
+            });
+          }, 3300);
+
           bottomBoard.groupedShipSquares.splice(j, 1);
           huntingDone = true;
           break;

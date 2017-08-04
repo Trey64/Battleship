@@ -5,7 +5,8 @@
 var gameInfo = JSON.parse(localStorage.gameInfo);
 var difficulty = gameInfo[1];   // the difficulty value is in index 1 of the array
 var huntDirection = [];
-var ships = [2, 3, 3, 4, 5]; // array of ship sizes each board will contain
+var ships = [2, 3, 3, 4, 5]; // array of ship sizes each board will contain]
+var shipNames = [2, 'frigate', 3, 'destroyer', 4, 'battleship', 5, 'aircraft carrier'];
 var alphaValues = ['a', 0, 'b', 10, 'c', 20, 'd', 30, 'e', 40, 'f', 50, 'g', 60, 'h', 70, 'i', 80, 'j', 90];
 var lockedOnStack = [];
 var consecutiveMisses = 1; // counts the number of turns the computer guesses wrong consecutively
@@ -266,6 +267,10 @@ function handleUserSubmit(event) {
   } else if (difficulty === 'medium') {
     computerGuessMedium();
   } else {
+    bottomBoard.shipSquares = [];
+    for (var evenSquares = 0; evenSquares < 100; evenSquares += 2) {
+      bottomBoard.shipSquares.push(evenSquares);
+    }
     computerGuessHard();
   }
 }
@@ -367,9 +372,14 @@ function handleUserClick(event) {
   } else if (difficulty === 'medium') {
     computerGuessMedium();
   } else {
+    bottomBoard.shipSquares = [];
+    for (var evenSquares = 0; evenSquares < 100; evenSquares += 2) {
+      bottomBoard.shipSquares.push(evenSquares);
+    }
     computerGuessHard();
   }
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////

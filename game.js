@@ -437,12 +437,11 @@ function computerGuessEasy() {
 
     if (bottomBoard.hits.length === 17) {
 
-      swal({
-        title: 'Defeat!',
-        text: 'The enemy has sunk your fleet',
-        type: 'error',
-        timer: 5000
-      });
+      swal(
+        'Defeat!',
+        'The enemy has sunk your fleet',
+        'error'
+      );
       userInput.removeEventListener('submit', handleUserSubmit);
       topTable.removeEventListener('click', handleUserClick);
       return;
@@ -530,12 +529,11 @@ function computerGuessMedium() {
       // checks if the last ship has been sunk
       //    [!!!] Could also check if bottomBoard.shipSquare is empty
       if (bottomBoard.hits.length === 17) {
-        swal({
-          title: 'Defeat!',
-          text: 'The enemy has sunk your fleet',
-          type: 'error',
-          timer: 5000
-        });
+        swal(
+          'Defeat!',
+          'The enemy has sunk your fleet',
+          'error'
+        );
         userInput.removeEventListener('submit', handleUserSubmit);
         topTable.removeEventListener('click', handleUserClick);
         return;
@@ -657,12 +655,11 @@ function computerGuessMedium() {
       // checks if the last ship has been sunk
       //    [!!!] Could also check if bottomBoard.shipSquare is empty
       if (bottomBoard.hits.length === 17) {
-        swal({
-          title: 'Defeat!',
-          text: 'The enemy has sunk your fleet',
-          type: 'error',
-          timer: 5000
-        });
+        swal(
+          'Defeat!',
+          'The enemy has sunk your fleet',
+          'error'
+        );
         userInput.removeEventListener('submit', handleUserSubmit);
         topTable.removeEventListener('click', handleUserClick);
         return;
@@ -832,12 +829,11 @@ function computerGuessHard() {
       // checks if the last ship has been sunk
       //    [!!!] Could also check if bottomBoard.shipSquare is empty
       if (bottomBoard.hits.length === 17) {
-        swal({
-          title: 'Defeat!',
-          text: 'The enemy has sunk your fleet',
-          type: 'error',
-          timer: 5000
-        });
+        swal(
+          'Defeat!',
+          'The enemy has sunk your fleet',
+          'error'
+        );
         userInput.removeEventListener('submit', handleUserSubmit);
         topTable.removeEventListener('click', handleUserClick);
         return;
@@ -961,12 +957,11 @@ function computerGuessHard() {
       // checks if the last ship has been sunk
       //    [!!!] Could also check if bottomBoard.shipSquare is empty
       if (bottomBoard.hits.length === 17) {
-        swal({
-          title: 'Defeat!',
-          text: 'The enemy has sunk your fleet',
-          type: 'error',
-          timer: 5000
-        });
+        swal(
+          'Defeat!',
+          'The enemy has sunk your fleet',
+          'error'
+        );
         userInput.removeEventListener('submit', handleUserSubmit);
         topTable.removeEventListener('click', handleUserClick);
         return;
